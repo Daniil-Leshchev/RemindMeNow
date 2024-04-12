@@ -7,12 +7,6 @@ import React = require("react");
 const signInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  //TODO:
-  const signInWithEmail = () => {
-    console.warn(email);
-  }
-
   return (
     <View style={styles.container}>
       <KeyboardAvoidingView
@@ -20,14 +14,13 @@ const signInScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
         <Stack.Screen options={{headerShown: false}}/>
-        <Text style={styles.header}>Авторизируйся</Text>
+        <Text style={styles.header}>Зарегистрируйся</Text>
         <Text style={styles.label}>И начни планировать свой день в приложении</Text>
           <TextInput
             style={styles.input}
             placeholder='Email'
             placeholderTextColor="#828282"
             value={email}
-            autoCapitalize='none'
             onChangeText={setEmail}
           />
 
@@ -36,16 +29,15 @@ const signInScreen = () => {
             placeholder='Password'
             placeholderTextColor="#828282"
             value={password}
-            autoCapitalize='none'
             onChangeText={setPassword}
             secureTextEntry
           />
 
-          <Button text={'Вход'} onPress={signInWithEmail}/>
+          <Button text={'Зарегистрироваться'}/>
           <View style={styles.registerBox}>
-            <Text style={styles.noAccount}>Еще нет аккаунта?</Text>
-            <Link href='/sign-up' style={styles.textButton}>
-              Зарегистрироваться
+            <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
+            <Link href='/sign-in' style={styles.textButton}>
+              Войти
             </Link>
           </View>
         </KeyboardAvoidingView>
@@ -82,7 +74,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     width: 335,
-    fontFamily: 'Inter',
+    fontFamily: 'Inter'
   },
 
   textButton: {

@@ -1,5 +1,5 @@
 import { Redirect, Stack } from 'expo-router';
-import React from 'react';
+import React = require('react');
 
 export default function AuthLayout() {
     const session = false;

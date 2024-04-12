@@ -8,9 +8,18 @@ const signInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  //TODO:
-  const signInWithEmail = () => {
-    console.warn(email);
+  //TODO: password validation
+  const validatePassword = () => {
+    console.log(password.length);
+    // validation
+    //setting errors to state
+    return true;
+  }
+
+  //TODO: supabase registration
+  const signUpWithEmail = () => {
+    if (!validatePassword) return;
+    console.warn('Signing Up');
   }
 
   return (
@@ -20,32 +29,33 @@ const signInScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
         <Stack.Screen options={{headerShown: false}}/>
-        <Text style={styles.header}>Авторизируйся</Text>
+        <Text style={styles.header}>Зарегистрируйся</Text>
         <Text style={styles.label}>И начни планировать свой день в приложении</Text>
           <TextInput
             style={styles.input}
             placeholder='Email'
-            placeholderTextColor="#828282"
+            placeholderTextColor='#828282'
             value={email}
-            autoCapitalize='none'
             onChangeText={setEmail}
+            autoCapitalize='none'
           />
 
+          {/* //TODO: lowercase inputs*/}
           <TextInput
             style={styles.input}
             placeholder='Password'
-            placeholderTextColor="#828282"
+            placeholderTextColor='#828282'
             value={password}
-            autoCapitalize='none'
             onChangeText={setPassword}
+            autoCapitalize='none'
             secureTextEntry
           />
 
-          <Button text={'Вход'} onPress={signInWithEmail}/>
+          <Button text={'Зарегистрироваться'} onPress={signUpWithEmail}/>
           <View style={styles.registerBox}>
-            <Text style={styles.noAccount}>Еще нет аккаунта?</Text>
-            <Link href='/sign-up' style={styles.textButton}>
-              Зарегистрироваться
+            <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
+            <Link href='/sign-in' style={styles.textButton}>
+              Войти
             </Link>
           </View>
         </KeyboardAvoidingView>
@@ -73,16 +83,16 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    paddingVertical: 16,
-    paddingHorizontal: 12,
     color: '#828282',
     backgroundColor: '#EFEFEF',
     borderColor: '#D2D2D2',
     borderWidth: 1,
     borderRadius: 10,
     marginBottom: 20,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
     width: 335,
-    fontFamily: 'Inter',
+    fontFamily: 'Inter'
   },
 
   textButton: {

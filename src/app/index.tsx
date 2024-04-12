@@ -1,11 +1,11 @@
 import { Redirect, Stack } from "expo-router";
-import React from "react";
+import React = require("react");
 import { Text, View } from "react-native";
 
 const index = () => {
     const session = false;
     if (!session) {
-        return <Redirect href={'/sign-in'}/>
+        return <Redirect href={'/sign-up'}/>
     }
     return (
       <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
