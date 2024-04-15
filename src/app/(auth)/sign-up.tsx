@@ -1,6 +1,6 @@
 import { Link, Stack } from "expo-router";
 import { useState } from "react"
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native"
+import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";
 import React = require("react");
 
@@ -10,15 +10,15 @@ const signInScreen = () => {
 
   //TODO: password validation
   const validatePassword = () => {
-    console.log(password.length);
-    // validation
-    //setting errors to state
-    return true;
+    return password.length >= 6;
   }
 
   //TODO: supabase registration
-  const signUpWithEmail = () => {
-    if (!validatePassword) return;
+  const signUpWithEmail = async () => {
+    if (!validatePassword()) {
+      Alert.alert('Пароль недействителен', 'Длина должна быть хотя бы 6 символов');
+      return;
+    }
     console.warn('Signing Up');
   }
 
@@ -40,7 +40,6 @@ const signInScreen = () => {
             autoCapitalize='none'
           />
 
-          {/* //TODO: lowercase inputs*/}
           <TextInput
             style={styles.input}
             placeholder='Password'
