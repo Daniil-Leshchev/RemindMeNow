@@ -4,7 +4,11 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import React from 'react';
+import { DrawerItem, createDrawerNavigator, useDrawerProgress } from "@react-navigation/drawer";
+import MainScreen from './(user)';
+import GuideScreen from './(guide)';
+import React = require('react');
+import { Text } from 'react-native';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -45,11 +49,49 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
+const menuColor = '#C0CEFF';
+const activeItemColor = '#4183E5';
+
+const Drawer = createDrawerNavigator();
 function RootLayoutNav() {
+  //TODO: header right чтобы добавить звезды и жизни
   return (
-    <Stack>
-        <Stack.Screen name="(user)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false}} />
-    </Stack>
+    <Drawer.Navigator screenOptions={{
+      drawerActiveTintColor: activeItemColor,
+      drawerActiveBackgroundColor: menuColor,
+      drawerInactiveTintColor: '#000',
+      drawerType: 'front',
+      drawerStyle: {
+        backgroundColor: menuColor,
+        borderEndColor: '#000',
+        borderTopEndRadius: 30,
+        borderBottomEndRadius: 30,
+        height: 720,
+        width: 340,
+        paddingLeft: 24,
+        alignSelf: 'center',
+        position: 'absolute',
+        top: 'auto',
+        bottom: 'auto',
+      },
+      headerTitleAlign: 'left',
+      headerStyle: {
+        backgroundColor: 'transparent',
+      },
+      drawerLabelStyle: {
+        fontSize: 22,
+        fontFamily: 'Inter',
+      }
+    }}>
+      <Drawer.Screen 
+        name="(user)"
+        component={MainScreen}
+        options={{headerTitle: '', title: 'Главный экран'}}/>
+
+      <Drawer.Screen
+        name="(guide)/index"
+        component={GuideScreen}
+        options={{headerTitle: 'Гайд по приложению', title: 'Гайд по приложению'}}/>
+    </Drawer.Navigator>
   );
 }
