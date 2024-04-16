@@ -1,7 +1,8 @@
 import { Link, Stack } from "expo-router";
 import { useState } from "react"
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native"
+import { View, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from "react-native"
 import Button from "@/components/Button";
+import Text from "@/components/StyledText";
 import React from 'react';
 
 const SignInScreen = () => {
@@ -82,7 +83,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 20,
     width: 335,
-    fontFamily: 'Inter',
   },
 
   textButton: {
@@ -106,7 +106,6 @@ const styles = StyleSheet.create({
   
   noAccount: {
     fontSize: 15,
-    fontFamily: 'Inter',
   }
 });
 

@@ -1,6 +1,3 @@
 import React from 'react';
-import { Text, TextProps } from './Themed';
-
-export function MonoText(props: TextProps) {
-  return <Text {...props} style={[props.style, { fontFamily: 'Inter' }]} />;
-}
+import { Text } from 'react-native';
+export default (props:any) => <Text {...props} style={[{ fontFamily: 'Inter' }, props.style]}>{props.children}</Text>

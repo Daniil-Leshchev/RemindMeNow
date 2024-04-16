@@ -1,10 +1,6 @@
 import React from 'react';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
-
-import MainScreen from '@/app/(user)/index';
-import GuideScreen from '@/app/(user)/guide';
 
 export default function MenuStack() {
   const menuColor = '#C0CEFF';

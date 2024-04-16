@@ -1,9 +1,9 @@
 import { Link, Stack } from "expo-router";
 import { useState } from "react"
-import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
+import { View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";
 import React from 'react';
-import { MonoText } from "@/components/StyledText";
+import Text from "@/components/StyledText";
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,7 @@ const SignUpScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
         <Stack.Screen options={{headerShown: false}}/>
-        <MonoText style={styles.header}>Зарегистрируйся</MonoText>
+        <Text style={styles.header}>Зарегистрируйся</Text>
         <Text style={styles.label}>И начни планировать свой день в приложении</Text>
           <TextInput
             style={styles.input}
@@ -50,16 +50,16 @@ const SignUpScreen = () => {
             secureTextEntry
           />
 
-          <Button text={'Зарегистрироваться'} onPress={signUpWithEmail}/>
-          <View style={styles.registerBox}>
-            <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
-            <Link href='/sign-in' style={styles.textButton}>
-              Войти
-            </Link>
-          </View>
-        </KeyboardAvoidingView>
-      </View>
-    )
+        <Button text={'Зарегистрироваться'} onPress={signUpWithEmail}/>
+        <View style={styles.registerBox}>
+          <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
+          <Link href='/sign-in' style={styles.textButton}>
+            Войти
+          </Link>
+        </View>
+      </KeyboardAvoidingView>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 12,
     width: 335,
-    fontFamily: 'Inter'
   },
 
   textButton: {
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   header: {
     color: '#7412B0',
     fontSize: 22,
-    // fontFamily: 'Inter-Medium',
+    fontFamily: 'Inter-Medium',
     marginBottom: 13,
   },
 
@@ -115,7 +114,6 @@ const styles = StyleSheet.create({
   
   noAccount: {
     fontSize: 15,
-    fontFamily: 'Inter',
   }
 });
 
