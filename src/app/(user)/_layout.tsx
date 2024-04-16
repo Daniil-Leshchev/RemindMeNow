@@ -1,5 +1,7 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+// import { createDrawerNavigator } from '@react-navigation/drawer';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { Drawer } from 'expo-router/drawer';
 
 import MainScreen from '@/app/(user)/index';
 import GuideScreen from '@/app/(user)/guide';
@@ -7,45 +9,52 @@ import GuideScreen from '@/app/(user)/guide';
 export default function MenuStack() {
   const menuColor = '#C0CEFF';
   const activeItemColor = '#4183E5';
-  const Drawer = createDrawerNavigator();
   
   return (
-    <Drawer.Navigator screenOptions={{
-      drawerActiveTintColor: activeItemColor,
-      drawerActiveBackgroundColor: menuColor,
-      drawerInactiveTintColor: '#000',
-      drawerType: 'front',
-      drawerStyle: {
-        backgroundColor: menuColor,
-        borderEndColor: '#000',
-        borderTopEndRadius: 30,
-        borderBottomEndRadius: 30,
-        height: 720,
-        width: 340,
-        paddingLeft: 24,
-        alignSelf: 'center',
-        position: 'absolute',
-        top: 'auto',
-        bottom: 'auto',
-      },
-      headerTitleAlign: 'left',
-      headerStyle: {
-        backgroundColor: 'transparent',
-      },
-      drawerLabelStyle: {
-        fontSize: 22,
-        fontFamily: 'Inter',
-      }
-    }}>
-      <Drawer.Screen 
-        name="Main"
-        component={MainScreen}
-        options={{headerTitle: '', title: 'Главный экран'}}/>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Drawer screenOptions={{
+        drawerActiveTintColor: activeItemColor,
+        drawerActiveBackgroundColor: menuColor,
+        drawerInactiveTintColor: '#000',
+        drawerType: 'front',
+        drawerStyle: {
+          backgroundColor: menuColor,
+          borderEndColor: '#000',
+          borderTopEndRadius: 30,
+          borderBottomEndRadius: 30,
+          height: 720,
+          width: 340,
+          paddingLeft: 24,
+          alignSelf: 'center',
+          position: 'absolute',
+          top: 'auto',
+          bottom: 'auto',
+        },
+        headerTitleAlign: 'left',
+        headerStyle: {
+          backgroundColor: 'transparent',
+        },
+        drawerLabelStyle: {
+          fontSize: 22,
+          fontFamily: 'Inter',
+        }
+      }}>
+        <Drawer.Screen 
+          name="index"
+          options={{drawerLabel: 'Главный экран', title: ''}}/>
 
-      <Drawer.Screen
-        name="(guide)/index"
-        component={GuideScreen}
-        options={{headerTitle: 'Гайд по приложению', title: 'Гайд по приложению'}}/>
-    </Drawer.Navigator>
+        <Drawer.Screen
+          name="guide/index"
+          options={{
+            drawerLabel: 'Гайд по приложению', 
+            title: 'Гайд по приложению', 
+            headerTitleStyle: {
+              fontFamily: 'Inter-Medium',
+              fontSize: 24,
+              color: '#797979'
+            }
+          }}/>
+      </Drawer>
+    </GestureHandlerRootView>
   )
 }

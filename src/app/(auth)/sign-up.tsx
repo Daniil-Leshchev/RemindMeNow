@@ -3,7 +3,7 @@ import { useState } from "react"
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";
 import React from 'react';
-
+import { MonoText } from "@/components/StyledText";
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -29,7 +29,7 @@ const SignUpScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}>
         <Stack.Screen options={{headerShown: false}}/>
-        <Text style={styles.header}>Зарегистрируйся</Text>
+        <MonoText style={styles.header}>Зарегистрируйся</MonoText>
         <Text style={styles.label}>И начни планировать свой день в приложении</Text>
           <TextInput
             style={styles.input}
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   header: {
     color: '#7412B0',
     fontSize: 22,
-    fontFamily: 'Inter-Medium',
+    // fontFamily: 'Inter-Medium',
     marginBottom: 13,
   },
 
