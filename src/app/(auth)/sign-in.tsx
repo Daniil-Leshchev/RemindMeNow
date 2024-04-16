@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform } fro
 import Button from "@/components/Button";
 import React from 'react';
 
-const signInScreen = () => {
+const SignInScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default signInScreen;
+export default SignInScreen;

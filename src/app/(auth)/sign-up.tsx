@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Aler
 import Button from "@/components/Button";
 import React from 'react';
 
-const signInScreen = () => {
+const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -14,7 +14,7 @@ const signInScreen = () => {
   }
 
   //TODO: supabase registration
-  const signUpWithEmail = async () => {
+  const signUpWithEmail = () => {
     if (!validatePassword()) {
       Alert.alert('Пароль недействителен', 'Длина должна быть хотя бы 6 символов');
       return;
@@ -119,4 +119,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default signInScreen;
+export default SignUpScreen;

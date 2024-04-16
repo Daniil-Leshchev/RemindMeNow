@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { forwardRef } from 'react';
-import React = require('react');
+import React from 'react';
 
 type ButtonProps = {
   text: string;

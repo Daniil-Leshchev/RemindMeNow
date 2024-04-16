@@ -1,14 +1,9 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { DrawerItem, createDrawerNavigator, useDrawerProgress } from "@react-navigation/drawer";
-import MainScreen from './(user)';
-import GuideScreen from './(guide)';
-import React = require('react');
-import { Text } from 'react-native';
+import React from 'react';
+import { Stack } from 'expo-router';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,49 +44,11 @@ export default function RootLayout() {
   return <RootLayoutNav />;
 }
 
-const menuColor = '#C0CEFF';
-const activeItemColor = '#4183E5';
-
-const Drawer = createDrawerNavigator();
 function RootLayoutNav() {
-  //TODO: header right чтобы добавить звезды и жизни
   return (
-    <Drawer.Navigator screenOptions={{
-      drawerActiveTintColor: activeItemColor,
-      drawerActiveBackgroundColor: menuColor,
-      drawerInactiveTintColor: '#000',
-      drawerType: 'front',
-      drawerStyle: {
-        backgroundColor: menuColor,
-        borderEndColor: '#000',
-        borderTopEndRadius: 30,
-        borderBottomEndRadius: 30,
-        height: 720,
-        width: 340,
-        paddingLeft: 24,
-        alignSelf: 'center',
-        position: 'absolute',
-        top: 'auto',
-        bottom: 'auto',
-      },
-      headerTitleAlign: 'left',
-      headerStyle: {
-        backgroundColor: 'transparent',
-      },
-      drawerLabelStyle: {
-        fontSize: 22,
-        fontFamily: 'Inter',
-      }
-    }}>
-      <Drawer.Screen 
-        name="(user)"
-        component={MainScreen}
-        options={{headerTitle: '', title: 'Главный экран'}}/>
-
-      <Drawer.Screen
-        name="(guide)/index"
-        component={GuideScreen}
-        options={{headerTitle: 'Гайд по приложению', title: 'Гайд по приложению'}}/>
-    </Drawer.Navigator>
+    <Stack>
+      <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+      <Stack.Screen name="(user)" options={{headerShown: false}}/>
+    </Stack>
   );
 }
