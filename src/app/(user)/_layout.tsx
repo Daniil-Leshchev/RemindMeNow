@@ -1,4 +1,4 @@
-import React = require("react");
+import React from 'react';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import MainScreen from ".";
 import { Stack } from "expo-router";

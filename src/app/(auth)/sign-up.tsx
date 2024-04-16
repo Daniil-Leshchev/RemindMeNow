@@ -2,7 +2,7 @@ import { Link, Stack } from "expo-router";
 import { useState } from "react"
 import { View, Text, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";
-import React = require("react");
+import React from 'react';
 
 const signInScreen = () => {
   const [email, setEmail] = useState('');

@@ -1,5 +1,5 @@
 import { Redirect, Stack } from 'expo-router';
-import React = require('react');
+import React from 'react';
 import { Text, View } from 'react-native';
 
 export default function MainScreen() {
