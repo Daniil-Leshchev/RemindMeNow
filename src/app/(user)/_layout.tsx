@@ -20,9 +20,7 @@ export default function MenuStack() {
           borderBottomEndRadius: 30,
           height: 720,
           width: 340,
-          paddingLeft: 24,
           alignSelf: 'center',
-          position: 'absolute',
           top: 'auto',
           bottom: 'auto',
         },
@@ -33,7 +31,8 @@ export default function MenuStack() {
         drawerLabelStyle: {
           fontSize: 22,
           fontFamily: 'Inter',
-        }
+          // marginLeft: -12,
+        },
       }}>
         <Drawer.Screen 
           name="index"
