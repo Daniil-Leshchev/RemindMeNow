@@ -2,10 +2,10 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 
-export default function GuideScreen() {
+export default function ScheduleScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.dummyText}>Guide Screen</Text>
+      <Text style={styles.dummyText}>Привязать расписание</Text>
     </View>
   )
 }

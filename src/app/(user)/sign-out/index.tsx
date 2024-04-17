@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
-
-export default function GuideScreen() {
+import Button from "@/components/Button";
+export default function StarsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.dummyText}>Guide Screen</Text>
+      <Button text='Выйти' onPress={() => console.warn('Signing out')}></Button>
     </View>
   )
 }

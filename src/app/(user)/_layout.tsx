@@ -1,6 +1,8 @@
 import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
+import { Image } from 'expo-image';
+import { View, StyleSheet } from 'react-native';
 
 export default function MenuStack() {
   const menuColor = '#C0CEFF';
@@ -15,28 +17,57 @@ export default function MenuStack() {
         drawerType: 'front',
         drawerStyle: {
           backgroundColor: menuColor,
-          borderEndColor: '#000',
           borderTopEndRadius: 30,
           borderBottomEndRadius: 30,
+          paddingTop: 32,
           height: 720,
           width: 340,
           alignSelf: 'center',
           top: 'auto',
           bottom: 'auto',
         },
-        headerTitleAlign: 'left',
-        headerStyle: {
-          backgroundColor: 'transparent',
-        },
         drawerLabelStyle: {
-          fontSize: 22,
+          fontSize: 20,
           fontFamily: 'Inter',
-          // marginLeft: -12,
+          marginLeft: -16,
         },
-      }}>
+        headerTitleAlign: 'left',
+        headerTransparent: true,
+        headerTintColor: '#000',
+        }}
+      >
         <Drawer.Screen 
           name="index"
-          options={{drawerLabel: 'Главный экран', title: ''}}/>
+          options={{
+            drawerLabel: 'Главный экран',
+            title: '',
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/home.svg')}
+                  style={{ width: 35, height: 35 }}/>
+              </View>
+            }}
+          />
+
+        <Drawer.Screen
+          name="settings/index"
+          options={{
+            drawerLabel: 'Настройки', 
+            title: 'Настройки', 
+            headerTitleStyle: {
+              fontFamily: 'Inter-Medium',
+              fontSize: 24,
+              color: '#797979'
+            },
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/settings.svg')}
+                  style={{ width: 32, height: 35 }}/>
+              </View>
+          }}
+        />
 
         <Drawer.Screen
           name="guide/index"
@@ -47,9 +78,83 @@ export default function MenuStack() {
               fontFamily: 'Inter-Medium',
               fontSize: 24,
               color: '#797979'
-            }
-          }}/>
+            },
+          
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/question.svg')}
+                  style={{ width: 15, height: 26 }}/>
+              </View>           
+          }}
+        />
+
+        <Drawer.Screen
+          name="stars/index"
+          options={{
+            drawerLabel: 'Мои звезды',
+            title: '',
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/star.svg')}
+                  style={{ width: 33, height: 33 }}/>
+              </View> 
+          }}
+        />
+
+        <Drawer.Screen
+          name="lives/index"
+          options={{
+            drawerLabel: 'Мои жизни', 
+            title: '',
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/heart.svg')}
+                  style={{ width: 32, height: 30 }}/>
+              </View>      
+          }}
+        />
+
+        <Drawer.Screen
+          name="schedule/index"
+          options={{
+            // TODO: не влезает label
+            drawerLabel: 'Привязать расписание',
+            title: '',
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image 
+                  source={require('@assets/menu-icons/calendar.svg')}
+                  style={{ width: 40, height: 40 }}/>
+              </View>
+          }}
+        />
+
+        <Drawer.Screen
+          name="sign-out/index"
+          options={{
+            drawerLabel: 'Выйти', 
+            title: '',
+            drawerIcon: () =>
+              <View style={styles.iconContainer}>
+                <Image
+                  source={require('@assets/menu-icons/sign-out.svg')}
+                  style={{ width: 40, height: 40 }}/>
+              </View>
+          }}
+        />
       </Drawer>
     </GestureHandlerRootView>
   )
 }
+
+const styles = StyleSheet.create({
+  iconContainer: {
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+})
