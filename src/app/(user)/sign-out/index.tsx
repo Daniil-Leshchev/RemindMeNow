@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Text from "@/components/StyledText";
 import Button from "@/components/Button";
-export default function StarsScreen() {
+export default function SignOutScreen() {
   return (
+    //TODO: вместо view просто делать supabase.auth.signOut
     <View style={styles.container}>
       <Button text='Выйти' onPress={() => console.warn('Signing out')}></Button>
     </View>
