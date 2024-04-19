@@ -44,7 +44,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/home.svg')}
+                  source={require('@assets/icons/menu/home.svg')}
                   style={{ width: 35, height: 35 }}/>
               </View>
             }}
@@ -63,7 +63,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/settings.svg')}
+                  source={require('@assets/icons/menu/settings.svg')}
                   style={{ width: 32, height: 35 }}/>
               </View>
           }}
@@ -83,7 +83,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/question.svg')}
+                  source={require('@assets/icons/menu/question.svg')}
                   style={{ width: 15, height: 26 }}/>
               </View>           
           }}
@@ -97,7 +97,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/star.svg')}
+                  source={require('@assets/icons/menu/star.svg')}
                   style={{ width: 33, height: 33 }}/>
               </View> 
           }}
@@ -111,7 +111,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/heart.svg')}
+                  source={require('@assets/icons/menu/heart.svg')}
                   style={{ width: 32, height: 30 }}/>
               </View>      
           }}
@@ -120,13 +120,12 @@ export default function MenuStack() {
         <Drawer.Screen
           name="schedule/index"
           options={{
-            // TODO: не влезает label
             drawerLabel: 'Привязать расписание',
             title: '',
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/menu-icons/calendar.svg')}
+                  source={require('@assets/icons/menu/calendar.svg')}
                   style={{ width: 40, height: 40 }}/>
               </View>
           }}
@@ -140,7 +139,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image
-                  source={require('@assets/menu-icons/sign-out.svg')}
+                  source={require('@assets/icons/menu/sign-out.svg')}
                   style={{ width: 40, height: 40 }}/>
               </View>
           }}
