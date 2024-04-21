@@ -125,7 +125,7 @@ export default function MenuStack() {
             drawerIcon: () =>
               <View style={styles.iconContainer}>
                 <Image 
-                  source={require('@assets/icons/menu/calendar.svg')}
+                  source={require('@assets/icons/menu/calendar-modeus.svg')}
                   style={{ width: 40, height: 40 }}/>
               </View>
           }}

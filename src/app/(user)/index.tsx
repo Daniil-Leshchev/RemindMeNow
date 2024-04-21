@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, StyleSheet, FlatList, Pressable, ScrollView } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import todayTasks from '@assets/data/todayTasks';
 import TaskItem from '@/components/TaskItem';
+import { Image } from 'expo-image';
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
@@ -11,6 +12,7 @@ const colors = {
 }
 
 export default function MainScreen() {
+
   return (
       <LinearGradient
         style={styles.gradient}
@@ -22,7 +24,6 @@ export default function MainScreen() {
                 ListHeaderComponent={
                   <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
                 }
-                style={styles.todayTasksList}
                 data={todayTasks}
                 renderItem={({item}) => <TaskItem task={item}/>}
                 contentContainerStyle={{
@@ -32,6 +33,21 @@ export default function MainScreen() {
                 }}
                 showsVerticalScrollIndicator={false}
               />
+            </View>
+
+            <View style={styles.calendarContainer}>
+              <View style={styles.calendarBlock}>
+                <Text style={styles.calendarHeader}>Календарь</Text>
+                <Pressable style={styles.calendarButton}>
+                  <View style={styles.monthContainer}>
+                    <Text style={styles.month}>Апрель</Text>
+                  </View>
+                  <Image 
+                    source={require('@assets/icons/mainScreen/calendar.svg')}
+                    style={styles.calendarIcon}
+                  />
+                </Pressable>
+              </View>
             </View>
           </View>
       </LinearGradient>
@@ -46,11 +62,13 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     marginTop: 100,
+    paddingHorizontal: 16,
   },
 
   todayTasksContainer: {
+    marginBottom: 20,
     height: 440,
-    width: 356,
+    width: '100%',
     borderRadius: 20,
     backgroundColor: colors.background,
     shadowColor: colors.shadow,
@@ -64,8 +82,49 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 
-  todayTasksList: {
-    flex: 1,
+  calendarContainer: {
+    marginBottom: 20,
+  },
+
+  calendarBlock: {
+    flexDirection: 'row',
     width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  calendarHeader: {
+    fontSize: 25,
+  },
+
+  calendarButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 172,
+    height: 40,
+    paddingLeft: 16,
+    paddingRight: 20,
+    backgroundColor: colors.background,
+    borderRadius: 40,
+  },
+
+  monthContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+
+  month: {
+    fontSize: 18,
+    textTransform: 'uppercase',
+  },
+
+  calendarIcon: {
+    width: 36,
+    height: 36,
+  },
+
+  scrollableCalendar: {
+    marginTop: 20,
+    height: 10
   }
 })
