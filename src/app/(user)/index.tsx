@@ -1,11 +1,12 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import todayTasks from '@assets/data/todayTasks';
 import TaskItem from '@/components/TaskItem';
 import { Image } from 'expo-image';
 import moment from 'moment';
+import 'moment/locale/ru';
 import Swiper from 'react-native-swiper';
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -16,21 +17,22 @@ const colors = {
 export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
   const [value, setValue] = useState(new Date());
-  const [week, setWeek] = useState(0);
+  const [period, setPeriod] = useState(0);
+  const periodRange = 4;
 
-  const weeks = useMemo(() => {
-    const start = moment().add(week, 'weeks').startOf('day');
-    return [-1, 0, 1].map(adj => {
-      return Array.from({length: 4}).map((_, index) => {
-        const date = moment(start).add(adj, 'week').add(index, 'day');
-
+  const periods = useMemo(() => {//кэширование полученного результата
+    //при изменении period будет меняться, а если не меняется, то результат берем из кэша
+    const start = moment().add(period, 'day').startOf('day');
+    return [-periodRange, 0, periodRange].map(adj => {
+      return Array.from({ length: periodRange }).map((_, index) => {
+        const date = moment(start).add(adj + index, 'day');
         return {
           weekday: date.format('ddd'),
-          date: date.toDate(),
+          date: date.toDate()
         };
       });
     });
-  }, [week])
+  }, [period])
 
   return (
       <LinearGradient
@@ -59,7 +61,7 @@ export default function MainScreen() {
                 <Text style={styles.calendarHeader}>Календарь</Text>
                 <Pressable style={styles.calendarButton}>
                   <View style={styles.monthContainer}>
-                    <Text style={styles.month}>{value.toDateString()}</Text>
+                    <Text style={styles.month}>{moment().format('MMMM')}</Text>
                   </View>
                   <Image 
                     source={require('@assets/icons/mainScreen/calendar.svg')}
@@ -74,32 +76,31 @@ export default function MainScreen() {
                 showsPagination={false}
                 loop={false}
                 onIndexChanged={ind => {
-                  if (ind === 1) {
+                  if (ind == 1) {
                     return;
                   }
-
                   setTimeout(() => {
-                    const newIndex = ind - 1;
-                    const newWeek = week + newIndex;
-                    setWeek(newWeek);
-                    setValue(moment(value).add(newIndex, 'week').toDate());
-                    //TODO: убрать странную перемотку при клике на дату
-                    //TODO: по какой логике проматываются даты дальше?
-                    //TODO: какой элемент должен быть выделенным?
-                    swiper.current?.scrollTo(1, false);
-                  }, 100);
-                }}
-              >
-                {weeks.map((dates, index) => (
+                    const newIndex = ind == 0 ? -periodRange : periodRange;
+                    const newPeriod = period + newIndex;
+                    setPeriod(newPeriod);
+                    if (Platform.OS === 'ios') {
+                      swiper.current?.scrollTo(1, false);
+                    }
+                    else {
+                      swiper.current?.scrollTo(1, true);
+                    }
+                  }, 1);
+                }}>
+                {periods.map((dates, index) => (
                   <View key={index} style={styles.scrollableCalendar}>
                     {dates.map((item, dateIndex) => {
-                      const isActive = value.toDateString() === item.date.toDateString();
-
+                      const isActive = item.date.toDateString() === moment().toDate().toDateString();
                       return (
                         //TODO: обернуть тут в Link и поставить aschild
                         <Pressable
                           key={dateIndex}
                           onPress={() => setValue(item.date)}>
+                            {/* тут проблема, что при setValue при клике на даты swiper немного прокручивается вправо*/}
                             <View
                               style={[
                                 styles.dayItem,
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   },
 
   month: {
-    // fontSize: 18,
+    fontSize: 18,
     textTransform: 'uppercase',
   },
 
@@ -212,7 +213,8 @@ const styles = StyleSheet.create({
   },
 
   weekDayLabel: {
-    fontSize: 13
+    fontSize: 13,
+    textTransform: 'uppercase'
   },
 
   dayItemDate: {
