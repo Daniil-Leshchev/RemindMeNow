@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     shadowColor: colors.shadow,
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 0.3,
+    shadowOpacity: 1
   },
 
   title: {

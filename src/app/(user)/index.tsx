@@ -155,7 +155,7 @@ const styles =  StyleSheet.create({
     shadowColor: colors.shadow,
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 0.3,
+    shadowOpacity: 1
   },
 
   todayTasksHeader: {
@@ -182,6 +182,10 @@ const styles =  StyleSheet.create({
     paddingRight: 20,
     backgroundColor: colors.background,
     borderRadius: 40,
+    shadowColor: colors.shadow,
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
+    shadowOpacity: 1
   },
 
   monthContainer: {
@@ -212,10 +216,10 @@ const styles =  StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 20,
     backgroundColor: colors.background,
-    shadowColor: colors.shadow,
+    shadowColor: '#0000004D',
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 0.3,
+    shadowOpacity: 1
   },
 
   weekDayLabel: {

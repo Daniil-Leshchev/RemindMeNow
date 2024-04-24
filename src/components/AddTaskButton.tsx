@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     paddingLeft: 15,
     marginRight: 12,
-    shadowColor: colors.shadow,
+    shadowColor: '#23292F40',
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 0.3,
+    shadowOpacity: 1
   },
 
   addButton: {
@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
     height: 64,
     borderRadius: 50,
     backgroundColor: colors.background,
-    shadowColor: colors.shadow,
+    shadowColor: '#00000040',
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 0.3,
+    shadowOpacity: 1,
   },
 
   text: {
