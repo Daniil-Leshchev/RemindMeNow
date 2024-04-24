@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform, useWindowDimensions } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import todayTasks from '@assets/data/todayTasks';
@@ -8,12 +8,14 @@ import { Image } from 'expo-image';
 import moment from 'moment';
 import 'moment/locale/ru';
 import Swiper from 'react-native-swiper';
+import AddTaskButton from '@/components/AddTaskButton';
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
   shadow: '#2F366C4D',
-  dayPressed: '#7380AD'
+  dayPressed: '#7380AD',
 }
+
 export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
   const [value, setValue] = useState(new Date());
@@ -123,17 +125,22 @@ export default function MainScreen() {
                 ))}
               </Swiper>
             </View>
+
+            <View style={styles.addTaskWrapper}>
+              <AddTaskButton style={styles.addTask}/>
+            </View>
+
           </View>
       </LinearGradient>
   )
 }
-
-const styles = StyleSheet.create({
+const styles =  StyleSheet.create({
   gradient: {
     flex: 1,
   },
 
   wrapper: {
+    flex: 1,
     alignItems: 'center',
     marginTop: 100,
     paddingHorizontal: 16,
@@ -141,7 +148,7 @@ const styles = StyleSheet.create({
 
   todayTasksContainer: {
     marginBottom: 20,
-    height: 440,
+    height: '58%',//TODO: заменить тут на адаптивный вариант
     width: '100%',
     borderRadius: 20,
     backgroundColor: colors.background,
@@ -158,7 +165,6 @@ const styles = StyleSheet.create({
 
   calendarBlock: {
     flexDirection: 'row',
-    width: '100%',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
@@ -219,5 +225,10 @@ const styles = StyleSheet.create({
 
   dayItemDate: {
     fontSize: 49,
+  },
+
+  addTaskWrapper: {
+    position: 'absolute',
+    bottom: 26
   }
 })
