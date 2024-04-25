@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import todayTasks from '@assets/data/todayTasks';
@@ -41,7 +41,7 @@ export default function MainScreen() {
         style={styles.gradient}
         colors={gradientColors}>
           <View style={styles.wrapper}>
-            <View style={styles.todayTasksContainer}>
+            <View style={[styles.todayTasksContainer, styles.androidShadow]}>
               {/* TODO: сделать его pressable со ссылкой на экран задач текущего дня */}
               <FlatList
                 ListHeaderComponent={
@@ -61,7 +61,7 @@ export default function MainScreen() {
             <View>
               <View style={styles.calendarBlock}>
                 <Text style={styles.calendarHeader}>Календарь</Text>
-                <Pressable style={styles.calendarButton}>
+                <Pressable style={[styles.calendarButton, styles.androidShadow]}>
                   <View style={styles.monthContainer}>
                     <Text style={styles.month}>{moment().format('MMMM')}</Text>
                   </View>
@@ -106,6 +106,7 @@ export default function MainScreen() {
                             <View
                               style={[
                                 styles.dayItem,
+                                styles.androidShadow,
                                 isActive && {
                                   backgroundColor: colors.dayPressed
                                 }
@@ -127,6 +128,7 @@ export default function MainScreen() {
             </View>
 
             <View style={styles.addTaskWrapper}>
+              {/* передавать styles не только к родителю, но и к потомкам */}
               <AddTaskButton style={styles.addTask}/>
             </View>
 
@@ -155,7 +157,7 @@ const styles =  StyleSheet.create({
     shadowColor: colors.shadow,
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
-    shadowOpacity: 1
+    shadowOpacity: 1,
   },
 
   todayTasksHeader: {
@@ -234,5 +236,9 @@ const styles =  StyleSheet.create({
   addTaskWrapper: {
     position: 'absolute',
     bottom: 26
+  },
+
+  androidShadow: {
+    elevation: 40
   }
 })

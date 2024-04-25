@@ -18,11 +18,11 @@ export default class AddTaskButton extends Component<Props> {
   render() {
     return (
       <Pressable style={[styles.container, {...this.props.style}]}>
-        <View style={styles.input}>
+        <View style={[styles.input, styles.androidShadow]}>
           <Text style={styles.text}>Добавить задачу</Text>
         </View>
-        <View style={styles.addButton}>
-          <Image 
+        <View style={[styles.addButton, styles.androidShadow]}>
+          <Image
             source={require('@assets/icons/mainScreen/plus.svg')}
             style={{width: 32, height: 32}}
           />
@@ -69,4 +69,8 @@ const styles = StyleSheet.create({
     color: colors.addTaskText,
     fontSize: 16,
   },
+
+  androidShadow: {
+    elevation: 40
+  }
 });
