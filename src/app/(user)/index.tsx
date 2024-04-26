@@ -9,6 +9,9 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import Swiper from 'react-native-swiper';
 import AddTaskButton from '@/components/AddTaskButton';
+import BottomSheet from '@gorhom/bottom-sheet';
+import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
+
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
@@ -35,6 +38,9 @@ export default function MainScreen() {
       });
     });
   }, [period])
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const handleOpenBottomSheet = () => bottomSheetRef.current?.expand();
 
   return (
       <LinearGradient
@@ -129,10 +135,10 @@ export default function MainScreen() {
 
             <View style={styles.addTaskWrapper}>
               {/* передавать styles не только к родителю, но и к потомкам */}
-              <AddTaskButton style={styles.addTask}/>
+              <AddTaskButton onPress={handleOpenBottomSheet}/>
             </View>
-
           </View>
+          <AddTaskBottomSheet ref={bottomSheetRef}/>
       </LinearGradient>
   )
 }

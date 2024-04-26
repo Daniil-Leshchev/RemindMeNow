@@ -1,5 +1,5 @@
 import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { Component } from 'react';
+import { Component, forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
 import { Image } from 'expo-image';
@@ -10,14 +10,14 @@ const colors = {
   shadow: '#23292F40'
 }
 
-type Props = {
-  style: StyleProp<ViewStyle>;
-};
+type ButtonProps = {
+  // style: StyleProp<ViewStyle>;
+} & React.ComponentPropsWithoutRef<typeof Pressable>;
 
-export default class AddTaskButton extends Component<Props> {
-  render() {
+const AddTaskButton = forwardRef<View | null, ButtonProps>(
+  ({...pressableProps}, ref) => {
     return (
-      <Pressable style={[styles.container, {...this.props.style}]}>
+      <Pressable ref={ref} {...pressableProps} style={styles.container}>
         <View style={[styles.input, styles.androidShadow]}>
           <Text style={styles.text}>Добавить задачу</Text>
         </View>
@@ -30,7 +30,7 @@ export default class AddTaskButton extends Component<Props> {
       </Pressable>
     );
   }
-}
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -74,3 +74,5 @@ const styles = StyleSheet.create({
     elevation: 40
   }
 });
+
+export default AddTaskButton;
