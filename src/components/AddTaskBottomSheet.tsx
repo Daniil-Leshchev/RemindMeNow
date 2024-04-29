@@ -221,7 +221,7 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
           />
         </View>
 
-        <View style={[styles.group, styles.dropdownGroup, {zIndex: -1}]}>
+        <View style={[styles.group, styles.dropdownGroup, {zIndex: -1,}]}>
           <Text style={styles.text}>Напоминание</Text>
           <DropDownPicker
             open={reminderDropdownOpen}
@@ -250,11 +250,11 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
           />
         </View>
 
-        <View style={styles.group}>
+        <View style={[styles.group, styles.putBelow]}>
           <Text style={styles.text} onPress={pickDocument}>Добавить вложение...</Text>
         </View>
 
-        <View style={[styles.group, { height: 100}]}>
+        <View style={[styles.group, styles.putBelow, { height: 100 }]}>
           <TextInput
             style={styles.text}
             placeholder='Заметки'
@@ -371,6 +371,10 @@ const styles = StyleSheet.create({
 
   dropdownText: {
     textAlign: 'right',
+  },
+
+  putBelow: {
+    zIndex: -2
   }
 })
 
