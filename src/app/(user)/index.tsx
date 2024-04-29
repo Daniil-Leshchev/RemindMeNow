@@ -41,6 +41,7 @@ export default function MainScreen() {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
   const handleOpenBottomSheet = () => bottomSheetRef.current?.expand();
+  const handleCloseBottomSheet = () => bottomSheetRef.current?.close();
 
   return (
       <LinearGradient
@@ -135,10 +136,10 @@ export default function MainScreen() {
 
             <View style={styles.addTaskWrapper}>
               {/* передавать styles не только к родителю, но и к потомкам */}
-              <AddTaskButton onPress={handleOpenBottomSheet}/>
+              <AddTaskButton onPress={handleOpenBottomSheet} />
             </View>
           </View>
-          <AddTaskBottomSheet ref={bottomSheetRef}/>
+          <AddTaskBottomSheet ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
       </LinearGradient>
   )
 }

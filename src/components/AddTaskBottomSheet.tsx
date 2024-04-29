@@ -1,6 +1,6 @@
-import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -8,10 +8,15 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as DocumentPicker from 'expo-document-picker';
+import { Image } from 'expo-image';
 
 // interface Props {
 //   title: string;
 // }
+
+interface AddTaskBottomSheetProps {
+  handleCloseBottomSheet: () => void;
+}
 
 const colors = {
   background: '#C0CEFF',
@@ -20,12 +25,12 @@ const colors = {
   shadow: '#5B64AE33',
   datePickerAccent: '#363876',
   datePickerContainer: '#7B8BB5E5',
-  notesPlaceholder: '#7380ADED'
+  notesPlaceholder: '#7380ADED',
+  addTaskButton: '#AEBAE4',
+  addTaskText: '#6C6C6C',
 }
 
-type Ref = BottomSheet;
-
-const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
+const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet}, ref) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
   const [isAllDay, setIsAllDay] = useState(false);
@@ -263,6 +268,14 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
             value={notes}
           />
         </View>
+
+        <Pressable style={styles.addTask} onPress={handleCloseBottomSheet}>
+          <Text style={styles.addTaskText}>Добавить задачу</Text>
+          <Image
+            source={require('@assets/icons/addTaskBottomSheet/tick.svg')}
+            style={styles.addTaskIcon}
+          />
+        </Pressable>
       </View>
     </BottomSheet>
   );
@@ -375,6 +388,35 @@ const styles = StyleSheet.create({
 
   putBelow: {
     zIndex: -2
+  },
+
+  addTask: {
+    position: 'absolute',
+    bottom: 26,
+    backgroundColor: colors.addTaskButton,
+    width: 300,
+    height: 60,
+    flexDirection: 'row',
+    alignSelf: 'center',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderRadius: 40,
+  },
+
+  addTaskText: {
+    fontSize: 20,
+    color: colors.addTaskText
+  },
+
+  addTaskIcon: {
+    position: 'relative',
+    top: 4,
+    width: 33,
+    height: 28,
+    shadowColor: '#17114140',
+    shadowOffset: {width: 0, height: 4},
+    shadowRadius: 4,
+    shadowOpacity: 1,
   }
 })
 
