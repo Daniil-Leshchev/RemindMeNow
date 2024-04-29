@@ -14,7 +14,7 @@ import { Image } from 'expo-image';
 //   title: string;
 // }
 
-interface AddTaskBottomSheetProps {
+type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void;
 }
 
@@ -42,7 +42,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
 
   const [repeatDropdownOpen, setRepeatDropdownOpen] = useState(false);
-  const [repeatValue, setRepeatValue] = useState('');
+  const [repeatValue, setRepeatValue] = useState('never');
 
   const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
   const [reminderValue, setReminderValue] = useState('');
@@ -93,8 +93,24 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
 
   //TODO:
   // const checkDates = () => {
-  //   console.warn(startDate > endDate);
   // }
+
+  const resetFields = () => {
+    setTitle('');
+    setType('');
+    setIsAllDay(false)
+    setStartDate(new Date());
+    setEndDate(new Date());
+    setRepeatValue('never');
+    setReminderValue('no');
+    setAttachment(null);
+    setNotes('');
+  }
+
+  const addTask = () => {
+    handleCloseBottomSheet();
+    resetFields();
+  }
 
   const CustomCancelButton = ({ onPress }) => {
     return (
@@ -117,6 +133,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     Keyboard.dismiss();
     return false;
   }
+
   return (
     <BottomSheet
       ref={ref}
@@ -269,7 +286,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           />
         </View>
 
-        <Pressable style={styles.addTask} onPress={handleCloseBottomSheet}>
+        <Pressable style={styles.addTask} onPress={addTask}>
           <Text style={styles.addTaskText}>Добавить задачу</Text>
           <Image
             source={require('@assets/icons/addTaskBottomSheet/tick.svg')}
