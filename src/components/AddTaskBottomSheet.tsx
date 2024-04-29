@@ -19,7 +19,8 @@ const colors = {
   divider: '#7580B8B5',
   shadow: '#5B64AE33',
   datePickerAccent: '#363876',
-  datePickerContainer: '#7B8BB5E5'
+  datePickerContainer: '#7B8BB5E5',
+  notesPlaceholder: '#7380ADED'
 }
 
 type Ref = BottomSheet;
@@ -49,6 +50,8 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
     }
     console.log(result);
   }
+
+  const [notes, setNotes] = useState('');
 
   const dateFormat = "D MMMM[,] yyyy";
   const timeFormat = "LT";
@@ -250,6 +253,16 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
         <View style={styles.group}>
           <Text style={styles.text} onPress={pickDocument}>Добавить вложение...</Text>
         </View>
+
+        <View style={[styles.group, { height: 100}]}>
+          <TextInput
+            style={styles.text}
+            placeholder='Заметки'
+            placeholderTextColor={colors.notesPlaceholder}
+            onChangeText={setNotes}
+            value={notes}
+          />
+        </View>
       </View>
     </BottomSheet>
   );
@@ -287,8 +300,8 @@ const styles = StyleSheet.create({
   divider: {
     borderBottomColor: colors.divider,
     borderBottomWidth: 1,
-    paddingBottom: 15,
-    marginBottom: 10
+    paddingBottom: 8,
+    marginBottom: 8
   },
 
   groupElement: {
