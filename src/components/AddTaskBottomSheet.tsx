@@ -37,6 +37,9 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
   const [repeatDropdownOpen, setRepeatDropdownOpen] = useState(false);
   const [repeatValue, setRepeatValue] = useState('');
 
+  const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
+  const [reminderValue, setReminderValue] = useState('');
+
   const dateFormat = "D MMMM[,] yyyy";
   const timeFormat = "LT";
 
@@ -204,6 +207,35 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
             ]}
           />
         </View>
+
+        <View style={[styles.group, styles.dropdownGroup, {zIndex: -1}]}>
+          <Text style={styles.text}>Напоминание</Text>
+          <DropDownPicker
+            open={reminderDropdownOpen}
+            value={reminderValue}
+            setOpen={setReminderDropdownOpen}
+            setValue={setReminderValue}
+            placeholder='Нет'
+            containerStyle={styles.dropdownContainer}
+            style={styles.dropdown}
+            textStyle={[styles.text, styles.dropdownText]}
+            listItemContainerStyle={styles.dropdownItem}
+            showTickIcon={false}
+            dropDownContainerStyle={styles.dropdownItemsContainer}
+            items={[
+              {label: 'Нет', value: 'no'},
+              {label: 'В момент события', value: 'atTheMoment'},
+              {label: 'За 5 минут', value: '5m'},
+              {label: 'За 10 минут', value: '10m'},
+              {label: 'За 30 минут', value: '30m'},
+              {label: 'За 1 час', value: '1h'},
+              {label: 'За 2 часа', value: '2h'},
+              {label: 'За 1 день', value: '1d'},
+              {label: 'За 2 дня', value: '2d'},
+              {label: 'За неделю', value: '1w'},
+            ]}
+          />
+        </View>
       </View>
     </BottomSheet>
   );
@@ -262,7 +294,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
-    height: 57
+    height: 56
   },
 
   cancelText: {
@@ -279,11 +311,7 @@ const styles = StyleSheet.create({
 
   dropdownGroup: {
     flexDirection: 'row',
-    alignItems: 'center'
-  },
-
-  dropdownContainer: {
-    maxWidth: '85%',
+    alignItems: 'center',
   },
 
   dropdown: {
@@ -291,6 +319,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     height: 24
+  },
+
+  dropdownContainer: {
+    maxWidth: '85%',
+    position: 'absolute',
+    right: 16,
+    bottom: 26
   },
 
   dropdownItem: {
@@ -301,9 +336,8 @@ const styles = StyleSheet.create({
 
   dropdownItemsContainer: {
     alignSelf: 'flex-end',
-    marginLeft: 12,
     borderWidth: 0,
-    maxWidth: 185,
+    width: 185,
     borderRadius: 20,
     backgroundColor: colors.datePickerContainer,
   },
