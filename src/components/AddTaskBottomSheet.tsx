@@ -103,7 +103,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const resetFields = () => {
     setTitle('');
     setType('');
-    setTypeText('');
+    setTypeText('Тип');
     setIsAllDay(false)
     setStartDate(new Date());
     setEndDate(new Date());
