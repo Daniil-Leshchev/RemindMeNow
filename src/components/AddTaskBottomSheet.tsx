@@ -6,6 +6,7 @@ import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import 'moment/locale/ru';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 // interface Props {
 //   title: string;
@@ -26,19 +27,22 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
   const [isAllDay, setIsAllDay] = useState(false);
-  
-  const dateFormat = "D MMMM[,] yyyy";
-  const timeFormat = "LT";
-
-  const formatDate = (date: Date, format: string) => {
-    return moment(date).local().format(format);
-  }
 
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
   const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
   const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
+
+  const [repeatDropdownOpen, setRepeatDropdownOpen] = useState(false);
+  const [repeatValue, setRepeatValue] = useState('');
+
+  const dateFormat = "D MMMM[,] yyyy";
+  const timeFormat = "LT";
+
+  const formatDate = (date: Date, format: string) => {
+    return moment(date).local().format(format);
+  }
 
   const showStartDatePicker = () => {
     setStartDatePickerVisibility(true);
@@ -175,6 +179,31 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
             />
           </View>
         </View>
+
+        <View style={[styles.group, styles.dropdownGroup]}>
+          <Text style={styles.text}>Повтор</Text>
+          <DropDownPicker
+            open={repeatDropdownOpen}
+            value={repeatValue}
+            setOpen={setRepeatDropdownOpen}
+            setValue={setRepeatValue}
+            placeholder='Никогда'
+            containerStyle={styles.dropdownContainer}
+            style={styles.dropdown}
+            textStyle={[styles.text, styles.dropdownText]}
+            listItemContainerStyle={styles.dropdownItem}
+            showTickIcon={false}
+            dropDownContainerStyle={styles.dropdownItemsContainer}
+            items={[
+              {label: 'Никогда', value: 'never'},
+              {label: 'Каждый день', value: 'everyDay'},
+              {label: 'Каждую неделю', value: 'everyWeek'},
+              {label: 'Каждые две недели', value: 'everyTwoWeeks'},
+              {label: 'Каждый месяц', value: 'everyMonth'},
+              {label: 'Каждый год', value: 'everyYear'},
+            ]}
+          />
+        </View>
       </View>
     </BottomSheet>
   );
@@ -201,7 +230,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
     shadowOpacity: 1,
-    // elevation: 40
   },
 
   text: {
@@ -247,6 +275,41 @@ const styles = StyleSheet.create({
 
   date: {
     marginRight: 12
+  },
+
+  dropdownGroup: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  dropdownContainer: {
+    maxWidth: '85%',
+  },
+
+  dropdown: {
+    borderWidth: 0,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    height: 24
+  },
+
+  dropdownItem: {
+    backgroundColor: colors.datePickerContainer,
+    borderBottomWidth: 1,
+    borderBottomColor: '#717794',
+  },
+
+  dropdownItemsContainer: {
+    alignSelf: 'flex-end',
+    marginLeft: 12,
+    borderWidth: 0,
+    maxWidth: 185,
+    borderRadius: 20,
+    backgroundColor: colors.datePickerContainer,
+  },
+
+  dropdownText: {
+    textAlign: 'right',
   }
 })
 
