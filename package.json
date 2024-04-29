@@ -42,7 +42,8 @@
     "react-native-swiper": "^1.6.0",
     "react-native-switch": "^1.5.1",
     "react-native-ui-datepicker": "^2.0.2",
-    "react-native-web": "~0.19.6"
+    "react-native-web": "~0.19.6",
+    "expo-document-picker": "~11.10.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

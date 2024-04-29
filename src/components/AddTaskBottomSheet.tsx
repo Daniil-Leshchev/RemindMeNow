@@ -7,6 +7,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import moment from 'moment';
 import 'moment/locale/ru';
 import DropDownPicker from 'react-native-dropdown-picker';
+import * as DocumentPicker from 'expo-document-picker';
 
 // interface Props {
 //   title: string;
@@ -39,6 +40,15 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
 
   const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
   const [reminderValue, setReminderValue] = useState('');
+
+  const [attachment, setAttachment] = useState<string | null>(null);
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    if (!result.canceled) {
+      setAttachment(result.assets[0].uri)
+    }
+    console.log(result);
+  }
 
   const dateFormat = "D MMMM[,] yyyy";
   const timeFormat = "LT";
@@ -235,6 +245,10 @@ const AddTaskBottomSheet = forwardRef<Ref>((_props, ref) => {
               {label: 'За неделю', value: '1w'},
             ]}
           />
+        </View>
+
+        <View style={styles.group}>
+          <Text style={styles.text} onPress={pickDocument}>Добавить вложение...</Text>
         </View>
       </View>
     </BottomSheet>
