@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useMemo, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -9,10 +9,6 @@ import 'moment/locale/ru';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
-
-// interface Props {
-//   title: string;
-// }
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void;
@@ -32,7 +28,9 @@ const colors = {
 
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet}, ref) => {
   const [title, setTitle] = useState('');
+  const [chooseTypeVisible, setChooseTypeVisible] = useState(false);
   const [type, setType] = useState('');
+  const [typeText, setTypeText] = useState('Тип');
   const [isAllDay, setIsAllDay] = useState(false);
 
   const [startDate, setStartDate] = useState(new Date());
@@ -91,13 +89,21 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     hideEndDatePicker();
   };
 
+  const handleTypeChange = (taskType: string, taskLabel: string) => {
+    setType(taskType);
+    setTypeText(taskLabel);
+    setChooseTypeVisible(false);
+  }
+
+
   //TODO:
-  // const checkDates = () => {
+  // const checkDates/validateInput = () => {
   // }
 
   const resetFields = () => {
     setTitle('');
     setType('');
+    setTypeText('');
     setIsAllDay(false)
     setStartDate(new Date());
     setEndDate(new Date());
@@ -152,7 +158,43 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             onChangeText={setTitle}
             value={title}
           />
-          <Text style={styles.text}>Тип</Text>
+          
+          <View style={styles.typeItem}>
+            {/* TODO: dynamic path change */}
+            <Image 
+              source={require(`@assets/icons/task/standard.svg`)}
+              style={[styles.typeIcon, { display: typeText === 'Тип' ? 'none' : 'flex' }]}/>
+            <Text
+              style={styles.text}
+              onPress={() => setChooseTypeVisible(!chooseTypeVisible)}>
+                { typeText }
+            </Text>
+          </View>
+        </View>
+        
+        <View style={[styles.typeContainer, { display: chooseTypeVisible ? 'flex' : 'none' }]}>
+          
+          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard', 'задача')}>
+            <Image 
+              source={require(`@assets/icons/task/standard.svg`)}
+              style={styles.typeIcon}/>
+            <Text style={styles.text}>задача</Text>
+          </Pressable>
+
+          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior', 'важное')}>
+            <Image 
+              source={require(`@assets/icons/task/prior.svg`)}
+              style={styles.typeIcon}/>
+            <Text style={styles.text}>важное</Text>
+          </Pressable>
+
+          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event', 'событие')}>
+            <Image 
+              source={require(`@assets/icons/task/event.svg`)}
+              style={styles.typeIcon}/>
+            <Text style={styles.text}>событие</Text>
+          </Pressable>
+          
         </View>
 
         <View style={styles.group}>
@@ -160,7 +202,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             <Text style={styles.text}>Весь день</Text>
             <Switch
               value={isAllDay}
-              onValueChange={() => setIsAllDay((previousState) => !previousState)}
+              onValueChange={() => setIsAllDay(!isAllDay)}
               barHeight={24}
               backgroundActive='#73D877DB'
               backgroundInactive='#43434429'
@@ -434,6 +476,27 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
     shadowOpacity: 1,
+  },
+
+  typeContainer: {
+    width: 176,
+    height: 112,
+    justifyContent: 'space-evenly',
+    borderRadius: 20,
+    backgroundColor: colors.group, 
+    marginBottom: 18,
+    paddingLeft: 26,
+  },
+
+  typeIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 8
+  },
+
+  typeItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
   }
 })
 
