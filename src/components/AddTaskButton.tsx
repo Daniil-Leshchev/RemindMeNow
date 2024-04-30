@@ -1,5 +1,5 @@
-import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
-import { Component, forwardRef } from 'react';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
 import { Image } from 'expo-image';
@@ -10,9 +10,7 @@ const colors = {
   shadow: '#23292F40'
 }
 
-type ButtonProps = {
-  // style: StyleProp<ViewStyle>;
-} & React.ComponentPropsWithoutRef<typeof Pressable>;
+type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable>;
 
 const AddTaskButton = forwardRef<View | null, ButtonProps>(
   ({...pressableProps}, ref) => {

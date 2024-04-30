@@ -9,6 +9,7 @@ import 'moment/locale/ru';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
+import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void;
@@ -28,7 +29,6 @@ const colors = {
 
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet}, ref) => {
   const [title, setTitle] = useState('');
-  const [chooseTypeVisible, setChooseTypeVisible] = useState(false);
   const [type, setType] = useState('');
   const [typeText, setTypeText] = useState('Тип');
   const [isAllDay, setIsAllDay] = useState(false);
@@ -92,9 +92,27 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const handleTypeChange = (taskType: string, taskLabel: string) => {
     setType(taskType);
     setTypeText(taskLabel);
-    setChooseTypeVisible(false);
+    handleTypeContainerVisibility();
   }
 
+  const typeContainerHeight = useSharedValue(0);
+  const [isTypeContainerOpen, setIsTypeContainerOpen] = useState(false);
+
+  const animationConfig = { 
+    duration: 250,
+    easing: Easing.inOut(Easing.sin),
+    reduceMotion: ReduceMotion.System,
+  }
+
+  const handleTypeContainerVisibility = () => {
+    setIsTypeContainerOpen(!isTypeContainerOpen);
+    if (isTypeContainerOpen) {
+      typeContainerHeight.value = withTiming(0, animationConfig);
+    }
+    else {
+      typeContainerHeight.value = withTiming(112, animationConfig);
+    }
+  }
 
   //TODO:
   // const checkDates/validateInput = () => {
@@ -114,6 +132,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const addTask = () => {
+    // Keyboard.dismiss();
     handleCloseBottomSheet();
     resetFields();
   }
@@ -166,36 +185,39 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               style={[styles.typeIcon, { display: typeText === 'Тип' ? 'none' : 'flex' }]}/>
             <Text
               style={styles.text}
-              onPress={() => setChooseTypeVisible(!chooseTypeVisible)}>
+              onPress={handleTypeContainerVisibility}>
                 { typeText }
             </Text>
           </View>
         </View>
         
-        <View style={[styles.typeContainer, { display: chooseTypeVisible ? 'flex' : 'none' }]}>
+        <Animated.View style={[styles.typeContainer, { height: typeContainerHeight }, { marginBottom: isTypeContainerOpen ? 18 : 8 }]}>
           
-          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard', 'задача')}>
-            <Image 
-              source={require(`@assets/icons/task/standard.svg`)}
-              style={styles.typeIcon}/>
-            <Text style={styles.text}>задача</Text>
-          </Pressable>
+          { isTypeContainerOpen &&
+            <>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard', 'задача')}>
+                <Image 
+                  source={require(`@assets/icons/task/standard.svg`)}
+                  style={styles.typeIcon}/>
+                <Text style={styles.text}>задача</Text>
+              </Pressable>
 
-          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior', 'важное')}>
-            <Image 
-              source={require(`@assets/icons/task/prior.svg`)}
-              style={styles.typeIcon}/>
-            <Text style={styles.text}>важное</Text>
-          </Pressable>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior', 'важное')}>
+                <Image 
+                  source={require(`@assets/icons/task/prior.svg`)}
+                  style={styles.typeIcon}/>
+                <Text style={styles.text}>важное</Text>
+              </Pressable>
 
-          <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event', 'событие')}>
-            <Image 
-              source={require(`@assets/icons/task/event.svg`)}
-              style={styles.typeIcon}/>
-            <Text style={styles.text}>событие</Text>
-          </Pressable>
-          
-        </View>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event', 'событие')}>
+                <Image 
+                  source={require(`@assets/icons/task/event.svg`)}
+                  style={styles.typeIcon}/>
+                <Text style={styles.text}>событие</Text>
+              </Pressable>
+            </>
+          }
+        </Animated.View>
 
         <View style={styles.group}>
           <View style={[styles.groupElement, styles.divider]}>
@@ -325,6 +347,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             placeholderTextColor={colors.notesPlaceholder}
             onChangeText={setNotes}
             value={notes}
+            multiline={true}
           />
         </View>
 
@@ -480,11 +503,9 @@ const styles = StyleSheet.create({
 
   typeContainer: {
     width: 176,
-    height: 112,
     justifyContent: 'space-evenly',
     borderRadius: 20,
     backgroundColor: colors.group, 
-    marginBottom: 18,
     paddingLeft: 26,
   },
 
