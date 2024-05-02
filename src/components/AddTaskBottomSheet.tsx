@@ -105,6 +105,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const handleTypeContainerVisibility = () => {
+    hideKeyboardOnFocusChange();
     setIsTypeContainerOpen(!isTypeContainerOpen);
     if (isTypeContainerOpen) {
       typeContainerHeight.value = withTiming(0, animationConfig);
@@ -191,7 +192,9 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           </View>
         </View>
         
-        <Animated.View style={[styles.typeContainer, { height: typeContainerHeight }, { marginBottom: isTypeContainerOpen ? 18 : 8 }]}>
+        <Animated.View
+          style={[styles.typeContainer, { height: typeContainerHeight }, { marginBottom: isTypeContainerOpen ? 18 : 8 }]}
+          onStartShouldSetResponder={hideKeyboardOnFocusChange}>
           
           { isTypeContainerOpen &&
             <>
