@@ -3,7 +3,7 @@ import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import todayTasks from '@assets/data/todayTasks';
-import TaskItem from '@/components/TaskItem';
+import TodayTaskItem from '@/components/TodayTaskItem';
 import { Image } from 'expo-image';
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -11,6 +11,7 @@ import Swiper from 'react-native-swiper';
 import AddTaskButton from '@/components/AddTaskButton';
 import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
+import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -21,7 +22,7 @@ const colors = {
 
 export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
-  const [value, setValue] = useState(new Date());
+  const [curDay, setCurDay] = useState(new Date());
   const [period, setPeriod] = useState(0);
   const periodRange = 4;
 
@@ -43,6 +44,14 @@ export default function MainScreen() {
   const handleOpenBottomSheet = () => bottomSheetRef.current?.expand();
   const handleCloseBottomSheet = () => bottomSheetRef.current?.close();
 
+  const dayBottomSheetRef = useRef<BottomSheet>(null);
+  const handleOpenDayBottomSheet = () => dayBottomSheetRef.current?.expand();
+
+  const chooseDay = (day: Date) => {
+    setCurDay(day);
+    handleOpenDayBottomSheet();
+  }
+
   return (
       <LinearGradient
         style={styles.gradient}
@@ -55,7 +64,7 @@ export default function MainScreen() {
                   <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
                 }
                 data={todayTasks}
-                renderItem={({item}) => <TaskItem task={item}/>}
+                renderItem={({item}) => <TodayTaskItem task={item}/>}
                 contentContainerStyle={{
                   gap: 22,
                   paddingVertical: 16,
@@ -105,10 +114,9 @@ export default function MainScreen() {
                     {dates.map((item, dateIndex) => {
                       const isActive = item.date.toDateString() === moment().toDate().toDateString();
                       return (
-                        //TODO: обернуть тут в Link и поставить aschild
                         <Pressable
                           key={dateIndex}
-                          onPress={() => setValue(item.date)}>
+                          onPress={() => chooseDay(item.date)}>
                             {/* тут проблема, что при setValue при клике на даты swiper немного прокручивается вправо*/}
                             <View
                               style={[
@@ -140,6 +148,7 @@ export default function MainScreen() {
             </View>
           </View>
           <AddTaskBottomSheet ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
+          <DayTasksBottomSheet ref={dayBottomSheetRef} day={curDay}/>
       </LinearGradient>
   )
 }

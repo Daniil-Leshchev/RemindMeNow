@@ -8,7 +8,7 @@ const colors = {
   shadow: '#5B64AE33'
 }
 
-const TaskItem = ({task}: any) => {
+const TodayTaskItem = ({task}: any) => {
   //TODO: dynamic image paths bases on task type
   const icon = `standard.svg`;
   return (
@@ -22,7 +22,7 @@ const TaskItem = ({task}: any) => {
   )
 }
 
-export default TaskItem;
+export default TodayTaskItem;
 
 const styles = StyleSheet.create({
   taskContainer: {
