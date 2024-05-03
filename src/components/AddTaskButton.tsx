@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
@@ -10,13 +10,15 @@ const colors = {
   shadow: '#23292F40'
 }
 
-type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable>;
+type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
+  customStyles: ViewStyle | null;
+};
 
 const AddTaskButton = forwardRef<View | null, ButtonProps>(
-  ({...pressableProps}, ref) => {
+  ({customStyles, ...pressableProps}, ref) => {
     return (
       <Pressable ref={ref} {...pressableProps} style={styles.container}>
-        <View style={[styles.input, styles.androidShadow]}>
+        <View style={[styles.input, styles.androidShadow, customStyles]}>
           <Text style={styles.text}>Добавить задачу</Text>
         </View>
         <View style={[styles.addButton, styles.androidShadow]}>

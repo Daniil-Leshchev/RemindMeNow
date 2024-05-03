@@ -12,6 +12,7 @@ import AddTaskButton from '@/components/AddTaskButton';
 import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
+import { backgroundColor } from 'react-native-calendars/src/style';
 
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -144,7 +145,7 @@ export default function MainScreen() {
 
             <View style={styles.addTaskWrapper}>
               {/* передавать styles не только к родителю, но и к потомкам */}
-              <AddTaskButton onPress={handleOpenBottomSheet} />
+              <AddTaskButton onPress={handleOpenBottomSheet} customStyles={null}/>
             </View>
           </View>
           <AddTaskBottomSheet ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
