@@ -43,7 +43,7 @@ const tasks = [
     title: 'Сходить на встречу с куратором',
     type: 'standard',
     isAllDay: false,
-    startDate: '2024-05-04',
+    startDate: 'весь день',
     endDate: '2024-05-04',
     repeatValue: 'never',
     reminderValue: 'no',

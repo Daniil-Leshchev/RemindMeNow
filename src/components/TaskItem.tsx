@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 16,
-    maxWidth: 140,
+    maxWidth: 160,
   },
 
   time: {
