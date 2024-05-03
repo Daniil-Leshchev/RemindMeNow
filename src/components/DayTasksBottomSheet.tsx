@@ -5,6 +5,9 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/b
 import tasks from '@assets/data/data';
 import TaskItem from '@/components/TaskItem';
 
+import moment from 'moment';
+import 'moment/locale/ru';
+
 const colors = {
   background: '#C0CEFF'
 }
@@ -30,7 +33,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet, DayTasksBottomSheetProps>(({
       enablePanDownToClose={true}
       handleIndicatorStyle={{ display: 'none' }}>
         <BottomSheetFlatList
-          ListHeaderComponent={ <Text style={styles.header}>Задачи на сегодня:</Text> }
+          ListHeaderComponent={ <Text style={styles.header}>{moment(day).local().format('dddd[,] D MMMM')}</Text> }
           data={tasks}
           renderItem={({item}) => <TaskItem task={item}/>}
           showsVerticalScrollIndicator={false}
@@ -50,6 +53,7 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: 22,
+    textTransform: 'capitalize'
   }
 })
 

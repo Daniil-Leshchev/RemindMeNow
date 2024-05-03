@@ -17,7 +17,10 @@ const TaskItem = ({task}: any) => {
         source={require(`@assets/icons/task/${icon}`)}
         style={{ width: 32, height: 32, marginRight: 16}}/>
       <Text style={styles.title}>{task.title}</Text>
-      <Text style={styles.time}>{task.startDate}</Text>
+      { task.isAllDay ? 
+        <Text style={styles.time}>весь день</Text> :
+        <Text style={styles.time}>{task.startDate}</Text>}
+      
     </View>
   )
 }
