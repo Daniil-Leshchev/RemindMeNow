@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -10,9 +10,11 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
+import { useCurrentDay } from '@/providers/CurrentDayProvider';
 
 type AddTaskBottomSheetProps  = {
-  handleCloseBottomSheet: () => void;
+  handleCloseBottomSheet: () => void,
+  hasDay: boolean
 }
 
 const colors = {
@@ -27,14 +29,28 @@ const colors = {
   addTaskText: '#6C6C6C',
 }
 
-const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet}, ref) => {
+const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet, hasDay}, ref) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState('');
   const [typeText, setTypeText] = useState('Тип');
   const [isAllDay, setIsAllDay] = useState(false);
 
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const { currentDay } = useCurrentDay();
+
+  const [startDate, setStartDate] = useState(currentDay);
+  const [endDate, setEndDate] = useState(startDate);
+
+  const setDates = (date: Date) => {
+    setStartDate(date);
+    setEndDate(date);
+  }
+
+  useEffect(() => {
+    if (hasDay)
+      setDates(currentDay);
+    else
+      setDates(new Date());
+  }, [currentDay]);
 
   const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
   const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
@@ -246,6 +262,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               <Text onPress={showStartDatePicker} style={styles.text}>{formatDate(startDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
+              date={startDate}
               locale='ru_RU'
               isVisible={isStartDatePickerVisible}
               mode="datetime"
@@ -268,6 +285,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               <Text onPress={showEndDatePicker} style={styles.text}>{formatDate(endDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
+              date={startDate}
               locale='ru_RU'
               isVisible={isEndDatePickerVisible}
               mode="datetime"

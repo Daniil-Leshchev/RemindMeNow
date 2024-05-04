@@ -8,6 +8,7 @@
       "@/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@assets/*": ["assets/*"],
+      "@providers/*": ["providers/*"]
     }
   },
   "include": [

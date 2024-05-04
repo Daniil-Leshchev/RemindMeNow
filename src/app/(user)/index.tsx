@@ -12,7 +12,7 @@ import AddTaskButton from '@/components/AddTaskButton';
 import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
-import { backgroundColor } from 'react-native-calendars/src/style';
+import { useCurrentDay } from '@/providers/CurrentDayProvider';
 
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -23,9 +23,9 @@ const colors = {
 
 export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
-  const [curDay, setCurDay] = useState(new Date());
   const [period, setPeriod] = useState(0);
   const periodRange = 4;
+  const defaultHours = 10;
 
   const periods = useMemo(() => {//кэширование полученного результата
     //при изменении period будет меняться, а если не меняется, то результат берем из кэша
@@ -47,9 +47,10 @@ export default function MainScreen() {
 
   const dayBottomSheetRef = useRef<BottomSheet>(null);
   const handleOpenDayBottomSheet = () => dayBottomSheetRef.current?.expand();
-
+  const { setContextDay } = useCurrentDay();
   const chooseDay = (day: Date) => {
-    setCurDay(day);
+    day.setHours(defaultHours, 0, 0);
+    setContextDay(day);
     handleOpenDayBottomSheet();
   }
 
@@ -148,8 +149,8 @@ export default function MainScreen() {
               <AddTaskButton onPress={handleOpenBottomSheet} customStyles={null}/>
             </View>
           </View>
-          <AddTaskBottomSheet ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
-          <DayTasksBottomSheet ref={dayBottomSheetRef} day={curDay}/>
+          <AddTaskBottomSheet hasDay={false} ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
+          <DayTasksBottomSheet ref={dayBottomSheetRef}/>
       </LinearGradient>
   )
 }

@@ -4,6 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import React from 'react';
 import { Stack } from 'expo-router';
+import CurrentDayProvider from '@/providers/CurrentDayProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -46,9 +47,11 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <Stack>
-      <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-      <Stack.Screen name="(user)" options={{headerShown: false}}/>
-    </Stack>
+    <CurrentDayProvider>
+      <Stack>
+        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+        <Stack.Screen name="(user)" options={{headerShown: false}}/>
+      </Stack>
+    </CurrentDayProvider>
   );
 }
