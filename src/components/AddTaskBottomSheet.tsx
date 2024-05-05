@@ -258,13 +258,13 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             <Text style={styles.text}>Начало</Text>
             <View style={styles.chooseDateAndTime}>
               <Text onPress={showStartDatePicker} style={[styles.text, styles.date]}>{formatDate(startDate, dateFormat)}</Text>
-              <Text onPress={showStartDatePicker} style={styles.text}>{formatDate(startDate, timeFormat)}</Text>
+              <Text onPress={showStartDatePicker} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(startDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
               date={startDate}
               locale='ru_RU'
               isVisible={isStartDatePickerVisible}
-              mode="datetime"
+              mode={isAllDay ? 'date' : 'datetime'}
               display='inline'
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'
@@ -281,13 +281,13 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             <Text style={styles.text}>Конец</Text>
             <View style={styles.chooseDateAndTime}>
               <Text onPress={showEndDatePicker} style={[styles.text, styles.date]}>{formatDate(endDate, dateFormat)}</Text>
-              <Text onPress={showEndDatePicker} style={styles.text}>{formatDate(endDate, timeFormat)}</Text>
+              <Text onPress={showEndDatePicker} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(endDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
               date={startDate}
               locale='ru_RU'
               isVisible={isEndDatePickerVisible}
-              mode="datetime"
+              mode={isAllDay ? 'date' : 'datetime'}
               display='inline'
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'

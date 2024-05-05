@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
+import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import tasks from '@assets/data/data';
 import TaskItem from '@/components/TaskItem';
