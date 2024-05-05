@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable } from 'react-native';
+import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
@@ -139,6 +139,13 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   // const checkDates/validateInput = () => {
   // }
 
+  const validateInput = () => {
+    if (!title || !type){
+      return false;
+    }
+    return true;
+  }
+
   const resetFields = () => {
     resetDates();
     setTitle('');
@@ -152,12 +159,23 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const addTask = () => {
+    if (!validateInput()) {
+      if (!title)
+        Alert.alert('Название обязательно');
+      else if (!type)
+        Alert.alert('Тип обязателен');
+      return;
+    }
     // Keyboard.dismiss();
     handleCloseBottomSheet();
     resetFields();
   }
 
-  const CustomCancelButton = ({ onPress }) => {
+  type CustomCancelButtonProps = {
+    onPress: (event: GestureResponderEvent) => void;
+  }
+
+  const CustomCancelButton = ({ onPress } : CustomCancelButtonProps) => {
     return (
       <TouchableHighlight
         style={styles.cancelButton}
