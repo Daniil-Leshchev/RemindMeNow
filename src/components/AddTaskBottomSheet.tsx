@@ -11,6 +11,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
+import { createIconSetFromFontello } from '@expo/vector-icons';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -136,7 +137,22 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const validateInput = () => {
-    if (!title || !type){
+    if (!title) {
+      Alert.alert('Название обязательно');
+      return false;
+    }
+    if (!type) {
+      Alert.alert('Тип обязателен');
+      return false;
+    }
+    if (!validateDates())
+      return false;
+    return true;
+  }
+
+  const validateDates = () => {
+    if (startDate > endDate) {
+      Alert.alert('Время начала события не может быть позже времени конца');
       return false;
     }
     return true;
@@ -156,13 +172,10 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
 
   const addTask = () => {
     if (!validateInput()) {
-      if (!title)
-        Alert.alert('Название обязательно');
-      else if (!type)
-        Alert.alert('Тип обязателен');
       return;
     }
     // Keyboard.dismiss();
+    validateDates();
     handleCloseBottomSheet();
     resetFields();
   }
