@@ -135,10 +135,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     }
   }
 
-  //TODO:
-  // const checkDates/validateInput = () => {
-  // }
-
   const validateInput = () => {
     if (!title || !type){
       return false;
