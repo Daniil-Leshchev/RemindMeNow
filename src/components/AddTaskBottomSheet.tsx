@@ -140,8 +140,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     setType('');
     setTypeText('Тип');
     setIsAllDay(false)
-    setStartDate(new Date());
-    setEndDate(new Date());
     setRepeatValue('never');
     setReminderValue('no');
     setAttachment(null);
@@ -181,6 +179,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
       ref={ref}
       index={-1}
       snapPoints={snapPoints}
+      onClose={resetFields}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={{ marginBottom: 8 }}

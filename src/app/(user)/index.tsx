@@ -145,7 +145,6 @@ export default function MainScreen() {
             </View>
 
             <View style={styles.addTaskWrapper}>
-              {/* передавать styles не только к родителю, но и к потомкам */}
               <AddTaskButton onPress={handleOpenBottomSheet} customStyles={null}/>
             </View>
           </View>
