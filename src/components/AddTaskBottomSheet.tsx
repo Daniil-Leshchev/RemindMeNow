@@ -45,11 +45,15 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     setEndDate(date);
   }
 
-  useEffect(() => {
+  const resetDates = () => {
     if (hasDay)
       setDates(currentDay);
     else
       setDates(new Date());
+  }
+
+  useEffect(() => {
+    resetDates();
   }, [currentDay]);
 
   const [isStartDatePickerVisible, setStartDatePickerVisibility] = useState(false);
@@ -136,10 +140,11 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   // }
 
   const resetFields = () => {
+    resetDates();
     setTitle('');
     setType('');
     setTypeText('Тип');
-    setIsAllDay(false)
+    setIsAllDay(false);
     setRepeatValue('never');
     setReminderValue('no');
     setAttachment(null);
