@@ -11,7 +11,7 @@ const colors = {
 const TodayTaskItem = ({task}: any) => {
   return (
     <View style={styles.taskContainer}>
-      <TaskIcon type={task.type}/>
+      <TaskIcon type={task.type} isSmall={false}/>
       <Text style={styles.title}>{task.title}</Text>
       <Text style={styles.time}>{task.startDate}</Text>
     </View>
