@@ -32,8 +32,15 @@ const colors = {
 
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet, hasDay}, ref) => {
   const [title, setTitle] = useState('');
-  const [type, setType] = useState('');
-  const [typeText, setTypeText] = useState('Тип');
+  const [type, setType] = useState<TaskType | ''>('');
+
+  type TaskType = 'standard' | 'prior' | 'event';
+  const taskTypes: { [key in TaskType]: string } = {
+    'standard': 'задача',
+    'prior': 'важное',
+    'event': 'событие',
+  }
+
   const [isAllDay, setIsAllDay] = useState(false);
 
   const { currentDay } = useCurrentDay();
@@ -110,9 +117,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     hideEndDatePicker();
   };
 
-  const handleTypeChange = (taskType: string, taskLabel: string) => {
+  const handleTypeChange = (taskType: TaskType) => {
     setType(taskType);
-    setTypeText(taskLabel);
     handleTypeContainerVisibility();
   }
 
@@ -162,7 +168,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     resetDates();
     setTitle('');
     setType('');
-    setTypeText('Тип');
     setIsAllDay(false);
     setRepeatValue('never');
     setReminderValue('no');
@@ -236,7 +241,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           />
           
           <View style={styles.typeItem}>
-            <View style={{ display: typeText === 'Тип' ? 'none' : 'flex'}}>
+            <View style={{ display: type === '' ? 'none' : 'flex'}}>
               <TaskIcon
                 type={type}
                 isSmall
@@ -245,7 +250,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             <Text
               style={styles.text}
               onPress={handleTypeContainerVisibility}>
-                { typeText }
+                { type === '' ? 'Тип' : taskTypes[type] }
             </Text>
           </View>
         </View>
@@ -256,18 +261,18 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           
           { isTypeContainerOpen &&
             <>
-              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard', 'задача')}>
-                <TaskIcon type={'standard'} isSmall/>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard')}>
+                <TaskIcon type={'standard'} isSmall={true}/>
                 <Text style={styles.text}>задача</Text>
               </Pressable>
 
-              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior', 'важное')}>
-                <TaskIcon type={'prior'} isSmall/>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior')}>
+                <TaskIcon type={'prior'} isSmall={true}/>
                 <Text style={styles.text}>важное</Text>
               </Pressable>
 
-              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event', 'событие')}>
-                <TaskIcon type={'event'} isSmall/>
+              <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event')}>
+                <TaskIcon type={'event'} isSmall={true}/>
                 <Text style={styles.text}>событие</Text>
               </Pressable>
             </>

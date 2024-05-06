@@ -2,7 +2,12 @@ import React from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
 
-const TaskIcon = ({ type }: any, isSmall: boolean) => {
+type TaskIconProps = {
+  type: string,
+  isSmall: boolean
+}
+
+const TaskIcon = ({ type, isSmall }: TaskIconProps) => {
   let imagePath = require('@assets/icons/task/standard.svg');
   if (type === 'prior')
     imagePath = require('@assets/icons/task/prior.svg');
@@ -11,7 +16,8 @@ const TaskIcon = ({ type }: any, isSmall: boolean) => {
   return (
     <Image 
       source={imagePath}
-      style={isSmall ? styles.smallIcon : styles.standardIcon}/>
+      style={isSmall ? styles.smallIcon : styles.standardIcon}
+    />
   )
 }
 
