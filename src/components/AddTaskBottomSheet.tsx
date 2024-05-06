@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -11,7 +11,6 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
-import { createIconSetFromFontello } from '@expo/vector-icons';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -206,12 +205,20 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     return false;
   }
 
+  const titleInput = useRef<TextInput>(null);
+
+  const inputFocus = (index: number) => {
+    if (index === 2)
+      titleInput.current?.focus();
+  };
+  
   return (
     <BottomSheet
       ref={ref}
       index={-1}
       snapPoints={snapPoints}
       onClose={resetFields}
+      onChange={inputFocus}
       enablePanDownToClose={true}
       backdropComponent={renderBackdrop}
       handleIndicatorStyle={{ marginBottom: 8 }}
@@ -224,6 +231,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             placeholderTextColor='#fff'
             onChangeText={setTitle}
             value={title}
+            ref={titleInput}
           />
           
           <View style={styles.typeItem}>
