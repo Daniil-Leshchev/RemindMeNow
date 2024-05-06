@@ -50,7 +50,7 @@ const SignUpScreen = () => {
             secureTextEntry
           />
 
-        <Button text={'Зарегистрироваться'} onPress={signUpWithEmail}/>
+        <Button text={'Зарегистрироваться'} onPress={signUpWithEmail} fontSize={17}/>
         <View style={styles.registerBox}>
           <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
           <Link href='/sign-in' style={styles.textButton}>

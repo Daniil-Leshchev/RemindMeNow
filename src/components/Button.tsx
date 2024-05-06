@@ -1,17 +1,18 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
 import { forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
 
 type ButtonProps = {
-  text: string;
+  text: string,
+  fontSize: number
 } & React.ComponentPropsWithoutRef<typeof Pressable>;
 
 const Button = forwardRef<View | null, ButtonProps>(
-  ({ text, ...pressableProps }, ref) => {
+  ({ text, fontSize, ...pressableProps }, ref) => {
     return (
-      <Pressable ref={ref} {...pressableProps} style={styles.container}>
-        <Text style={styles.text}>{text}</Text>
+      <Pressable ref={ref} {...pressableProps} style={[styles.container, pressableProps.style]}>
+        <Text style={[styles.text, {fontSize: fontSize}]}>{text}</Text>
       </Pressable>
     );
   }
@@ -29,7 +30,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 17,
     color: '#fff',
     fontFamily: 'Inter'
   },
