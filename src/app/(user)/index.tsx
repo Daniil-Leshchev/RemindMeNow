@@ -55,102 +55,103 @@ export default function MainScreen() {
   }
 
   return (
-      <LinearGradient
-        style={styles.gradient}
-        colors={gradientColors}>
-          <View style={styles.wrapper}>
-            <View style={[styles.todayTasksContainer, styles.androidShadow]}>
-              {/* TODO: сделать его pressable со ссылкой на экран задач текущего дня */}
-              <FlatList
-                ListHeaderComponent={
-                  <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
+    <LinearGradient
+      style={styles.gradient}
+      colors={gradientColors}>
+        <View style={styles.wrapper}>
+          <Pressable
+            onPress={() => chooseDay(new Date())}
+            style={[styles.todayTasksContainer, styles.androidShadow]}>
+            <FlatList
+              ListHeaderComponent={
+                <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
+              }
+              data={todayTasks}
+              renderItem={({item}) => <TodayTaskItem task={item}/>}
+              contentContainerStyle={{
+                gap: 22,
+                paddingVertical: 16,
+                paddingHorizontal: 14
+              }}
+              showsVerticalScrollIndicator={false}
+            />
+          </Pressable>
+
+          <View>
+            <View style={styles.calendarBlock}>
+              <Text style={styles.calendarHeader}>Календарь</Text>
+              <Pressable style={[styles.calendarButton, styles.androidShadow]}>
+                <View style={styles.monthContainer}>
+                  <Text style={styles.month}>{moment().format('MMMM')}</Text>
+                </View>
+                <Image 
+                  source={require('@assets/icons/mainScreen/calendar.svg')}
+                  style={styles.calendarIcon}
+                />
+              </Pressable>
+            </View>
+
+            <Swiper
+              index={1}
+              ref={swiper}
+              showsPagination={false}
+              loop={false}
+              onIndexChanged={ind => {
+                if (ind == 1) {
+                  return;
                 }
-                data={todayTasks}
-                renderItem={({item}) => <TodayTaskItem task={item}/>}
-                contentContainerStyle={{
-                  gap: 22,
-                  paddingVertical: 16,
-                  paddingHorizontal: 14
-                }}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
-
-            <View>
-              <View style={styles.calendarBlock}>
-                <Text style={styles.calendarHeader}>Календарь</Text>
-                <Pressable style={[styles.calendarButton, styles.androidShadow]}>
-                  <View style={styles.monthContainer}>
-                    <Text style={styles.month}>{moment().format('MMMM')}</Text>
-                  </View>
-                  <Image 
-                    source={require('@assets/icons/mainScreen/calendar.svg')}
-                    style={styles.calendarIcon}
-                  />
-                </Pressable>
-              </View>
-
-              <Swiper
-                index={1}
-                ref={swiper}
-                showsPagination={false}
-                loop={false}
-                onIndexChanged={ind => {
-                  if (ind == 1) {
-                    return;
+                setTimeout(() => {
+                  const newIndex = ind == 0 ? -periodRange : periodRange;
+                  const newPeriod = period + newIndex;
+                  setPeriod(newPeriod);
+                  if (Platform.OS === 'ios') {
+                    swiper.current?.scrollTo(1, false);
                   }
-                  setTimeout(() => {
-                    const newIndex = ind == 0 ? -periodRange : periodRange;
-                    const newPeriod = period + newIndex;
-                    setPeriod(newPeriod);
-                    if (Platform.OS === 'ios') {
-                      swiper.current?.scrollTo(1, false);
-                    }
-                    else {
-                      swiper.current?.scrollTo(1, true);
-                    }
-                  }, 1);
-                }}>
-                {periods.map((dates, index) => (
-                  <View key={index} style={styles.scrollableCalendar}>
-                    {dates.map((item, dateIndex) => {
-                      const isActive = item.date.toDateString() === moment().toDate().toDateString();
-                      return (
-                        <Pressable
-                          key={dateIndex}
-                          onPress={() => chooseDay(item.date)}>
-                            {/* тут проблема, что при setValue при клике на даты swiper немного прокручивается вправо*/}
-                            <View
-                              style={[
-                                styles.dayItem,
-                                styles.androidShadow,
-                                isActive && {
-                                  backgroundColor: colors.dayPressed
-                                }
-                              ]}>
-                                <Text
-                                  style={styles.weekDayLabel}>
-                                    {item.weekday}
-                                </Text>
-                                <Text style={styles.dayItemDate}>
-                                  {item.date.getDate()}
-                                </Text>
-                            </View>
-                        </Pressable>
-                      )
-                    })}
-                  </View>
-                ))}
-              </Swiper>
-            </View>
-
-            <View style={styles.addTaskWrapper}>
-              <AddTaskButton onPress={handleOpenBottomSheet} customStyles={null}/>
-            </View>
+                  else {
+                    swiper.current?.scrollTo(1, true);
+                  }
+                }, 1);
+              }}>
+              {periods.map((dates, index) => (
+                <View key={index} style={styles.scrollableCalendar}>
+                  {dates.map((item, dateIndex) => {
+                    const isActive = item.date.toDateString() === moment().toDate().toDateString();
+                    return (
+                      <Pressable
+                        key={dateIndex}
+                        onPress={() => chooseDay(item.date)}>
+                          {/* тут проблема, что при setValue при клике на даты swiper немного прокручивается вправо*/}
+                          <View
+                            style={[
+                              styles.dayItem,
+                              styles.androidShadow,
+                              isActive && {
+                                backgroundColor: colors.dayPressed
+                              }
+                            ]}>
+                              <Text
+                                style={styles.weekDayLabel}>
+                                  {item.weekday}
+                              </Text>
+                              <Text style={styles.dayItemDate}>
+                                {item.date.getDate()}
+                              </Text>
+                          </View>
+                      </Pressable>
+                    )
+                  })}
+                </View>
+              ))}
+            </Swiper>
           </View>
-          <AddTaskBottomSheet hasDay={false} ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
-          <DayTasksBottomSheet ref={dayBottomSheetRef}/>
-      </LinearGradient>
+
+          <View style={styles.addTaskWrapper}>
+            <AddTaskButton onPress={handleOpenBottomSheet} customStyles={null}/>
+          </View>
+        </View>
+        <AddTaskBottomSheet hasDay={false} ref={bottomSheetRef} handleCloseBottomSheet={handleCloseBottomSheet}/>
+        <DayTasksBottomSheet ref={dayBottomSheetRef}/>
+    </LinearGradient>
   )
 }
 const styles =  StyleSheet.create({
