@@ -1,7 +1,7 @@
 import { StyleSheet, View } from 'react-native';
 import Text from "@/components/StyledText";
 import React from 'react';
-import { Image } from 'expo-image';
+import TaskIcon from '@components/TaskIcon';
 
 const colors = {
   background: '#8A9DCDB5',
@@ -9,13 +9,9 @@ const colors = {
 }
 
 const TodayTaskItem = ({task}: any) => {
-  //TODO: dynamic image paths bases on task type
-  const icon = `standard.svg`;
   return (
     <View style={styles.taskContainer}>
-      <Image 
-        source={require(`@assets/icons/task/${icon}`)}
-        style={{ width: 32, height: 32, marginRight: 16}}/>
+      <TaskIcon type={task.type}/>
       <Text style={styles.title}>{task.title}</Text>
       <Text style={styles.time}>{task.startDate}</Text>
     </View>

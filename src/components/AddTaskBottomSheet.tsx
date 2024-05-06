@@ -11,6 +11,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Image } from 'expo-image';
 import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
+import TaskIcon from '@components/TaskIcon';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -235,10 +236,12 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           />
           
           <View style={styles.typeItem}>
-            {/* TODO: dynamic path change */}
-            <Image 
-              source={require(`@assets/icons/task/standard.svg`)}
-              style={[styles.typeIcon, { display: typeText === 'Тип' ? 'none' : 'flex' }]}/>
+            <View style={{ display: typeText === 'Тип' ? 'none' : 'flex'}}>
+              <TaskIcon
+                type={type}
+                isSmall
+              />
+            </View>
             <Text
               style={styles.text}
               onPress={handleTypeContainerVisibility}>
@@ -254,23 +257,17 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           { isTypeContainerOpen &&
             <>
               <Pressable style={styles.typeItem} onPress={() => handleTypeChange('standard', 'задача')}>
-                <Image 
-                  source={require(`@assets/icons/task/standard.svg`)}
-                  style={styles.typeIcon}/>
+                <TaskIcon type={'standard'} isSmall/>
                 <Text style={styles.text}>задача</Text>
               </Pressable>
 
               <Pressable style={styles.typeItem} onPress={() => handleTypeChange('prior', 'важное')}>
-                <Image 
-                  source={require(`@assets/icons/task/prior.svg`)}
-                  style={styles.typeIcon}/>
+                <TaskIcon type={'prior'} isSmall/>
                 <Text style={styles.text}>важное</Text>
               </Pressable>
 
               <Pressable style={styles.typeItem} onPress={() => handleTypeChange('event', 'событие')}>
-                <Image 
-                  source={require(`@assets/icons/task/event.svg`)}
-                  style={styles.typeIcon}/>
+                <TaskIcon type={'event'} isSmall/>
                 <Text style={styles.text}>событие</Text>
               </Pressable>
             </>
@@ -567,12 +564,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: colors.group, 
     paddingLeft: 26,
-  },
-
-  typeIcon: {
-    width: 20,
-    height: 20,
-    marginRight: 8
   },
 
   typeItem: {

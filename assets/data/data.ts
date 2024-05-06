@@ -41,7 +41,7 @@ const tasks = [
   {
     id: 4,
     title: 'Сходить на встречу с куратором',
-    type: 'standard',
+    type: 'prior',
     isAllDay: false,
     startDate: '15:30',
     endDate: '2024-05-04',
@@ -54,7 +54,7 @@ const tasks = [
   {
     id: 5,
     title: 'Подготовиться к коллоквиуму по физике',
-    type: 'standard',
+    type: 'prior',
     isAllDay: true,
     startDate: '2024-05-04',
     endDate: '2024-05-04',
