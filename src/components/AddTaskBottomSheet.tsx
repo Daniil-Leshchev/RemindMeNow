@@ -79,7 +79,10 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     if (!result.canceled) {
       setAttachment(result.assets[0].uri)
     }
-    console.log(result);
+
+    else {
+      Alert.alert('Вложение не было добавлено')
+    }
   }
 
   const [notes, setNotes] = useState('');
