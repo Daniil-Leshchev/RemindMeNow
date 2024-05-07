@@ -18,7 +18,7 @@ const AddTaskButton = forwardRef<View | null, ButtonProps>(
   ({customStyles, ...pressableProps}, ref) => {
     return (
       <Pressable ref={ref} {...pressableProps} style={styles.container}>
-        <View style={[styles.input, styles.androidShadow, customStyles]}>
+        <View style={[styles.input, customStyles]}>
           <Text style={styles.text}>Добавить задачу</Text>
         </View>
         <View style={[styles.addButton, styles.androidShadow]}>
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   androidShadow: {
-    elevation: 40
+    elevation: 10
   }
 });
 

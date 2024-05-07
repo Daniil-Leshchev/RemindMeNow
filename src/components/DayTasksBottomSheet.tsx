@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
 
   addTaskButton: {
     backgroundColor: colors.addTaskButton,
-    shadowOpacity: 0
   }
 })
 

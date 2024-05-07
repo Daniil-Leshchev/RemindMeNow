@@ -10,7 +10,7 @@ const colors = {
 
 const TaskItem = ({ task }: any) => {
   return (
-    <View style={styles.taskContainer}>
+    <View style={[styles.taskContainer, styles.androidShadow]}>
       <TaskIcon type={task.type} isSmall={false}/>
       <Text style={styles.title}>{task.title}</Text>
       { task.isAllDay ? 
@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
     shadowOpacity: 1,
-    elevation: 40,
   },
 
   title: {
@@ -46,5 +45,9 @@ const styles = StyleSheet.create({
   time: {
     fontSize: 16,
     marginLeft: 'auto'
+  },
+
+  androidShadow: {
+    elevation: 10
   }
 });

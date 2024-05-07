@@ -257,6 +257,6 @@ const styles =  StyleSheet.create({
   },
 
   androidShadow: {
-    elevation: 40
+    elevation: 10
   }
 })

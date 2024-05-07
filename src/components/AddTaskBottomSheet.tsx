@@ -449,6 +449,7 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
     shadowOpacity: 1,
+    elevation: 10
   },
 
   text: {
@@ -570,13 +571,17 @@ const styles = StyleSheet.create({
     width: 176,
     justifyContent: 'space-evenly',
     borderRadius: 20,
-    backgroundColor: colors.group, 
+    backgroundColor: colors.group,
     paddingLeft: 26,
   },
 
   typeItem: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+
+  androidShadow: {
+    elevation: 10
   }
 })
 
