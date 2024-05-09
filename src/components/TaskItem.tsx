@@ -1,7 +1,9 @@
-import { StyleSheet, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Text from "@/components/StyledText";
-import React from 'react';
+import React, { useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
+import { Swipeable } from 'react-native-gesture-handler';
+import { Image } from 'expo-image';
 
 const colors = {
   background: '#8A9DCDB5',
@@ -9,14 +11,57 @@ const colors = {
 }
 
 const TaskItem = ({ task }: any) => {
+  const [opacity, setOpacity] = useState(0);
+  const close = () => {
+    setTimeout(() => {
+      setOpacity(0);
+    }, 50);
+  }
+  const rightSwipe = (dragX: any) => {
+    const trans = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [1, 0],
+      extrapolate: 'clamp'
+    });
+    return (
+      <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
+        <Pressable>
+          <Image
+            source={require('@assets/icons/swipeableActions/tick.svg')}
+            style={{ width: 27, height: 22}}
+          />
+        </Pressable>
+
+        <Pressable>
+          <Image
+            source={require('@assets/icons/swipeableActions/cross.svg')}
+            style={{ width: 24, height: 24}}
+          />
+        </Pressable>
+
+        <Pressable>
+          <Image
+            source={require('@assets/icons/swipeableActions/trashCan.svg')}
+            style={{ width: 32, height: 32}}
+          />
+        </Pressable>
+      </Animated.View>
+    )
+  }
   return (
-    <View style={[styles.taskContainer, styles.androidShadow]}>
-      <TaskIcon type={task.type} isSmall={false}/>
-      <Text style={styles.title}>{task.title}</Text>
-      { task.isAllDay ? 
-        <Text style={styles.time}>весь день</Text> :
-        <Text style={styles.time}>{task.startDate}</Text>}
-    </View>
+    <Swipeable
+      onSwipeableWillClose={() => close(0)}
+      onSwipeableWillOpen={() => setOpacity(1)}
+      renderRightActions={rightSwipe}
+      rightThreshold={20}>
+      <View style={[styles.taskContainer, styles.androidShadow]}>
+        <TaskIcon type={task.type} isSmall={false}/>
+        <Text style={styles.title}>{task.title}</Text>
+        { task.isAllDay ? 
+          <Text style={styles.time}>весь день</Text> :
+          <Text style={styles.time}>{task.startDate}</Text>}
+      </View>
+    </Swipeable>
   )
 }
 
@@ -49,5 +94,12 @@ const styles = StyleSheet.create({
 
   androidShadow: {
     elevation: 10
+  },
+
+  actions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 16,
+    gap: 12
   }
 });
