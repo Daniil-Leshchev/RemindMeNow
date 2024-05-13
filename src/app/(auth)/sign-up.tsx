@@ -4,9 +4,12 @@ import { View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } fr
 import Button from "@/components/Button";
 import React from 'react';
 import Text from "@/components/StyledText";
+import { supabase } from "@/lib/supabase";
+
 const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   //TODO: password validation
   const validatePassword = () => {
@@ -14,12 +17,16 @@ const SignUpScreen = () => {
   }
 
   //TODO: supabase registration
-  const signUpWithEmail = () => {
+  const signUpWithEmail = async () => {
+    setLoading(true);
     if (!validatePassword()) {
       Alert.alert('Пароль недействителен', 'Длина должна быть хотя бы 6 символов');
       return;
     }
-    console.warn('Signing Up');
+    const { error } = await supabase.auth.signUp({ email, password });
+
+    if (error) Alert.alert(error.message);
+    setLoading(false);
   }
 
   return (
@@ -50,7 +57,7 @@ const SignUpScreen = () => {
             secureTextEntry
           />
 
-        <Button text={'Зарегистрироваться'} onPress={signUpWithEmail} fontSize={17}/>
+        <Button text={loading ? 'Создание аккаунта...' : 'Зарегистрироваться'} onPress={signUpWithEmail} disabled={loading} fontSize={17}/>
         <View style={styles.registerBox}>
           <Text style={styles.noAccount}>Уже есть аккаунт?</Text>
           <Link href='/sign-in' style={styles.textButton}>

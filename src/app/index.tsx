@@ -1,7 +1,7 @@
 import { Redirect } from "expo-router";
 import React from 'react';
 const index = () => {
-    const session = true;
+    const session = false;
     if (!session) {
       return <Redirect href={"/sign-up"}/>
     }
