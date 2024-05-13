@@ -1,12 +1,18 @@
-import { Link, Stack } from "expo-router";
+import { Link, Redirect, Stack } from "expo-router";
 import { useState } from "react"
 import { View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";
 import React from 'react';
 import Text from "@/components/StyledText";
 import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/providers/AuthProvider";
 
 const SignUpScreen = () => {
+  const { session } = useAuth();
+  if (session) {
+    return <Redirect href={"/(user)"}/>
+  }
+  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

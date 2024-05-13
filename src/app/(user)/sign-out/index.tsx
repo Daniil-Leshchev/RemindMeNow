@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import Button from "@/components/Button";
 import Text from "@/components/StyledText";
 import { router } from 'expo-router';
+import { supabase } from '@/lib/supabase';
 
 const colors = {
   prime: '#7412B0',
@@ -11,6 +12,10 @@ const colors = {
 }
 
 export default function SignOutScreen() {
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    router.push('/sign-in');
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Вы уверены, что хотите выйти?</Text>
@@ -24,7 +29,7 @@ export default function SignOutScreen() {
         <Button
           text='Да'
           fontSize={22}
-          onPress={() => console.warn('Signing out')}
+          onPress={signOut}
           style={[styles.button, styles.yesButton]}
         />
       </View>
