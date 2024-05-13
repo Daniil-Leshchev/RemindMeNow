@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import React from 'react';
 import { Stack } from 'expo-router';
 import CurrentDayProvider from '@/providers/CurrentDayProvider';
+import AuthProvider from '@/providers/AuthProvider';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -47,11 +48,13 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <CurrentDayProvider>
-      <Stack>
-        <Stack.Screen name="(auth)" options={{headerShown: false}}/>
-        <Stack.Screen name="(user)" options={{headerShown: false}}/>
-      </Stack>
-    </CurrentDayProvider>
+    <AuthProvider>
+      <CurrentDayProvider>
+        <Stack>
+          <Stack.Screen name="(auth)" options={{headerShown: false}}/>
+          <Stack.Screen name="(user)" options={{headerShown: false}}/>
+        </Stack>
+      </CurrentDayProvider>
+    </AuthProvider>
   );
 }
