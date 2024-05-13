@@ -11,12 +11,10 @@ const SignUpScreen = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
 
-  //TODO: password validation
   const validatePassword = () => {
     return password.length >= 6;
   }
 
-  //TODO: supabase registration
   const signUpWithEmail = async () => {
     setLoading(true);
     if (!validatePassword()) {
@@ -25,7 +23,8 @@ const SignUpScreen = () => {
     }
     const { error } = await supabase.auth.signUp({ email, password });
 
-    if (error) Alert.alert(error.message);
+    if (error)
+      Alert.alert(error.message);
     setLoading(false);
   }
 
