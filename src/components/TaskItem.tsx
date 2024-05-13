@@ -50,7 +50,7 @@ const TaskItem = ({ task }: any) => {
   }
   return (
     <Swipeable
-      onSwipeableWillClose={() => close(0)}
+      onSwipeableWillClose={() => close()}
       onSwipeableWillOpen={() => setOpacity(1)}
       renderRightActions={rightSwipe}
       rightThreshold={20}>
