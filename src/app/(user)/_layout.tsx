@@ -3,11 +3,18 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { Image } from 'expo-image';
 import { View, StyleSheet } from 'react-native';
+import { Redirect } from 'expo-router';
+import { useAuth } from '@/providers/AuthProvider';
 
 export default function MenuStack() {
   const menuColor = '#C0CEFF';
   const activeItemColor = '#4183E5';
-  
+  const { session } = useAuth();
+
+  if (!session) {
+    return <Redirect href={'/'}/>
+  }
+
   return (
     <GestureHandlerRootView style={{flex: 1}}>
       <Drawer screenOptions={{

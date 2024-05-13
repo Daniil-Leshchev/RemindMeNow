@@ -5,14 +5,8 @@ import Button from "@/components/Button";
 import Text from "@/components/StyledText";
 import React from 'react';
 import { supabase } from "@/lib/supabase";
-import { useAuth } from "@/providers/AuthProvider";
 
 const SignInScreen = () => {
-  const { session } = useAuth();
-  if (session) {
-    return <Redirect href={"/(user)"}/>
-  }
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
