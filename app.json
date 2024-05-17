@@ -1,29 +1,31 @@
 {
   "expo": {
-    "name": "ReminderApp",
-    "slug": "ReminderApp",
+    "name": "RemindMeNow",
+    "slug": "RemindMeNow",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/new_icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/new_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
+
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/new_adaptive-icon.png",
+      "backgroundColor": "#000"
+    },
+
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.expo.client"
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
+    
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -37,6 +39,20 @@
     "experiments": {
       "typedRoutes": true,
       "tsconfigPaths": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "138a9530-22dd-428e-8236-08e5f76c9e58"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/138a9530-22dd-428e-8236-08e5f76c9e58"
     }
   }
 }

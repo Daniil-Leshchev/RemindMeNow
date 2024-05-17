@@ -2,7 +2,7 @@ import React from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { Image } from 'expo-image';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { Redirect } from 'expo-router';
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -34,8 +34,9 @@ export default function MenuStack() {
           bottom: 'auto',
         },
         drawerLabelStyle: {
+          fontFamily: Platform.OS === 'android' ? 'Inter' : '',
           fontSize: 20,
-          fontFamily: 'Inter',
+          fontWeight: 400,
           marginLeft: -16,
         },
         headerTitleAlign: 'left',

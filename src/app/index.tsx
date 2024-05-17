@@ -5,6 +5,7 @@ import { ActivityIndicator } from "react-native";
 const index = () => {
   const { session, loading } = useAuth();
   if (loading) {
+    //TODO: return gradient while loading
     return <ActivityIndicator/>
   }
 
