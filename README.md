@@ -16,7 +16,4 @@
 
 ## Использование приложения
 
-<img src="/assets/screenshots/main-screen.png" width="250"/>
-<img src="/assets/screenshots/navigation.png" width="250"/>
-<img src="/assets/screenshots/add-task.png" width="250"/>
-<img src="/assets/assets/screenshots/day-tasks.png" width="250"/>
+<img src="assets/screenshots/all-screens.jpg"/>
