@@ -50,7 +50,13 @@ function RootLayoutNav() {
   return (
     <AuthProvider>
       <CurrentDayProvider>
-        <Stack>
+        <Stack 
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: '#5c65af'
+            }
+          }}>
           <Stack.Screen name="(auth)" options={{headerShown: false}}/>
           <Stack.Screen name="(user)" options={{headerShown: false}}/>
         </Stack>

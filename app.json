@@ -4,11 +4,11 @@
     "slug": "RemindMeNow",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/new_icon.png",
+    "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/new_splash.png",
+      "image": "./assets/images/splash-3.png",
       "resizeMode": "contain",
       "backgroundColor": "#000"
     },
@@ -17,7 +17,7 @@
     ],
 
     "adaptiveIcon": {
-      "foregroundImage": "./assets/images/new_adaptive-icon.png",
+      "foregroundImage": "./assets/images/adaptive-icon.png",
       "backgroundColor": "#000"
     },
 
