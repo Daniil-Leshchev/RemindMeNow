@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "RemindMeNow",
-    "slug": "RemindMeNow",
+    "slug": "ReminderApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,17 +15,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/adaptive-icon.png",
       "backgroundColor": "#000"
     },
-
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.expo.client"
     },
-    
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -53,6 +50,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/138a9530-22dd-428e-8236-08e5f76c9e58"
+    },
+    "android": {
+      "package": "io.expo.client"
     }
   }
 }
