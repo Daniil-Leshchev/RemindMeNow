@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform, ActivityIndicator } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -11,11 +11,11 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
-import { useAuth } from '@/providers/AuthProvider';
 import TaskItem from '@/components/TaskItem';
 import { useAllTasks } from '@/api';
+import LoadingScreen from '@/components/LoadingScreen';
 
-const gradientColors = ['#9FA1E3', '#19287A'];
+export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
   shadow: '#2F366C4D',
@@ -57,7 +57,7 @@ export default function MainScreen() {
   
   const { data: tasks, error, isLoading } = useAllTasks();
   if (isLoading)
-    return <ActivityIndicator/>
+    return <LoadingScreen/>;
 
   if (error)
     return <Text>Не удалось загрузить ваши задачи</Text>;

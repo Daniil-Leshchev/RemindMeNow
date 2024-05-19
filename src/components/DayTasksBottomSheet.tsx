@@ -29,9 +29,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   const handleOpenAddTaskBottomSheet = () => addTaskBottomSheet.current?.expand();
   const handleCloseAddTaskBottomSheet = () => addTaskBottomSheet.current?.close();
 
-  const { data: tasks, error, isLoading } = useAllTasks();
-  if (isLoading)
-    return <ActivityIndicator/>
+  const { data: tasks, error } = useAllTasks();
 
   if (error)
     return <Text>Не удалось загрузить ваши задачи</Text>;
