@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Image } from 'expo-image';
+import moment from 'moment';
 
 const colors = {
   background: '#8A9DCDB5',
@@ -23,7 +24,9 @@ const TaskItem = ({ task }: any) => {
       outputRange: [1, 0],
       extrapolate: 'clamp'
     });
+
     return (
+      
       <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
         <Pressable>
           <Image
@@ -48,6 +51,15 @@ const TaskItem = ({ task }: any) => {
       </Animated.View>
     )
   }
+
+  const timeFormat = "LT";
+  const formatDate = (task: any) => {
+    const start = moment(task.startDate).local().format(timeFormat);
+    const end = moment(task.endDate).local().format(timeFormat);
+
+    return `${start} – ${end}`;
+  }
+
   return (
     <Swipeable
       onSwipeableWillClose={() => close()}
@@ -59,7 +71,7 @@ const TaskItem = ({ task }: any) => {
         <Text style={styles.title}>{task.title}</Text>
         { task.isAllDay ? 
           <Text style={styles.time}>весь день</Text> :
-          <Text style={styles.time}>{task.startDate}</Text>}
+          <Text style={styles.time}>{formatDate(task)}</Text>}
       </View>
     </Swipeable>
   )

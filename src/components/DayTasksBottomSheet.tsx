@@ -1,8 +1,8 @@
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-import tasks from '@assets/data/data';
+// import tasks from '@assets/data/data';
 import TaskItem from '@/components/TaskItem';
 import AddTaskButton from '@/components/AddTaskButton';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
@@ -10,6 +10,8 @@ import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
+
+import { useAllTasks } from '@/api';
 
 const colors = {
   background: '#C0CEFF',
@@ -27,6 +29,14 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   const addTaskBottomSheet = useRef<BottomSheet>(null);
   const handleOpenAddTaskBottomSheet = () => addTaskBottomSheet.current?.expand();
   const handleCloseAddTaskBottomSheet = () => addTaskBottomSheet.current?.close();
+
+  const { data: tasks, error, isLoading } = useAllTasks();
+  if (isLoading)
+    return <ActivityIndicator/>
+
+  if (error)
+    return <Text>Не удалось загрузить ваши задачи</Text>;
+
   return (
     <>
       <BottomSheet
