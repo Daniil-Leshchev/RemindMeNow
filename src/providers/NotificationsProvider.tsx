@@ -14,8 +14,10 @@ Notifications.setNotificationHandler({
 });
 
 const NotificationProvider = ({children} : PropsWithChildren) => {
+  const { profile } = useAuth();
   const [expoPushToken, setExpoPushToken] = useState<string | undefined>('');
   const [notification, setNotification] = useState<Notifications.Notification | undefined>(undefined);
+  
   const notificationListener = useRef<Notifications.Subscription>();
   const responseListener = useRef<Notifications.Subscription>();
 
@@ -23,6 +25,10 @@ const NotificationProvider = ({children} : PropsWithChildren) => {
     setExpoPushToken(newToken);
     if (!newToken)
       return;
+    await supabase
+      .from('profiles')
+      .update({ expo_push_token: newToken })
+      .eq('id', profile.id);
   };
 
   useEffect(() => {
@@ -47,7 +53,7 @@ const NotificationProvider = ({children} : PropsWithChildren) => {
       responseListener.current &&
         Notifications.removeNotificationSubscription(responseListener.current);
     };
-  }, []);
+  }, [profile]);
 
   return <>{children}</>
 }

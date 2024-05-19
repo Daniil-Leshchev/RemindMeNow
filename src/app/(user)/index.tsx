@@ -13,6 +13,8 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
+import { notifyUser } from '@/lib/notifications';
+import { useAuth } from '@/providers/AuthProvider';
 
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -53,6 +55,8 @@ export default function MainScreen() {
     setContextDay(day);
     handleOpenDayBottomSheet();
   }
+  const { profile } = useAuth();
+  notifyUser(profile);
 
   return (
     <LinearGradient

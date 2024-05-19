@@ -82,9 +82,9 @@ const getUserToken = async (userId : string | null) => {
   return data?.expo_push_token;
 }
 
-// export const notifyUserAboutOrderUpdate = async (order: Tables<'orders'>) => {
-//   const token = await getUserToken(order.user_id);
-//   const title = `Your order is ${order.status}`;
-//   const body = 'Body'
-//   sendPushNotification(token, title, body);
-// }
+export const notifyUser = async (profile: any) => {
+  const token = await getUserToken(profile.id);
+  const title = 'Your profile:';
+  const body = `${profile.id} : ${profile.expo_push_token}`;
+  sendPushNotification(token, title, body);
+}
