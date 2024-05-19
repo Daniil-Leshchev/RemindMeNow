@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
+import React from 'react';
 
 type AuthData = {
   session: Session | null,
