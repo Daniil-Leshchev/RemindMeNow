@@ -68,10 +68,10 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const [isEndDatePickerVisible, setEndDatePickerVisibility] = useState(false);
 
   const [repeatDropdownOpen, setRepeatDropdownOpen] = useState(false);
-  const [repeatValue, setRepeatValue] = useState('never');
+  const [repeat, setRepeat] = useState('never');
 
   const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
-  const [reminderValue, setReminderValue] = useState('');
+  const [reminder, setReminder] = useState('');
 
   const [attachment, setAttachment] = useState<string | null>(null);
   const pickDocument = async () => {
@@ -172,8 +172,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     setTitle('');
     setType('');
     setIsAllDay(false);
-    setRepeatValue('never');
-    setReminderValue('no');
+    setRepeat('never');
+    setReminder('no');
     setAttachment(null);
     setNotes('');
   }
@@ -351,9 +351,9 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           <Text style={styles.text}>Повтор</Text>
           <DropDownPicker
             open={repeatDropdownOpen}
-            value={repeatValue}
+            value={repeat}
             setOpen={setRepeatDropdownOpen}
-            setValue={setRepeatValue}
+            setValue={setRepeat}
             placeholder='Никогда'
             containerStyle={styles.dropdownContainer}
             style={styles.dropdown}
@@ -376,9 +376,9 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           <Text style={styles.text}>Напоминание</Text>
           <DropDownPicker
             open={reminderDropdownOpen}
-            value={reminderValue}
+            value={reminder}
             setOpen={setReminderDropdownOpen}
-            setValue={setReminderValue}
+            setValue={setReminder}
             placeholder='Нет'
             containerStyle={styles.dropdownContainer}
             style={styles.dropdown}

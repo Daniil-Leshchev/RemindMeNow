@@ -6,8 +6,8 @@ const tasks = [
     isAllDay: true,
     startDate: '2024-05-04',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   },
@@ -19,8 +19,8 @@ const tasks = [
     isAllDay: true,
     startDate: '2024-05-04',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   }, 
@@ -32,8 +32,8 @@ const tasks = [
     isAllDay: true,
     startDate: '2024-05-04',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   },
@@ -45,8 +45,8 @@ const tasks = [
     isAllDay: false,
     startDate: '15:30',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   }, 
@@ -58,8 +58,8 @@ const tasks = [
     isAllDay: true,
     startDate: '2024-05-04',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   },
@@ -71,8 +71,8 @@ const tasks = [
     isAllDay: false,
     startDate: '23:00',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   },
@@ -84,8 +84,8 @@ const tasks = [
     isAllDay: false,
     startDate: '10:00',
     endDate: '2024-05-04',
-    repeatValue: 'never',
-    reminderValue: 'no',
+    repeat: 'never',
+    reminder: 'no',
     attachment: null,
     notes: null
   }
