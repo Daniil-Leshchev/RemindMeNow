@@ -26,7 +26,6 @@ const TaskItem = ({ task }: any) => {
     });
 
     return (
-      
       <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
         <Pressable>
           <Image

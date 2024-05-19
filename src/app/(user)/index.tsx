@@ -1,9 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform, ActivityIndicator } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
-import todayTasks from '@assets/data/todayTasks';
-import TodayTaskItem from '@/components/TodayTaskItem';
 import { Image } from 'expo-image';
 import moment from 'moment';
 import 'moment/locale/ru';
@@ -13,8 +11,9 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
-import { notifyUser } from '@/lib/notifications';
 import { useAuth } from '@/providers/AuthProvider';
+import TaskItem from '@/components/TaskItem';
+import { useAllTasks } from '@/api';
 
 const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -55,8 +54,13 @@ export default function MainScreen() {
     setContextDay(day);
     handleOpenDayBottomSheet();
   }
-  const { profile } = useAuth();
-  notifyUser(profile);
+  
+  const { data: tasks, error, isLoading } = useAllTasks();
+  if (isLoading)
+    return <ActivityIndicator/>
+
+  if (error)
+    return <Text>Не удалось загрузить ваши задачи</Text>;
 
   return (
     <LinearGradient
@@ -70,8 +74,8 @@ export default function MainScreen() {
               ListHeaderComponent={
                 <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
               }
-              data={todayTasks}
-              renderItem={({item}) => <TodayTaskItem task={item}/>}
+              data={tasks}
+              renderItem={({item}) => <TaskItem task={item}/>}
               contentContainerStyle={{
                 gap: 22,
                 paddingVertical: 16,

@@ -2,7 +2,6 @@ import { ActivityIndicator, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
-// import tasks from '@assets/data/data';
 import TaskItem from '@/components/TaskItem';
 import AddTaskButton from '@/components/AddTaskButton';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
