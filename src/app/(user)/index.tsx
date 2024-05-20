@@ -60,7 +60,16 @@ export default function MainScreen() {
     return <LoadingScreen/>;
 
   if (error)
-    return <Text>Не удалось загрузить ваши задачи</Text>;
+    return (
+      <LinearGradient
+        style={[styles.gradient, {
+          justifyContent: 'center', 
+          alignItems: 'center'
+        }]}
+        colors={gradientColors}>
+        <Text style={styles.fetchingError}>Не удалось загрузить ваши задачи :(</Text>
+      </LinearGradient>
+    );
 
   return (
     <LinearGradient
@@ -266,5 +275,9 @@ const styles =  StyleSheet.create({
 
   androidShadow: {
     elevation: 10
+  },
+
+  fetchingError: {
+    fontSize: 18
   }
 })
