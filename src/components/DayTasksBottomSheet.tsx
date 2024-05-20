@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
@@ -22,19 +22,38 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   )
 
   const snapPoints = useMemo(() => ['25%', '50%', '85%'], []);
-  console.log(currentDay);
 
   const addTaskBottomSheet = useRef<BottomSheet>(null);
   const handleOpenAddTaskBottomSheet = () => addTaskBottomSheet.current?.expand();
   const handleCloseAddTaskBottomSheet = () => addTaskBottomSheet.current?.close();
-  const { data: tasks, error, refetch } = useCurrentDayTasks();
+  const { data: tasks, refetch, isRefetching } = useCurrentDayTasks();
   
   useEffect(() => {
-    refetch();
+    refetch({throwOnError: true});
   }, [currentDay]);
 
-  if (error)
-    return <Text>Не удалось загрузить ваши задачи</Text>;
+  if (isRefetching) {
+    return (
+      <>
+        <BottomSheet
+          ref={ref}
+          index={-1}
+          snapPoints={snapPoints}
+          backdropComponent={renderBackdrop}
+          backgroundStyle={styles.container}
+          enablePanDownToClose={true}
+          handleIndicatorStyle={{ display: 'none' }}>
+            <Text style={[styles.header, styles.refetchingHeader]}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>
+            <ActivityIndicator
+              style={styles.refetchingIndicator}
+              color={'#999999'}
+              size={'large'}
+            />
+            <AddTaskButton onPress={handleOpenAddTaskBottomSheet} customStyles={[styles.addTaskButton, styles.refetchingAddTaskButton]}/>
+        </BottomSheet>
+      </>
+    );
+  }
 
   return (
     <>
@@ -80,6 +99,19 @@ const styles = StyleSheet.create({
 
   addTaskButton: {
     backgroundColor: colors.addTaskButton,
+  },
+
+  refetchingHeader: {
+    marginLeft: 16,
+    marginBottom: 26
+  },
+
+  refetchingAddTaskButton: {
+    marginLeft: 16
+  },
+
+  refetchingIndicator: {
+    marginBottom: 26
   }
 })
 
