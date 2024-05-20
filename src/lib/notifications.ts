@@ -3,7 +3,7 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from "expo-constants";
 import { supabase } from '@/lib/supabase';
-import { Tables } from "@/database.types";
+import { Tables } from "@/lib/database.types";
 
 const handleRegistrationError = (errorMessage: string) => {
   alert(errorMessage);

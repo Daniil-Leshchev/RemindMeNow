@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { PropsWithChildren, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -13,6 +13,8 @@ import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'reac
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
 import TaskIcon from '@components/TaskIcon';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
+import { useInsertTask } from '@/api/insert';
+import { InsertTables } from '@/lib/helperTypes';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -48,7 +50,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
 
   const [startDate, setStartDate] = useState(currentDay);
   const [endDate, setEndDate] = useState(startDate);
-
   const setDates = (date: Date) => {
     setStartDate(date);
     setEndDate(date);
@@ -72,7 +73,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const [repeat, setRepeat] = useState('never');
 
   const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
-  const [reminder, setReminder] = useState('');
+  const [reminder, setReminder] = useState('no');
 
   const [attachment, setAttachment] = useState<string | null>(null);
   const pickDocument = async () => {
@@ -86,7 +87,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     }
   }
 
-  const [notes, setNotes] = useState('');
+  const [notes, setNotes] = useState(null);
 
   const dateFormat = "D MMMM[,] yyyy";
   const timeFormat = "LT";
@@ -176,7 +177,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     setRepeat('never');
     setReminder('no');
     setAttachment(null);
-    setNotes('');
+    setNotes(null);
   }
 
   const addTask = () => {
@@ -185,6 +186,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     }
     // Keyboard.dismiss();
     validateDates();
+    saveTask();
     handleCloseBottomSheet();
     resetFields();
   }
@@ -222,6 +224,26 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
       titleInput.current?.focus();
   };
   
+  const { mutate: insertTask } = useInsertTask();
+  const saveTask = () => {
+    const task: InsertTables<'tasks'> = {
+      title,
+      type,
+      isAllDay,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      repeat,
+      reminder,
+      attachment,
+      notes
+    }
+    insertTask(task, {
+      onError(error: Error) {
+        console.warn(error.message);
+      }
+    })
+  }
+
   return (
     <BottomSheet
       ref={ref}

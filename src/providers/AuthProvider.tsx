@@ -2,7 +2,7 @@ import { supabase } from "@/lib/supabase";
 import { Session } from "@supabase/supabase-js";
 import { PropsWithChildren, createContext, useContext, useEffect, useState } from "react";
 import React from 'react';
-import { Tables } from "@/database.types";
+import { Tables } from "@/lib/database.types";
 
 type AuthData = {
   session: Session | null,

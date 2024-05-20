@@ -5,7 +5,7 @@ import TaskIcon from '@components/TaskIcon';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Image } from 'expo-image';
 import moment from 'moment';
-import { Tables } from '@/database.types';
+import { Tables } from '@/lib/database.types';
 
 const colors = {
   background: '#8A9DCDB5',
