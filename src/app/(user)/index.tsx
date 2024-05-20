@@ -75,7 +75,7 @@ export default function MainScreen() {
                 <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
               }
               data={tasks}
-              renderItem={({item}) => <TaskItem task={item}/>}
+              renderItem={({item}) => <TaskItem task={item} isTodayView={true}/>}
               contentContainerStyle={{
                 gap: 22,
                 paddingVertical: 16,

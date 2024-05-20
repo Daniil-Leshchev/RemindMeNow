@@ -47,7 +47,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
           <BottomSheetFlatList
             ListHeaderComponent={<Text style={styles.header}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>}
             data={tasks}
-            renderItem={({item, index}) => <TaskItem task={item} index={index}/>}
+            renderItem={({item, index}) => <TaskItem task={item} index={index} isTodayView={false}/>}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: 16,

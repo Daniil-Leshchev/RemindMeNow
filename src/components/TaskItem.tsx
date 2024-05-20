@@ -1,4 +1,4 @@
-import { Animated, Pressable, StyleSheet, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, Task, View } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
@@ -11,46 +11,12 @@ const colors = {
   shadow: '#5B64AE33'
 }
 
-const TaskItem = ({ task }: any) => {
-  const [opacity, setOpacity] = useState(0);
-  const close = () => {
-    setTimeout(() => {
-      setOpacity(0);
-    }, 50);
-  }
-  const rightSwipe = (dragX: any) => {
-    const trans = dragX.interpolate({
-      inputRange: [-100, 0],
-      outputRange: [1, 0],
-      extrapolate: 'clamp'
-    });
+type TaskView = {
+  task: any,
+  isTodayView: boolean,
+}
 
-    return (
-      <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
-        <Pressable>
-          <Image
-            source={require('@assets/icons/swipeableActions/tick.svg')}
-            style={{ width: 27, height: 22}}
-          />
-        </Pressable>
-
-        <Pressable>
-          <Image
-            source={require('@assets/icons/swipeableActions/cross.svg')}
-            style={{ width: 24, height: 24}}
-          />
-        </Pressable>
-
-        <Pressable>
-          <Image
-            source={require('@assets/icons/swipeableActions/trashCan.svg')}
-            style={{ width: 32, height: 32}}
-          />
-        </Pressable>
-      </Animated.View>
-    )
-  }
-
+const TaskItem = ({ task, isTodayView }: TaskView) => {
   const timeFormat = "LT";
   const formatDate = (task: any) => {
     const start = moment(task.startDate).local().format(timeFormat);
@@ -59,20 +25,71 @@ const TaskItem = ({ task }: any) => {
     return `${start} – ${end}`;
   }
 
+  if (!isTodayView) {
+    const [opacity, setOpacity] = useState(0);
+    const close = () => {
+      setTimeout(() => {
+        setOpacity(0);
+      }, 50);
+    }
+
+    const rightSwipe = (dragX: any) => {
+      const trans = dragX.interpolate({
+        inputRange: [-100, 0],
+        outputRange: [1, 0],
+        extrapolate: 'clamp'
+      });
+
+      return (
+        <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
+          <Pressable>
+            <Image
+              source={require('@assets/icons/swipeableActions/tick.svg')}
+              style={{ width: 27, height: 22}}
+            />
+          </Pressable>
+
+          <Pressable>
+            <Image
+              source={require('@assets/icons/swipeableActions/cross.svg')}
+              style={{ width: 24, height: 24}}
+            />
+          </Pressable>
+
+          <Pressable>
+            <Image
+              source={require('@assets/icons/swipeableActions/trashCan.svg')}
+              style={{ width: 32, height: 32}}
+            />
+          </Pressable>
+        </Animated.View>
+      )
+    }
+    return (
+      <Swipeable
+        onSwipeableWillClose={() => close()}
+        onSwipeableWillOpen={() => setOpacity(1)}
+        renderRightActions={rightSwipe}
+        rightThreshold={20}>
+        <View style={[styles.taskContainer, styles.androidShadow]}>
+          <TaskIcon type={task.type} isSmall={false}/>
+          <Text style={styles.title}>{task.title}</Text>
+          { task.isAllDay ? 
+            <Text style={styles.time}>весь день</Text> :
+            <Text style={styles.time}>{formatDate(task)}</Text>}
+        </View>
+      </Swipeable>
+    )
+  }
+
   return (
-    <Swipeable
-      onSwipeableWillClose={() => close()}
-      onSwipeableWillOpen={() => setOpacity(1)}
-      renderRightActions={rightSwipe}
-      rightThreshold={20}>
-      <View style={[styles.taskContainer, styles.androidShadow]}>
-        <TaskIcon type={task.type} isSmall={false}/>
-        <Text style={styles.title}>{task.title}</Text>
-        { task.isAllDay ? 
-          <Text style={styles.time}>весь день</Text> :
-          <Text style={styles.time}>{formatDate(task)}</Text>}
-      </View>
-    </Swipeable>
+    <View style={[styles.taskContainer, styles.androidShadow]}>
+      <TaskIcon type={task.type} isSmall={false}/>
+      <Text style={styles.title}>{task.title}</Text>
+      { task.isAllDay ? 
+        <Text style={styles.time}>весь день</Text> :
+        <Text style={styles.time}>{formatDate(task)}</Text>}
+    </View>
   )
 }
 
