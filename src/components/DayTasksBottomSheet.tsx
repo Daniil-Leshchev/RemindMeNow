@@ -1,16 +1,14 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useMemo, useRef } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import TaskItem from '@/components/TaskItem';
 import AddTaskButton from '@/components/AddTaskButton';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
-
 import moment from 'moment';
 import 'moment/locale/ru';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
-
-import { useMyTasks } from '@/api';
+import { useCurrentDayTasks } from '@/api';
 
 const colors = {
   background: '#C0CEFF',
@@ -24,12 +22,16 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   )
 
   const snapPoints = useMemo(() => ['25%', '50%', '85%'], []);
+  console.log(currentDay);
 
   const addTaskBottomSheet = useRef<BottomSheet>(null);
   const handleOpenAddTaskBottomSheet = () => addTaskBottomSheet.current?.expand();
   const handleCloseAddTaskBottomSheet = () => addTaskBottomSheet.current?.close();
-
-  const { data: tasks, error } = useMyTasks();
+  const { data: tasks, error, refetch } = useCurrentDayTasks();
+  
+  useEffect(() => {
+    refetch();
+  }, [currentDay]);
 
   if (error)
     return <Text>Не удалось загрузить ваши задачи</Text>;
@@ -47,7 +49,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
           <BottomSheetFlatList
             ListHeaderComponent={<Text style={styles.header}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>}
             data={tasks}
-            renderItem={({item, index}) => <TaskItem task={item} index={index} isTodayView={false}/>}
+            renderItem={({item, index}) => <TaskItem task={item} isTodayView={false}/>}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: 16,

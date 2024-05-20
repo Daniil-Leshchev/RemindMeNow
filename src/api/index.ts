@@ -1,36 +1,23 @@
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/providers/AuthProvider";
-import { useQuery } from "@tanstack/react-query";
 import { useCurrentDay } from "@/providers/CurrentDayProvider";
+import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 
-export const useAllTasks = () => {
-  return useQuery({
-    queryKey: ['tasks'],
-    queryFn: async () => {
-      const { data, error } = await
-        supabase
-        .from('tasks')
-        .select('*');
-      if (error)
-        throw new Error(error.message);
-      return data;
-    }
-  });
+const formatDate = (date: Date) => {
+  return moment(date).format('yyyy-MM-DD');
 }
 
-export const useMyTasks = () => {
+export const useTodayTasks = () => {
   const { session } = useAuth();
   const userId = session?.user.id;
 
-  const { currentDay } = useCurrentDay();
+  const currentDay = new Date();
+  currentDay.setHours(0, 0, 0, 0);
+  
   const nextDay = new Date();
   nextDay.setDate(currentDay.getDate() + 1);
   nextDay.setHours(0, 0, 0, 0);
-
-  const formatDate = (date: Date) => {
-    return moment(date).format('yyyy-MM-DD');
-  }
 
   return useQuery({
     queryKey: ['tasks', { userId }],
@@ -49,5 +36,34 @@ export const useMyTasks = () => {
         throw new Error(error.message);
       return data;
     }
+  });
+}
+
+export const useCurrentDayTasks = () => {
+  const { currentDay } = useCurrentDay();
+  const { session } = useAuth();
+  const userId = session?.user.id;
+
+  const nextDay = new Date();
+  nextDay.setDate(currentDay.getDate() + 1);
+  nextDay.setHours(0, 0, 0, 0);
+
+  return useQuery({
+    queryKey: ['tasks', { userId }, 'startDate'],
+    queryFn: async () => {
+      if (!userId)
+        return null;
+      const { data, error } = await
+        supabase
+        .from('tasks')
+        .select('*')
+        .eq('user_id', userId)
+        .gte('startDate', formatDate(currentDay))
+        .lte('startDate', formatDate(nextDay))
+        .order('startDate');
+      if (error)
+        throw new Error(error.message);
+      return data;
+    },
   });
 }

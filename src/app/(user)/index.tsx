@@ -13,7 +13,7 @@ import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
 import TaskItem from '@/components/TaskItem';
 import LoadingScreen from '@/components/LoadingScreen';
-import { useMyTasks } from '@/api';
+import { useCurrentDayTasks, useTodayTasks } from '@/api';
 
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -55,7 +55,7 @@ export default function MainScreen() {
     handleOpenDayBottomSheet();
   }
   
-  const { data: tasks, error, isLoading } = useMyTasks();
+  const { data: tasks, error, isLoading } = useTodayTasks();
   if (isLoading)
     return <LoadingScreen/>;
 
