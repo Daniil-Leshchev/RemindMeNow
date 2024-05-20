@@ -3,6 +3,7 @@ import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from "expo-constants";
 import { supabase } from '@/lib/supabase';
+import { Tables } from "@/database.types";
 
 const handleRegistrationError = (errorMessage: string) => {
   alert(errorMessage);
@@ -73,7 +74,7 @@ export async function sendPushNotification(expoPushToken: string, title: string,
   });
 }
 
-const getUserToken = async (userId : string | null) => {
+const getUserToken = async (userId : string) => {
   const { data } = await supabase
     .from('profiles')
     .select('*')
@@ -82,9 +83,11 @@ const getUserToken = async (userId : string | null) => {
   return data?.expo_push_token;
 }
 
-export const notifyUser = async (profile: any) => {
+export const notifyUser = async (profile: Tables<'profiles'>) => {
   const token = await getUserToken(profile.id);
   const title = 'Your profile:';
   const body = `${profile.id} : ${profile.expo_push_token}`;
+  if (!token)
+    return;
   sendPushNotification(token, title, body);
 }

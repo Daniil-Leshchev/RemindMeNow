@@ -2,9 +2,10 @@ import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
-import { Swipeable } from 'react-native-gesture-handler';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Image } from 'expo-image';
 import moment from 'moment';
+import { Tables } from '@/database.types';
 
 const colors = {
   background: '#8A9DCDB5',
@@ -12,26 +13,25 @@ const colors = {
 }
 
 type TaskView = {
-  task: any,
+  task: Tables<'tasks'>,
   isTodayView: boolean,
 }
 
 const TaskItem = ({ task, isTodayView }: TaskView) => {
   const timeFormat = "LT";
-  const formatDate = (task: any) => {
+  const formatDate = () => {
     const start = moment(task.startDate).local().format(timeFormat);
     const end = moment(task.endDate).local().format(timeFormat);
-
     return `${start} – ${end}`;
   }
 
   if (!isTodayView) {
     const [opacity, setOpacity] = useState(0.2);
 
-    const rightSwipe = (dragX: any) => {
+    const rightSwipe = (dragX: Animated.Value) => {
       const trans = dragX.interpolate({
         inputRange: [-100, 0],
-        outputRange: [1, 0],
+        outputRange: [-1, 0],
         extrapolate: 'clamp'
       });
 
@@ -71,7 +71,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
           <Text style={styles.title}>{task.title}</Text>
           { task.isAllDay ? 
             <Text style={styles.time}>весь день</Text> :
-            <Text style={styles.time}>{formatDate(task)}</Text>}
+            <Text style={styles.time}>{formatDate()}</Text>}
         </View>
       </Swipeable>
     )
@@ -83,7 +83,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
       <Text style={styles.title}>{task.title}</Text>
       { task.isAllDay ? 
         <Text style={styles.time}>весь день</Text> :
-        <Text style={styles.time}>{formatDate(task)}</Text>}
+        <Text style={styles.time}>{formatDate()}</Text>}
     </View>
   )
 }

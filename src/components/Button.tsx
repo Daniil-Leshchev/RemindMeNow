@@ -1,11 +1,12 @@
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
 
 type ButtonProps = {
   text: string,
-  fontSize: number
+  fontSize: number,
+  style: StyleProp<ViewStyle> | null
 } & React.ComponentPropsWithoutRef<typeof Pressable>;
 
 const Button = forwardRef<View | null, ButtonProps>(

@@ -1,6 +1,6 @@
 import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { PropsWithChildren, forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -12,6 +12,7 @@ import { Image } from 'expo-image';
 import Animated, { ReduceMotion, useSharedValue, withTiming, Easing } from 'react-native-reanimated';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
 import TaskIcon from '@components/TaskIcon';
+import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -205,7 +206,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const renderBackdrop = useCallback(
-    (props: any) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props}/>, []
+    (props: BottomSheetDefaultBackdropProps) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props}/>, []
   )
 
   const snapPoints = useMemo(() => ['25%', '50%', '85%'], []);

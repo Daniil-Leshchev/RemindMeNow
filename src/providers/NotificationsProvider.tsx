@@ -25,6 +25,8 @@ const NotificationProvider = ({children} : PropsWithChildren) => {
     setExpoPushToken(newToken);
     if (!newToken)
       return;
+    if (!profile)
+      return;
     await supabase
       .from('profiles')
       .update({ expo_push_token: newToken })

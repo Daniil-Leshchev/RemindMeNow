@@ -1,14 +1,14 @@
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
-import BottomSheet, { BottomSheetBackdrop, BottomSheetFlatList } from '@gorhom/bottom-sheet';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList } from '@gorhom/bottom-sheet';
 import TaskItem from '@/components/TaskItem';
 import AddTaskButton from '@/components/AddTaskButton';
 import AddTaskBottomSheet from '@components/AddTaskBottomSheet';
 import moment from 'moment';
 import 'moment/locale/ru';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
-import { useCurrentDayTasks } from '@/api';
+import { useCurrentDayTasks } from '@/api/select';
 
 const colors = {
   background: '#C0CEFF',
@@ -18,7 +18,7 @@ const colors = {
 const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   const { currentDay } = useCurrentDay();
   const renderBackdrop = useCallback(
-    (props: any) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props}/>, []
+    (props: BottomSheetBackdropProps) => <BottomSheetBackdrop appearsOnIndex={2} disappearsOnIndex={-1} {...props}/>, []
   )
 
   const snapPoints = useMemo(() => ['25%', '50%', '85%'], []);

@@ -11,7 +11,7 @@ const colors = {
 }
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> & {
-  customStyles: [ViewStyle] | ViewStyle | null;
+  customStyles: ViewStyle[] | ViewStyle | null;
 };
 
 const AddTaskButton = forwardRef<View | null, ButtonProps>(

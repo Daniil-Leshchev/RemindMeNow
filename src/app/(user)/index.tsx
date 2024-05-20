@@ -13,7 +13,7 @@ import DayTasksBottomSheet from '@/components/DayTasksBottomSheet';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
 import TaskItem from '@/components/TaskItem';
 import LoadingScreen from '@/components/LoadingScreen';
-import { useCurrentDayTasks, useTodayTasks } from '@/api';
+import { useTodayTasks } from '@/api/select';
 
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
