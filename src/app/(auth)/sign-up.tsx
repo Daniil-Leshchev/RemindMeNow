@@ -1,4 +1,4 @@
-import { Link, Redirect, Stack } from "expo-router";
+import { Link, Stack } from "expo-router";
 import { useState } from "react"
 import { View, StyleSheet, TextInput, KeyboardAvoidingView, Platform, Alert } from "react-native"
 import Button from "@/components/Button";

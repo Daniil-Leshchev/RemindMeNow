@@ -1,4 +1,4 @@
-import { Animated, Pressable, StyleSheet, Task, View } from 'react-native';
+import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { useState } from 'react';
 import TaskIcon from '@components/TaskIcon';

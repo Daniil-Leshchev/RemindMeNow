@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, View, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { forwardRef } from 'react';
 import React from 'react';
 import Text from "@/components/StyledText";
