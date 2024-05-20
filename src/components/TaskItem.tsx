@@ -26,12 +26,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
   }
 
   if (!isTodayView) {
-    const [opacity, setOpacity] = useState(0);
-    const close = () => {
-      setTimeout(() => {
-        setOpacity(0);
-      }, 50);
-    }
+    const [opacity, setOpacity] = useState(0.2);
 
     const rightSwipe = (dragX: any) => {
       const trans = dragX.interpolate({
@@ -67,7 +62,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
     }
     return (
       <Swipeable
-        onSwipeableWillClose={() => close()}
+        onSwipeableWillClose={() => setOpacity(0)}
         onSwipeableWillOpen={() => setOpacity(1)}
         renderRightActions={rightSwipe}
         rightThreshold={20}>
