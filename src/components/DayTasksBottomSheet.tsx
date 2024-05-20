@@ -10,7 +10,7 @@ import moment from 'moment';
 import 'moment/locale/ru';
 import { useCurrentDay } from '@/providers/CurrentDayProvider';
 
-import { useAllTasks } from '@/api';
+import { useMyTasks } from '@/api';
 
 const colors = {
   background: '#C0CEFF',
@@ -29,7 +29,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   const handleOpenAddTaskBottomSheet = () => addTaskBottomSheet.current?.expand();
   const handleCloseAddTaskBottomSheet = () => addTaskBottomSheet.current?.close();
 
-  const { data: tasks, error } = useAllTasks();
+  const { data: tasks, error } = useMyTasks();
 
   if (error)
     return <Text>Не удалось загрузить ваши задачи</Text>;
