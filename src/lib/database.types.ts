@@ -6,6 +6,8 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
+export type TaskType = 'standard' | 'prior' | 'event';
+
 export type Database = {
   public: {
     Tables: {
@@ -59,7 +61,7 @@ export type Database = {
           repeat: string
           startDate: string
           title: string
-          type: string
+          type: TaskType
           user_id: string | null
         }
         Insert: {
@@ -73,7 +75,7 @@ export type Database = {
           repeat?: string
           startDate: string
           title: string
-          type?: string
+          type?: TaskType
           user_id?: string | null
         }
         Update: {
@@ -87,7 +89,7 @@ export type Database = {
           repeat?: string
           startDate?: string
           title?: string
-          type?: string
+          type?: TaskType
           user_id?: string | null
         }
         Relationships: [

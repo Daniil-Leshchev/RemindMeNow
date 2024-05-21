@@ -1,9 +1,10 @@
 import React from 'react';
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
+import { TaskType } from '@/lib/database.types';
 
 type TaskIconProps = {
-  type: string,
+  type: TaskType,
   isSmall: boolean
 }
 

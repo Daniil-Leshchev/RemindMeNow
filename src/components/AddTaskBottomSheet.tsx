@@ -15,6 +15,7 @@ import TaskIcon from '@components/TaskIcon';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
+import { TaskType } from '@/lib/database.types';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -37,7 +38,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const [title, setTitle] = useState('');
   const [type, setType] = useState<TaskType | ''>('');
 
-  type TaskType = 'standard' | 'prior' | 'event';
   const taskTypes: { [key in TaskType]: string } = {
     'standard': 'задача',
     'prior': 'важное',
