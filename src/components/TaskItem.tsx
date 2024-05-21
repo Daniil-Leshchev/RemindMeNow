@@ -1,6 +1,6 @@
 import { Animated, Pressable, StyleSheet, View } from 'react-native';
 import Text from "@/components/StyledText";
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Image } from 'expo-image';
@@ -23,6 +23,7 @@ type TaskView = {
 const TaskItem = ({ task, isTodayView }: TaskView) => {
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: updateTaskStatus } = useUpdateTaskStatus();
+  const swipeable = useRef<Swipeable>(null);
 
   const timeFormat = "HH:mm";
   const formatDate = () => {
@@ -41,13 +42,23 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
         extrapolate: 'clamp'
       });
 
-      const completeTask = (task: TaskView['task']) => {
-        updateTaskStatus({ status: 'completed', id: task.id });
+      //TODO: если задача наоборот выполнена, а мы нажимаем сюда, то она становится снова невыполненной
+      //то есть мы читаем, что лежит там сейчас, а после, на основе этого меняем все на противоположное
+      const changeTaskStatus = (task: TaskView['task']) => {
+        if (task.status === 'active') {
+          updateTaskStatus({ status: 'completed', id: task.id });
+        }
+
+        else if (task.status === 'completed') {
+          updateTaskStatus({ status: 'active', id: task.id });
+        }
+
+        swipeable.current?.close();
       }
 
       return (
         <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
-          <Pressable onPress={() => completeTask(task)}>
+          <Pressable onPress={() => changeTaskStatus(task)}>
             <Image
               source={require('@assets/icons/swipeableActions/tick.svg')}
               style={{ width: 27, height: 22}}
@@ -72,11 +83,12 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
     }
     return (
       <Swipeable
+        ref={swipeable}
         onSwipeableWillClose={() => setOpacity(0)}
         onSwipeableWillOpen={() => setOpacity(1)}
         renderRightActions={rightSwipe}
         rightThreshold={20}>
-        <View style={[styles.taskContainer, styles.androidShadow]}>
+        <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground}]}>
           <TaskIcon type={task.type} isSmall={false}/>
           <Text style={styles.title}>{task.title}</Text>
           { task.isAllDay ? 

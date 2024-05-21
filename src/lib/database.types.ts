@@ -63,7 +63,7 @@ export type Database = {
           startDate: string
           status: TaskStatus
           title: string
-          type: string
+          type: TaskType
           user_id: string | null
         }
         Insert: {
@@ -78,7 +78,7 @@ export type Database = {
           startDate: string
           status?: TaskStatus
           title: string
-          type?: string
+          type?: TaskType
           user_id?: string | null
         }
         Update: {
@@ -93,7 +93,7 @@ export type Database = {
           startDate?: string
           status?: TaskStatus
           title?: string
-          type?: string
+          type?: TaskType
           user_id?: string | null
         }
         Relationships: [

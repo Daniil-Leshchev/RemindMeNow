@@ -19,7 +19,6 @@ export const useUpdateTaskStatus = () => {
     },
 
     async onSuccess(_, { id }) {
-      console.log('success', id);
       await queryClient.invalidateQueries({ queryKey: ['tasks'] });
       await queryClient.invalidateQueries({ queryKey: ['tasks', id] });
     }
