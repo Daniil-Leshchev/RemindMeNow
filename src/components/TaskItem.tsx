@@ -6,6 +6,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Image } from 'expo-image';
 import moment from 'moment';
 import { Tables } from '@/lib/database.types';
+import { useDeleteTask } from '@/api/delete';
 
 const colors = {
   background: '#8A9DCDB5',
@@ -18,11 +19,12 @@ type TaskView = {
 }
 
 const TaskItem = ({ task, isTodayView }: TaskView) => {
+  const { mutate: deleteTask } = useDeleteTask();
+
   const timeFormat = "HH:mm";
   const formatDate = () => {
     const start = moment(task.startDate).local().format(timeFormat);
     const end = moment(task.endDate).local().format(timeFormat);
-    console.log(task.title, task.startDate);
     return `${start} – ${end}`;
   }
 
@@ -52,7 +54,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
             />
           </Pressable>
 
-          <Pressable>
+          <Pressable onPress={() => deleteTask(task.id)}>
             <Image
               source={require('@assets/icons/swipeableActions/trashCan.svg')}
               style={{ width: 32, height: 32}}

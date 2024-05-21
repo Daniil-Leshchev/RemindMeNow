@@ -29,7 +29,7 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
   const { data: tasks, refetch, isRefetching } = useCurrentDayTasks();
   
   useEffect(() => {
-    refetch({throwOnError: true});
+    refetch({ throwOnError: true });
   }, [currentDay]);
 
   if (isRefetching) {

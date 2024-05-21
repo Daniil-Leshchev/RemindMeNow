@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import { InsertTables } from "@/lib/helperTypes";
-import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/providers/AuthProvider";
 
 export const useInsertTask = () => {
@@ -21,7 +21,7 @@ export const useInsertTask = () => {
     },
 
     async onSuccess() {
-      await queryClient.invalidateQueries(['tasks']);
+      await queryClient.invalidateQueries({ queryKey: ['tasks'] });
     }
   })
 }
