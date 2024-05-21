@@ -7,10 +7,12 @@ import { Image } from 'expo-image';
 import moment from 'moment';
 import { Tables } from '@/lib/database.types';
 import { useDeleteTask } from '@/api/delete';
+import { useUpdateTaskStatus } from '@/api/update';
 
 const colors = {
   background: '#8A9DCDB5',
-  shadow: '#5B64AE33'
+  shadow: '#5B64AE33',
+  completedBackground: '#9ADC9DCF'
 }
 
 type TaskView = {
@@ -20,6 +22,7 @@ type TaskView = {
 
 const TaskItem = ({ task, isTodayView }: TaskView) => {
   const { mutate: deleteTask } = useDeleteTask();
+  const { mutate: updateTaskStatus } = useUpdateTaskStatus();
 
   const timeFormat = "HH:mm";
   const formatDate = () => {
@@ -38,9 +41,13 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
         extrapolate: 'clamp'
       });
 
+      const completeTask = (task: TaskView['task']) => {
+        updateTaskStatus({ status: 'completed', id: task.id });
+      }
+
       return (
         <Animated.View style={[styles.actions, { opacity, transform: [{translateX: trans}] }]}>
-          <Pressable>
+          <Pressable onPress={() => completeTask(task)}>
             <Image
               source={require('@assets/icons/swipeableActions/tick.svg')}
               style={{ width: 27, height: 22}}
