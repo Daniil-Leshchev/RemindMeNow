@@ -223,7 +223,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     if (index === 2)
       titleInput.current?.focus();
   };
-  
+
   const { mutate: insertTask } = useInsertTask();
   const saveTask = () => {
     const task: InsertTables<'tasks'> = {

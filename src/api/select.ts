@@ -4,7 +4,7 @@ import { useCurrentDay } from "@/providers/CurrentDayProvider";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
 
-const formatDate = (date: Date) => {
+const formatToDate = (date: Date) => {
   return moment(date).format('yyyy-MM-DD');
 }
 
@@ -29,8 +29,8 @@ export const useTodayTasks = () => {
         .from('tasks')
         .select('*')
         .eq('user_id', userId)
-        .gte('startDate', formatDate(currentDay))
-        .lte('startDate', formatDate(nextDay))
+        .gte('startDate', formatToDate(currentDay))
+        .lte('startDate', formatToDate(nextDay))
         .order('startDate');
       if (error)
         throw new Error(error.message);
@@ -58,8 +58,8 @@ export const useCurrentDayTasks = () => {
         .from('tasks')
         .select('*')
         .eq('user_id', userId)
-        .gte('startDate', formatDate(currentDay))
-        .lte('startDate', formatDate(nextDay))
+        .gte('startDate', formatToDate(currentDay))
+        .lte('startDate', formatToDate(nextDay))
         .order('startDate');
       if (error)
         throw new Error(error.message);
