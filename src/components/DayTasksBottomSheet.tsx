@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef } from 'react';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetBackdropProps, BottomSheetFlatList } from '@gorhom/bottom-sheet';
@@ -44,11 +44,11 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
           enablePanDownToClose={true}
           handleIndicatorStyle={{ display: 'none' }}>
             <Text style={[styles.header, styles.refetchingHeader]}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>
-            <ActivityIndicator
+            {/* <ActivityIndicator
               style={styles.refetchingIndicator}
               color={'#999999'}
               size={'large'}
-            />
+            /> */}
             <AddTaskButton onPress={handleOpenAddTaskBottomSheet} customStyles={[styles.addTaskButton, styles.refetchingAddTaskButton]}/>
         </BottomSheet>
       </>
