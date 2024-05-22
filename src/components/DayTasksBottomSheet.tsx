@@ -44,11 +44,6 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
           enablePanDownToClose={true}
           handleIndicatorStyle={{ display: 'none' }}>
             <Text style={[styles.header, styles.refetchingHeader]}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>
-            {/* <ActivityIndicator
-              style={styles.refetchingIndicator}
-              color={'#999999'}
-              size={'large'}
-            /> */}
             <AddTaskButton onPress={handleOpenAddTaskBottomSheet} customStyles={[styles.addTaskButton, styles.refetchingAddTaskButton]}/>
         </BottomSheet>
       </>

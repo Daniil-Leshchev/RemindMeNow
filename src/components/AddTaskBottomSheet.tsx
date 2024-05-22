@@ -152,10 +152,6 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
       Alert.alert('Название обязательно');
       return false;
     }
-    if (!type) {
-      Alert.alert('Тип обязателен');
-      return false;
-    }
     if (!validateDates())
       return false;
     return true;
