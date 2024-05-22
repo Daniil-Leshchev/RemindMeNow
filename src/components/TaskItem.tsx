@@ -23,7 +23,7 @@ type TaskView = {
 const TaskItem = ({ task, isTodayView }: TaskView) => {
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: updateTaskStatus } = useUpdateTaskStatus();
-  const swipeable = useRef<Swipeable>(null);
+  const actionList = useRef<Swipeable>(null);
 
   const timeFormat = "HH:mm";
   const formatDate = () => {
@@ -53,7 +53,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
           updateTaskStatus({ status: 'active', id: task.id });
         }
 
-        swipeable.current?.close();
+        actionList.current?.close();
       }
 
       return (
@@ -83,12 +83,12 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
     }
     return (
       <Swipeable
-        ref={swipeable}
+        ref={actionList}
         onSwipeableWillClose={() => setOpacity(0)}
         onSwipeableWillOpen={() => setOpacity(1)}
         renderRightActions={rightSwipe}
         rightThreshold={20}>
-        <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground}]}>
+        <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground }]}>
           <TaskIcon type={task.type} isSmall={false}/>
           <Text style={styles.title}>{task.title}</Text>
           { task.isAllDay ? 
@@ -100,7 +100,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
   }
 
   return (
-    <View style={[styles.taskContainer, styles.androidShadow]}>
+    <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground}]}>
       <TaskIcon type={task.type} isSmall={false}/>
       <Text style={styles.title}>{task.title}</Text>
       { task.isAllDay ? 
