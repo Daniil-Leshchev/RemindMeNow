@@ -90,7 +90,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
         rightThreshold={20}>
         <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground }]}>
           <TaskIcon type={task.type} isSmall={false}/>
-          <Text style={styles.title}>{task.title}</Text>
+          <Text style={styles.title} numberOfLines={2}>{task.title}</Text>
           { task.isAllDay ? 
             <Text style={styles.time}>весь день</Text> :
             <Text style={styles.time}>{formatDate()}</Text>}
@@ -102,7 +102,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
   return (
     <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground}]}>
       <TaskIcon type={task.type} isSmall={false}/>
-      <Text style={styles.title}>{task.title}</Text>
+      <Text style={[styles.title, !task.isAllDay ? styles.todayTitleWithTime : styles.todayTitle]} numberOfLines={2}>{task.title}</Text>
       { task.isAllDay ? 
         <Text style={styles.time}>весь день</Text> :
         <Text style={styles.time}>{formatDate()}</Text>}
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 20,
     paddingLeft: 18,
-    paddingRight: 28,
+    paddingRight: 26,
     backgroundColor: colors.background,
     borderRadius: 20,
     alignItems: 'center',
@@ -125,11 +125,20 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 4},
     shadowRadius: 4,
     shadowOpacity: 1,
+    maxHeight: 84,
   },
 
   title: {
     fontSize: 16,
     maxWidth: 160,
+  },
+
+  todayTitle: {
+    maxWidth: 160
+  },
+
+  todayTitleWithTime: {
+    maxWidth: 130
   },
 
   time: {
