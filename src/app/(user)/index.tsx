@@ -117,6 +117,7 @@ export default function MainScreen() {
               ref={swiper}
               showsPagination={false}
               loop={false}
+              loadMinimal={false}
               onIndexChanged={ind => {
                 if (ind == 1) {
                   return;
@@ -141,7 +142,6 @@ export default function MainScreen() {
                       <Pressable
                         key={dateIndex}
                         onPress={() => chooseDay(item.date)}>
-                          {/* тут проблема, что при setValue при клике на даты swiper немного прокручивается вправо*/}
                           <View
                             style={[
                               styles.dayItem,
@@ -189,7 +189,7 @@ const styles =  StyleSheet.create({
 
   todayTasksContainer: {
     marginBottom: 20,
-    height: '58%',//TODO: заменить тут на адаптивный вариант
+    height: '58%',
     width: '100%',
     borderRadius: 20,
     backgroundColor: colors.background,

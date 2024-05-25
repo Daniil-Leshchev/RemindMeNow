@@ -42,8 +42,6 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
         extrapolate: 'clamp'
       });
 
-      //TODO: если задача наоборот выполнена, а мы нажимаем сюда, то она становится снова невыполненной
-      //то есть мы читаем, что лежит там сейчас, а после, на основе этого меняем все на противоположное
       const changeTaskStatus = (task: TaskView['task']) => {
         if (task.status === 'active') {
           updateTaskStatus({ status: 'completed', id: task.id });
