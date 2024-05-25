@@ -91,6 +91,10 @@ export default function MainScreen() {
                 paddingHorizontal: 14
               }}
               showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <Text style={styles.noTasksForToday}>У вас нет задач на сегодня</Text>
+              }
+              ListHeaderComponentStyle={tasks?.length === 0 ? { display: 'none' } : { display: 'flex' }}
             />
           </Pressable>
 
@@ -279,5 +283,11 @@ const styles =  StyleSheet.create({
 
   fetchingError: {
     fontSize: 18
+  },
+
+  noTasksForToday: {
+    alignSelf: 'center',
+    marginTop: 16,
+    fontSize: 20,
   }
 })
