@@ -117,7 +117,9 @@ export default function MainScreen() {
               ref={swiper}
               showsPagination={false}
               loop={false}
-              loadMinimal={false}
+              horizontal={true}
+              loadMinimal={true}
+              removeClippedSubviews={true}
               onIndexChanged={ind => {
                 if (ind == 1) {
                   return;
@@ -126,13 +128,8 @@ export default function MainScreen() {
                   const newIndex = ind == 0 ? -periodRange : periodRange;
                   const newPeriod = period + newIndex;
                   setPeriod(newPeriod);
-                  if (Platform.OS === 'ios') {
-                    swiper.current?.scrollTo(1, false);
-                  }
-                  else {
-                    swiper.current?.scrollTo(1, true);
-                  }
-                }, 1);
+                  swiper.current?.scrollTo(1, false);
+                }, 100);
               }}>
               {periods.map((dates, index) => (
                 <View key={index} style={styles.scrollableCalendar}>
