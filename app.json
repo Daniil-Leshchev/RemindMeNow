@@ -53,7 +53,7 @@
     },
     "android": {
       "package": "io.expo.client",
-      "googleServicesFile": "remindmenow-e6474-firebase-adminsdk-fcnja-21a1c1244b.json"
+      "googleServicesFile": "remindmenow.json"
     }
   }
 }
