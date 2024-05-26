@@ -6,7 +6,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export type TaskType = 'standard' | 'prior' | 'event';
+export type TaskType = 'standard' | 'prior' | 'event' | null;
 export type TaskStatus = 'active' | 'completed';
 
 export type Database = {

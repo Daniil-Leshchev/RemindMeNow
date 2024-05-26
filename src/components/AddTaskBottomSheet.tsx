@@ -36,7 +36,7 @@ const colors = {
 
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet, hasDay}, ref) => {
   const [title, setTitle] = useState('');
-  const [type, setType] = useState<TaskType | ''>('');
+  const [type, setType] = useState<TaskType>(null);
 
   const taskTypes: { [key in TaskType]: string } = {
     'standard': 'задача',
@@ -168,7 +168,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const resetFields = () => {
     resetDates();
     setTitle('');
-    setType('');
+    setType(null);
     setIsAllDay(false);
     setRepeat('never');
     setReminder('no');
@@ -222,7 +222,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
 
   const { mutate: insertTask } = useInsertTask();
   const saveTask = () => {
-    const newType = type === '' ? 'standard' : type;
+    const newType = type === null ? 'standard' : type;
     const task: InsertTables<'tasks'> = {
       title,
       type: newType,
@@ -264,7 +264,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           />
           
           <View style={styles.typeItem}>
-            <View style={{ display: type === '' ? 'none' : 'flex'}}>
+            <View style={{ display: type === null ? 'none' : 'flex'}}>
               <TaskIcon
                 type={type}
                 isSmall
@@ -273,7 +273,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             <Text
               style={styles.text}
               onPress={handleTypeContainerVisibility}>
-                { type === '' ? 'Тип' : taskTypes[type] }
+                { type === null ? 'Тип' : taskTypes[type] }
             </Text>
           </View>
         </View>
