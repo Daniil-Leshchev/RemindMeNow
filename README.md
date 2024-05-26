@@ -2,7 +2,7 @@
 Мобильное приложение, которое помогает пользователю организовать свой день, благодаря возможности добавлять задачи и расписание по учёбе, ставить напоминания
 
 ## Ссылки
-[Скачать последний релиз](https://github.com/Daniil-Leshchev/RemindMeNow/releases/download/v1.0.0/RemindMeNow.apk)\
+[Скачать последний релиз](https://github.com/Daniil-Leshchev/RemindMeNow/releases/latest/download/RemindMeNow.apk)\
 [Карточка проекта](https://project.ai-info.ru/teams/urfskul)
 
 ## Основные функции

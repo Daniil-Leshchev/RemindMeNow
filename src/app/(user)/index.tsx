@@ -135,7 +135,7 @@ export default function MainScreen() {
                   else {
                     swiper.current?.scrollTo(1, true);
                   }
-                }, 100);
+                }, 1);
               }}>
               {periods.map((dates, index) => (
                 <View key={index} style={styles.scrollableCalendar}>
