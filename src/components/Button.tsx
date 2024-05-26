@@ -6,14 +6,15 @@ import Text from "@/components/StyledText";
 type ButtonProps = {
   text: string,
   fontSize: number,
+  fontColor: string,
   style: StyleProp<ViewStyle> | null
 } & React.ComponentPropsWithoutRef<typeof Pressable>;
 
 const Button = forwardRef<View | null, ButtonProps>(
-  ({ text, fontSize, ...pressableProps }, ref) => {
+  ({ text, fontSize, fontColor, ...pressableProps }, ref) => {
     return (
       <Pressable ref={ref} {...pressableProps} style={[styles.container, pressableProps.style]}>
-        <Text style={[styles.text, {fontSize: fontSize}]}>{text}</Text>
+        <Text style={[styles.text, {fontSize: fontSize, color: fontColor}]}>{text}</Text>
       </Pressable>
     );
   }

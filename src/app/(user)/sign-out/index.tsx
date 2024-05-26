@@ -23,12 +23,14 @@ export default function SignOutScreen() {
         <Button
           text='Нет'
           fontSize={22}
+          fontColor='#fff'
           onPress={() => router.push('/(user)')}
           style={[styles.button, styles.noButton]}
         />
         <Button
           text='Да'
           fontSize={22}
+          fontColor='#fff'
           onPress={signOut}
           style={[styles.button, styles.yesButton]}
         />

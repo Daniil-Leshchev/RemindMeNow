@@ -4,11 +4,11 @@
     "slug": "ReminderApp",
     "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/production/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash-3.png",
+      "image": "./assets/production/splash-3.png",
       "resizeMode": "contain",
       "backgroundColor": "#000"
     },
@@ -16,7 +16,7 @@
       "**/*"
     ],
     "adaptiveIcon": {
-      "foregroundImage": "./assets/images/adaptive-icon.png",
+      "foregroundImage": "./assets/production/adaptive-icon.png",
       "backgroundColor": "#000"
     },
     "ios": {
@@ -26,7 +26,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/production/favicon.png"
     },
     "plugins": [
       "expo-router",

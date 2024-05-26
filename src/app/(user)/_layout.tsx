@@ -98,7 +98,7 @@ export default function MenuStack() {
         />
 
         <Drawer.Screen
-          name="stars/index"
+          name="stars"
           options={{
             drawerLabel: 'Мои звезды',
             title: '',
