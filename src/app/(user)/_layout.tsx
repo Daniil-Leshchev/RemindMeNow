@@ -112,7 +112,7 @@ export default function MenuStack() {
         />
 
         <Drawer.Screen
-          name="lives/index"
+          name="lives"
           options={{
             drawerLabel: 'Мои жизни', 
             title: '',
