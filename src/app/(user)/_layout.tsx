@@ -140,7 +140,7 @@ export default function MenuStack() {
         />
 
         <Drawer.Screen
-          name="sign-out/index"
+          name="sign-out"
           options={{
             drawerLabel: 'Выйти', 
             title: '',
