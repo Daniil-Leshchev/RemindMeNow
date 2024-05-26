@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -14,6 +14,7 @@ import { useCurrentDay } from '@/providers/CurrentDayProvider';
 import TaskItem from '@/components/TaskItem';
 import LoadingScreen from '@/components/LoadingScreen';
 import { useTodayTasks } from '@/api/select';
+import { sortTasks } from '@/components/DayTasksBottomSheet';
 
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -83,7 +84,7 @@ export default function MainScreen() {
               ListHeaderComponent={
                 <Text style={styles.todayTasksHeader}>Задачи на сегодня:</Text>
               }
-              data={tasks}
+              data={tasks?.sort(sortTasks)}
               renderItem={({item}) => <TaskItem task={item} isTodayView={true}/>}
               contentContainerStyle={{
                 gap: 22,

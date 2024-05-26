@@ -59,8 +59,7 @@ export const useCurrentDayTasks = () => {
         .select('*')
         .eq('user_id', userId)
         .gte('startDate', formatToDate(currentDay))
-        .lte('startDate', formatToDate(nextDay))
-        .order('startDate');
+        .lte('startDate', formatToDate(nextDay));
       if (error)
         throw new Error(error.message);
       return data;

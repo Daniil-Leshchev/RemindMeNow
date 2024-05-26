@@ -222,9 +222,10 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
 
   const { mutate: insertTask } = useInsertTask();
   const saveTask = () => {
+    const newType = type === '' ? 'standard' : type;
     const task: InsertTables<'tasks'> = {
       title,
-      type,
+      type: newType,
       isAllDay,
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
