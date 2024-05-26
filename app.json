@@ -52,7 +52,8 @@
       "url": "https://u.expo.dev/138a9530-22dd-428e-8236-08e5f76c9e58"
     },
     "android": {
-      "package": "io.expo.client"
+      "package": "io.expo.client",
+      "googleServicesFile": "remindmenow-e6474-firebase-adminsdk-fcnja-21a1c1244b.json"
     }
   }
 }

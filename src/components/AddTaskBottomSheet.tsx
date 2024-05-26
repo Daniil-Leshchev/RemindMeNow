@@ -16,6 +16,8 @@ import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typesc
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { TaskType } from '@/lib/database.types';
+import { notifyUser } from '@/lib/notifications';
+import { useAuth } from '@/providers/AuthProvider';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -37,6 +39,7 @@ const colors = {
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet, hasDay}, ref) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState<TaskType>(null);
+  const { profile } = useAuth();
 
   const taskTypes: { [key in TaskType]: string } = {
     'standard': 'задача',
@@ -87,7 +90,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     }
   }
 
-  const [notes, setNotes] = useState(null);
+  const [notes, setNotes] = useState('');
 
   const dateFormat = "D MMMM[,] yyyy";
   const timeFormat = "LT";
@@ -173,7 +176,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     setRepeat('never');
     setReminder('no');
     setAttachment(null);
-    setNotes(null);
+    setNotes('');
   }
 
   const addTask = () => {
@@ -185,6 +188,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     saveTask();
     handleCloseBottomSheet();
     resetFields();
+    notifyUser(profile);
   }
 
   type CustomCancelButtonProps = {
