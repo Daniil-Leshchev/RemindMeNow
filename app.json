@@ -53,7 +53,7 @@
     },
     "android": {
       "package": "io.expo.client",
-      "googleServicesFile": "remindmenow.json"
+      "googleServicesFile": "google-services.json"
     }
   }
 }
