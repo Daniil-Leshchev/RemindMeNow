@@ -15,7 +15,7 @@ export default function GuideScreen() {
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }}/>
       <View style={styles.navigation}>
-        <Link href={'/'} asChild>
+        <Link href={'/guide/createTask'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/guide/navigation/blue.svg')}
