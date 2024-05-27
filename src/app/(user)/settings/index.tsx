@@ -66,7 +66,7 @@ export default function SettingsScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'/settings/moreAboutLives'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/heart.svg')}
