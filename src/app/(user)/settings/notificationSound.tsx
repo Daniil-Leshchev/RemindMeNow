@@ -6,7 +6,8 @@ import { Image } from 'expo-image';
 
 const colors = {
   header: '#797979',
-  item: '#F3F3F3'
+  item: '#F3F3F3',
+  text: '#232323'
 }
 
 export default function NotificationSound() {
@@ -92,6 +93,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 18
+    fontSize: 18,
+    color: colors.text
   }
 })

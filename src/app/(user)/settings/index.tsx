@@ -16,7 +16,7 @@ export default function SettingsScreen() {
         }}
       />
       <View style={styles.navigation}>
-        <Link href={'/(user)/settings/notificationSound'} asChild>
+        <Link href={'/settings/notificationSound'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/bell.svg')}
@@ -26,7 +26,7 @@ export default function SettingsScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'/settings/sounds'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/bell-plus.svg')}
