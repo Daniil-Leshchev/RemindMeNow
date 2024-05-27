@@ -38,7 +38,7 @@ export default function GuideScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'/guide/postponeTask'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/guide/navigation/green.svg')}
