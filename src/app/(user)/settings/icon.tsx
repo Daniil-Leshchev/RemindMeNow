@@ -18,17 +18,38 @@ export default function Icon() {
     {
       id: '1',
       label: 'Задачи на сегодня',
-      value: 'today'
+      value: 'today',
+      containerStyle: {
+        backgroundColor: '#F3F3F3',
+        paddingVertical: 18,
+        paddingLeft: 17,
+        width: '100%',
+        borderRadius: 10
+      }
     },
     {
       id: '2',
       label: 'Все задачи',
       value: 'all',
+      containerStyle: {
+        backgroundColor: '#F3F3F3',
+        paddingVertical: 18,
+        paddingLeft: 17,
+        width: '100%',
+        borderRadius: 10
+      }
     },
     {
       id: '3',
       label: 'Выключено',
-      value: 'off'
+      value: 'off',
+      containerStyle: {
+        backgroundColor: '#F3F3F3',
+        paddingVertical: 18,
+        paddingLeft: 17,
+        width: '100%',
+        borderRadius: 10
+      }
     }
   ]), []);
 
