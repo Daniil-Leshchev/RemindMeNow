@@ -77,7 +77,7 @@ export default function MenuStack() {
         />
 
         <Drawer.Screen
-          name="guide/index"
+          name="guide"
           options={{
             drawerLabel: 'Гайд по приложению', 
             title: 'Гайд по приложению', 
