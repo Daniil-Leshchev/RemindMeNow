@@ -64,7 +64,7 @@ export default function GuideScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'guide/changeTheme'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/guide/navigation/violet.svg')}
