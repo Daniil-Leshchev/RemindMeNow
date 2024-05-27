@@ -56,7 +56,7 @@ export default function SettingsScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'/guide'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/loupe.svg')}
@@ -86,7 +86,7 @@ export default function SettingsScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/'} asChild>
+        <Link href={'/schedule'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/schedule.svg')}
