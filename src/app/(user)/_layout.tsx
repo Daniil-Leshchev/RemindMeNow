@@ -42,8 +42,7 @@ export default function MenuStack() {
         headerTitleAlign: 'left',
         headerTransparent: true,
         headerTintColor: '#000',
-        }}
-      >
+      }}>
         <Drawer.Screen 
           name="index"
           options={{
@@ -59,9 +58,9 @@ export default function MenuStack() {
           />
 
         <Drawer.Screen
-          name="settings/index"
+          name="settings"
           options={{
-            drawerLabel: 'Настройки', 
+            drawerLabel: 'Настройки',
             title: 'Настройки', 
             headerTitleStyle: {
               fontFamily: 'Inter-Medium',
