@@ -9,7 +9,7 @@ const colors = {
   header: '#7412B0'
 }
 
-export default function CreateTask() {
+export default function CompleteTask() {
   return (
     <View style={styles.wrapper}>
       <Stack.Screen options={{ headerShown: false }}/>
@@ -19,24 +19,23 @@ export default function CreateTask() {
             source={require('@assets/icons/settings/navigation/back.svg')}
             style={[{ width: 7, height: 14}, styles.back]}
           />
-        <Text style={styles.header}>Как добавить задачу</Text>
+        <Text style={styles.header}>Свайпы</Text>
         </Pressable>
-        <Text style={styles.text}>через кнопку внизу экрана</Text>
+        <Text style={styles.text}>Как сделать задачу выполненной</Text>
         
         <Image
-          source={require('@assets/guide-gifs/create-task.gif')}
+          source={require('@assets/guide-gifs/complete.gif')}
           style={{ width: 240, height: 240 * 2.17 }}
         />
 
         <Text style={styles.text}>
-          Чтобы добавить задачу введите название 
-          внизу экрана и/или нажмите на кнопку “+” 
+          В блоке выбранного дня передвиньте задачу 
+          влево, затем нажмите на галочку
         </Text>
 
         <Text style={styles.text}>
-          Затем выберите тип задачи, начало и конец, 
-          повтор и напоминание, также можно добавить
-          дополнительный текст и вложение
+          Именно выполненная задача принесет Вам 1 звезду,
+          если Вы подключили систему жизней и звёзд
         </Text>
       </View>
     </View>
@@ -66,13 +65,13 @@ const styles = StyleSheet.create({
 
   header: {
     color: colors.header,
-    fontSize: 18,
+    fontSize: 18
   },
 
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 22,
+    gap: 16,
   },
 
   back: {
