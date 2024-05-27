@@ -16,7 +16,7 @@ export default function SettingsScreen() {
         }}
       />
       <View style={styles.navigation}>
-        <Link href={'/'} asChild>
+        <Link href={'/(user)/settings/notificationSound'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image
               source={require('@assets/icons/settings/navigation/bell.svg')}
