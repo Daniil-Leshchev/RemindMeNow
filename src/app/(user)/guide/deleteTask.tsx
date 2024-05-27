@@ -9,7 +9,7 @@ const colors = {
   header: '#7412B0'
 }
 
-export default function CreateTask() {
+export default function DeleteTask() {
   return (
     <View style={styles.wrapper}>
       <Stack.Screen options={{ headerShown: false }}/>
@@ -19,24 +19,23 @@ export default function CreateTask() {
             source={require('@assets/icons/settings/navigation/back.svg')}
             style={[{ width: 7, height: 14}, styles.back]}
           />
-        <Text style={styles.header}>Как добавить задачу</Text>
+        <Text style={styles.header}>Свайпы</Text>
         </Pressable>
-        <Text style={styles.text}>через кнопку внизу экрана</Text>
+        <Text style={styles.text}>Как удалить задачу</Text>
         
         <Image
-          source={require('@assets/guide-gifs/create.gif')}
+          source={require('@assets/guide-gifs/delete.gif')}
           style={{ width: 240, height: 240 * 2.17 }}
         />
 
         <Text style={styles.text}>
-          Чтобы добавить задачу введите название 
-          внизу экрана и/или нажмите на кнопку “+” 
+          В блоке выбранного дня передвиньте задачу 
+          влево, затем нажмите на мусорку, задача 
+          будет удалена
         </Text>
 
         <Text style={styles.text}>
-          Затем выберите тип задачи, начало и конец, 
-          повтор и напоминание, также можно добавить
-          дополнительный текст и вложение
+          Удаленная задача не влияет на количество жизней  
         </Text>
       </View>
     </View>
@@ -66,13 +65,13 @@ const styles = StyleSheet.create({
 
   header: {
     color: colors.header,
-    fontSize: 18,
+    fontSize: 18
   },
 
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 22,
+    gap: 16,
   },
 
   back: {
