@@ -51,7 +51,9 @@ export default function MainScreen() {
   const handleOpenDayBottomSheet = () => dayBottomSheetRef.current?.expand();
   const { setContextDay } = useCurrentDay();
   const chooseDay = (day: Date) => {
-    day.setHours(defaultHours, 0, 0);
+    const now = new Date();
+    day.setHours(now.getHours());
+    day.setMinutes(now.getMinutes());
     setContextDay(day);
     handleOpenDayBottomSheet();
   }

@@ -16,7 +16,6 @@ import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typesc
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { TaskType } from '@/lib/database.types';
-import { notifyUser } from '@/lib/notifications';
 import { useAuth } from '@/providers/AuthProvider';
 
 type AddTaskBottomSheetProps  = {
@@ -165,17 +164,14 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   }
 
   const addTask = () => {
-    if (!validateInput()) {
+    if (!validateInput())
       return;
-    }
-    // Keyboard.dismiss();
     validateDates();
     saveTask();
     handleCloseBottomSheet();
     resetFields();
     if (!profile)
       return
-    notifyUser(profile);
   }
 
   type CustomCancelButtonProps = {

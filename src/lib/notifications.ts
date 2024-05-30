@@ -60,7 +60,6 @@ export async function sendPushNotification(expoPushToken: string, title: string,
     sound: 'default',
     title,
     body,
-    data: { someData: 'goes here'},
   };
 
   await fetch('https://exp.host/--/api/v2/push/send', {

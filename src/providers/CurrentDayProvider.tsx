@@ -8,7 +8,6 @@ const CurrentDayContext = createContext({
 
 const CurrentDayProvider = ({ children }: PropsWithChildren) => {
   const newDate = new Date();
-  newDate.setHours(0, 0, 0, 0);
   const [currentDay, setDay] = useState(newDate);
 
   const setContextDay = (chosenDay: Date) => {
