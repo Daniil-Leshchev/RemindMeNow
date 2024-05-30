@@ -17,7 +17,7 @@ import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { Reminder, TaskType, ReminderValue } from '@/lib/database.types';
 import { schedulePushNotification } from '@/lib/notifications';
-import { useAuth } from '@/providers/AuthProvider';
+import { formatTime } from '@components/TaskItem';
 
 type AddTaskBottomSheetProps  = {
   handleCloseBottomSheet: () => void,
@@ -39,7 +39,6 @@ const colors = {
 const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({handleCloseBottomSheet, hasDay}, ref) => {
   const [title, setTitle] = useState('');
   const [type, setType] = useState<TaskType>(null);
-  const { profile } = useAuth();
 
   const taskTypes: { [key in TaskType]: string } = {
     'standard': 'задача',
@@ -166,8 +165,12 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     if (!validateInput())
       return;
     validateDates();
-    if (reminder !== 'no' && !isAllDay)
-      schedulePushNotification(title, calculateNotificationTime());
+    if (reminder !== 'no' && !isAllDay) {
+      let body = null;
+      if (moment(new Date()).local().format("L") == moment(startDate).local().format("L"))
+        body = formatTime(startDate, endDate)
+      schedulePushNotification(title, body, calculateNotificationTime());
+    }
     saveTask();
     handleCloseBottomSheet();
     resetFields();

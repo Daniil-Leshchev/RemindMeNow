@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import TaskIcon from '@components/TaskIcon';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { Image } from 'expo-image';
-import moment from 'moment';
+import moment, { MomentInput } from 'moment';
 import { Tables } from '@/lib/database.types';
 import { useDeleteTask } from '@/api/delete';
 import { useUpdateTaskStatus } from '@/api/update';
@@ -20,19 +20,19 @@ type TaskView = {
   isTodayView: boolean,
 }
 
+const timeFormat = "HH:mm";
+export const formatTime = (startDate : MomentInput, endDate : MomentInput) => {
+  const start = moment(startDate).local().format(timeFormat);
+  const end = moment(endDate).local().format(timeFormat);
+  if (start == end)
+    return start;
+  return `${start} – ${end}`;
+}
+
 const TaskItem = ({ task, isTodayView }: TaskView) => {
   const { mutate: deleteTask } = useDeleteTask();
   const { mutate: updateTaskStatus } = useUpdateTaskStatus();
   const actionList = useRef<Swipeable>(null);
-
-  const timeFormat = "HH:mm";
-  const formatDate = () => {
-    const start = moment(task.startDate).local().format(timeFormat);
-    const end = moment(task.endDate).local().format(timeFormat);
-    if (start == end)
-      return start;
-    return `${start} – ${end}`;
-  }
 
   if (!isTodayView) {
     const [opacity, setOpacity] = useState(0.2);
@@ -93,7 +93,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
           <Text style={styles.title} numberOfLines={2}>{task.title}</Text>
           { task.isAllDay ? 
             <Text style={styles.time}>весь день</Text> :
-            <Text style={styles.time}>{formatDate()}</Text>}
+            <Text style={styles.time}>{formatTime(task.startDate, task.endDate)}</Text>}
         </View>
       </Swipeable>
     )
@@ -105,7 +105,7 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
       <Text style={[styles.title, !task.isAllDay ? styles.todayTitleWithTime : styles.todayTitle]} numberOfLines={2}>{task.title}</Text>
       { task.isAllDay ? 
         <Text style={styles.time}>весь день</Text> :
-        <Text style={styles.time}>{formatDate()}</Text>}
+        <Text style={styles.time}>{formatTime(task.startDate, task.endDate)}</Text>}
     </View>
   )
 }

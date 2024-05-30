@@ -73,10 +73,11 @@ export async function sendPushNotification(expoPushToken: string, title: string,
   });
 }
 
-export async function schedulePushNotification(title: string, date: Date) {
+export async function schedulePushNotification(title: string, body: string | null, date: Date) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title
+      title,
+      body
     },
     trigger: date,
   });
