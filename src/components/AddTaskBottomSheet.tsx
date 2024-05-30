@@ -4,7 +4,7 @@ import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } 
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import { Switch } from 'react-native-switch';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from 'moment';
+import moment, { DurationInputArg2 } from 'moment';
 import 'moment/locale/ru';
 import DropDownPicker from 'react-native-dropdown-picker';
 import * as DocumentPicker from 'expo-document-picker';
@@ -15,7 +15,8 @@ import TaskIcon from '@components/TaskIcon';
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types';
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
-import { TaskType } from '@/lib/database.types';
+import { Reminder, TaskType, ReminderValue } from '@/lib/database.types';
+import { schedulePushNotification } from '@/lib/notifications';
 import { useAuth } from '@/providers/AuthProvider';
 
 type AddTaskBottomSheetProps  = {
@@ -75,7 +76,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const [repeat, setRepeat] = useState('never');
 
   const [reminderDropdownOpen, setReminderDropdownOpen] = useState(false);
-  const [reminder, setReminder] = useState('no');
+  const [reminder, setReminder] = useState<Reminder>('no');
 
   const [attachment, setAttachment] = useState<string | null>(null);
   const pickDocument = async () => {
@@ -126,12 +127,10 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const handleTypeContainerVisibility = () => {
     hideKeyboardOnFocusChange();
     setIsTypeContainerOpen(!isTypeContainerOpen);
-    if (isTypeContainerOpen) {
+    if (isTypeContainerOpen)
       typeContainerHeight.value = withTiming(0, animationConfig);
-    }
-    else {
+    else
       typeContainerHeight.value = withTiming(112, animationConfig);
-    }
   }
 
   const validateInput = () => {
@@ -167,11 +166,11 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     if (!validateInput())
       return;
     validateDates();
+    if (reminder !== 'no' && !isAllDay)
+      schedulePushNotification(title, calculateNotificationTime());
     saveTask();
     handleCloseBottomSheet();
     resetFields();
-    if (!profile)
-      return
   }
 
   type CustomCancelButtonProps = {
@@ -226,6 +225,22 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
         console.warn(error.message);
       }
     })
+  }
+
+  const convertToMomentDuration: { [key in ReminderValue]: DurationInputArg2 } = {
+    'm': 'minutes',
+    'h': 'hours',
+    'd': 'days',
+    'w': 'weeks'
+  } 
+
+  const calculateNotificationTime = () => {
+    if (reminder === 'atTheMoment')
+      return startDate;
+    const value = reminder.slice(0, 2);
+    const time = reminder.slice(-1) as ReminderValue;
+    
+    return moment(startDate).subtract(value, convertToMomentDuration[time]).toDate()
   }
 
   return (
@@ -396,14 +411,14 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
             items={[
               {label: 'Нет', value: 'no'},
               {label: 'В момент события', value: 'atTheMoment'},
-              {label: 'За 5 минут', value: '5m'},
+              {label: 'За 5 минут', value: '05m'},
               {label: 'За 10 минут', value: '10m'},
               {label: 'За 30 минут', value: '30m'},
-              {label: 'За 1 час', value: '1h'},
-              {label: 'За 2 часа', value: '2h'},
-              {label: 'За 1 день', value: '1d'},
-              {label: 'За 2 дня', value: '2d'},
-              {label: 'За неделю', value: '1w'},
+              {label: 'За 1 час', value: '01h'},
+              {label: 'За 2 часа', value: '02h'},
+              {label: 'За 1 день', value: '01d'},
+              {label: 'За 2 дня', value: '02d'},
+              {label: 'За неделю', value: '01w'},
             ]}
           />
         </View>

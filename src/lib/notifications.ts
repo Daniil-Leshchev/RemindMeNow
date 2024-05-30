@@ -73,6 +73,15 @@ export async function sendPushNotification(expoPushToken: string, title: string,
   });
 }
 
+export async function schedulePushNotification(title: string, date: Date) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title
+    },
+    trigger: date,
+  });
+}
+
 const getUserToken = async (userId : string) => {
   const { data } = await supabase
     .from('profiles')

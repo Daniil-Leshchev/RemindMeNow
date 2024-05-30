@@ -7,8 +7,7 @@ const CurrentDayContext = createContext({
 });
 
 const CurrentDayProvider = ({ children }: PropsWithChildren) => {
-  const newDate = new Date();
-  const [currentDay, setDay] = useState(newDate);
+  const [currentDay, setDay] = useState(new Date());
 
   const setContextDay = (chosenDay: Date) => {
     setDay(chosenDay);

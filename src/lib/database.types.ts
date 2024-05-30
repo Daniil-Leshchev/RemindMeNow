@@ -8,6 +8,8 @@ export type Json =
 
 export type TaskType = 'standard' | 'prior' | 'event' | null;
 export type TaskStatus = 'active' | 'completed';
+export type Reminder = 'no' | 'atTheMoment' | '05m' | '10m' | '30m' | '01h' | '02h' | '01d' | '02d' | '01w';
+export type ReminderValue = 'm' | 'h' | 'd' | 'w';
 
 export type Database = {
   public: {
