@@ -99,29 +99,13 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     return moment(date).local().format(format);
   }
 
-  const showStartDatePicker = () => {
-    setStartDatePickerVisibility(true);
-  };
-
-  const hideStartDatePicker = () => {
-    setStartDatePickerVisibility(false);
-  };
-
-  const showEndDatePicker = () => {
-    setEndDatePickerVisibility(true);
-  };
-
-  const hideEndDatePicker = () => {
-    setEndDatePickerVisibility(false);
-  };
-
   const handleConfirmStart = (date: Date) => {
-    hideStartDatePicker();
+    setStartDatePickerVisibility(false);
     setStartDate(date);
   };
 
   const handleConfirmEnd = (date: Date) => {
-    hideEndDatePicker();
+    setEndDatePickerVisibility(false);
     setEndDate(date);
   };
 
@@ -328,8 +312,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           <View style={[styles.groupElement, styles.divider]}>
             <Text style={styles.text}>Начало</Text>
             <View style={styles.chooseDateAndTime}>
-              <Text onPress={showStartDatePicker} style={[styles.text, styles.date]}>{formatDate(startDate, dateFormat)}</Text>
-              <Text onPress={showStartDatePicker} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(startDate, timeFormat)}</Text>
+              <Text onPress={() => setStartDatePickerVisibility(true)} style={[styles.text, styles.date]}>{formatDate(startDate, dateFormat)}</Text>
+              <Text onPress={() => setStartDatePickerVisibility(true)} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(startDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
               date={startDate}
@@ -341,7 +325,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
               onConfirm={handleConfirmStart}
-              onCancel={hideStartDatePicker}
+              onCancel={() => setStartDatePickerVisibility(false)}
               buttonTextColorIOS={'#fff'}
               accentColor={colors.datePickerAccent}
               pickerContainerStyleIOS={styles.datePicker}
@@ -351,8 +335,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
           <View style={styles.groupElement}>
             <Text style={styles.text}>Конец</Text>
             <View style={styles.chooseDateAndTime}>
-              <Text onPress={showEndDatePicker} style={[styles.text, styles.date]}>{formatDate(endDate, dateFormat)}</Text>
-              <Text onPress={showEndDatePicker} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(endDate, timeFormat)}</Text>
+              <Text onPress={() => setEndDatePickerVisibility(true)} style={[styles.text, styles.date]}>{formatDate(endDate, dateFormat)}</Text>
+              <Text onPress={() => setEndDatePickerVisibility(true)} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(endDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
               date={endDate}
@@ -364,7 +348,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
               onConfirm={handleConfirmEnd}
-              onCancel={hideEndDatePicker}
+              onCancel={() => setEndDatePickerVisibility(false)}
               buttonTextColorIOS={'#fff'}
               accentColor={colors.datePickerAccent}
               pickerContainerStyleIOS={styles.datePicker}
