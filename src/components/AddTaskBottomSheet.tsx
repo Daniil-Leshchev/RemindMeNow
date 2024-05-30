@@ -102,6 +102,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   const handleConfirmStart = (date: Date) => {
     setStartDatePickerVisibility(false);
     setStartDate(date);
+    setEndDate(date);
   };
 
   const handleConfirmEnd = (date: Date) => {
@@ -339,7 +340,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               <Text onPress={() => setEndDatePickerVisibility(true)} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(endDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
-              date={endDate}
+              date={startDate}
               locale='ru_RU'
               isVisible={isEndDatePickerVisible}
               mode={isAllDay ? 'date' : (hasDay ? 'time' : 'datetime')}
