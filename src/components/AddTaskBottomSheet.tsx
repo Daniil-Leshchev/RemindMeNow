@@ -320,7 +320,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               locale='ru_RU'
               isVisible={isStartDatePickerVisible}
               mode={isAllDay ? 'date' : (hasDay ? 'time' : 'datetime')}
-              display={Platform.OS === 'ios' ? (hasDay ? 'spinner' : 'inline') : 'default'}
+              display={Platform.OS === 'ios' ? (hasDay && !isAllDay ? 'spinner' : 'inline') : 'default'}
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
@@ -343,7 +343,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               locale='ru_RU'
               isVisible={isEndDatePickerVisible}
               mode={isAllDay ? 'date' : (hasDay ? 'time' : 'datetime')}
-              display={Platform.OS === 'ios' ? (hasDay ? 'spinner' : 'inline') : 'default'}
+              display={Platform.OS === 'ios' ? (hasDay && !isAllDay ? 'spinner' : 'inline') : 'default'}
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
