@@ -19,15 +19,15 @@
     "@react-navigation/drawer": "^6.6.15",
     "@supabase/supabase-js": "^2.43.1",
     "@tanstack/react-query": "^5.37.1",
-    "expo": "~51.0.8",
-    "expo-constants": "~16.0.1",
+    "expo": "~51.0.9",
+    "expo-constants": "~16.0.2",
     "expo-device": "~6.0.2",
     "expo-document-picker": "~12.0.1",
     "expo-font": "~12.0.5",
     "expo-image": "~1.12.9",
     "expo-linear-gradient": "~13.0.2",
     "expo-linking": "~6.3.1",
-    "expo-notifications": "~0.28.3",
+    "expo-notifications": "~0.28.4",
     "expo-router": "~3.5.14",
     "expo-secure-store": "~13.0.1",
     "expo-splash-screen": "~0.27.4",
@@ -44,7 +44,8 @@
     "react-native-screens": "3.31.1",
     "react-native-swiper": "^1.6.0",
     "react-native-switch": "^1.5.1",
-    "react-native-url-polyfill": "^2.0.0"
+    "react-native-url-polyfill": "^2.0.0",
+    "expo-updates": "~0.25.15"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

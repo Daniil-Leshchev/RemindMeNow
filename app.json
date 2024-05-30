@@ -2,7 +2,7 @@
   "expo": {
     "name": "RemindMeNow",
     "slug": "ReminderApp",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "orientation": "portrait",
     "icon": "./assets/production/icon.png",
     "scheme": "myapp",
@@ -50,10 +50,6 @@
     },
     "updates": {
       "url": "https://u.expo.dev/138a9530-22dd-428e-8236-08e5f76c9e58"
-    },
-    "android": {
-      "package": "io.expo.client",
-      "googleServicesFile": "google-services.json"
     }
   }
 }
