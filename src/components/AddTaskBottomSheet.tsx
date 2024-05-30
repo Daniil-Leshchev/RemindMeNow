@@ -116,13 +116,13 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
   };
 
   const handleConfirmStart = (date: Date) => {
-    setStartDate(date);
     hideStartDatePicker();
+    setStartDate(date);
   };
 
   const handleConfirmEnd = (date: Date) => {
-    setEndDate(date);
     hideEndDatePicker();
+    setEndDate(date);
   };
 
   const handleTypeChange = (taskType: TaskType) => {
@@ -188,6 +188,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
     saveTask();
     handleCloseBottomSheet();
     resetFields();
+    if (!profile)
+      return
     notifyUser(profile);
   }
 
