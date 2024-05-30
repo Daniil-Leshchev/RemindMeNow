@@ -29,6 +29,8 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
   const formatDate = () => {
     const start = moment(task.startDate).local().format(timeFormat);
     const end = moment(task.endDate).local().format(timeFormat);
+    if (start == end)
+      return start;
     return `${start} – ${end}`;
   }
 

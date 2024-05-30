@@ -16,7 +16,7 @@ const colors = {
   addTaskButton: '#AEBAE4'
 }
 
-export const sortTasks = (a: Tables<'tasks'>, b: Tables<'tasks'>) => {
+export const tasksSorting = (a: Tables<'tasks'>, b: Tables<'tasks'>) => {
   //по статусу
   if (a.status === 'active' && b.status === 'completed') {
     return -1;
@@ -121,8 +121,8 @@ const DayTasksBottomSheet = forwardRef<BottomSheet>((_, ref) => {
         handleIndicatorStyle={{ display: 'none' }}>
           <BottomSheetFlatList
             ListHeaderComponent={<Text style={styles.header}>{moment(currentDay).local().format('dddd[,] D MMMM')}</Text>}
-            data={tasks?.sort(sortTasks)}
-            renderItem={({item, index}) => <TaskItem task={item} isTodayView={false}/>}
+            data={tasks?.sort(tasksSorting)}
+            renderItem={({ item }) => <TaskItem task={item} isTodayView={false}/>}
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{
               paddingHorizontal: 16,
