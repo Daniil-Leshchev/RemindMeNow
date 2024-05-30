@@ -1,4 +1,4 @@
-import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent } from 'react-native';
+import { View, StyleSheet, TextInput, Keyboard, TouchableHighlight, Pressable, Alert, GestureResponderEvent, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
@@ -334,7 +334,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               locale='ru_RU'
               isVisible={isStartDatePickerVisible}
               mode={isAllDay ? 'date' : (hasDay ? 'time' : 'datetime')}
-              display={hasDay ? 'spinner' : 'inline'}
+              display={Platform.OS === 'ios' ? (hasDay ? 'spinner' : 'inline') : 'default'}
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
@@ -353,11 +353,11 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
               <Text onPress={showEndDatePicker} style={[styles.text, { display: isAllDay ? 'none' : 'flex' }]}>{formatDate(endDate, timeFormat)}</Text>
             </View>
             <DateTimePickerModal
-              date={startDate}
+              date={endDate}
               locale='ru_RU'
               isVisible={isEndDatePickerVisible}
               mode={isAllDay ? 'date' : (hasDay ? 'time' : 'datetime')}
-              display={hasDay ? 'spinner' : 'inline'}
+              display={Platform.OS === 'ios' ? (hasDay ? 'spinner' : 'inline') : 'default'}
               confirmTextIOS='Подтвердить'
               cancelTextIOS='Отменить'
               customCancelButtonIOS={CustomCancelButton}
