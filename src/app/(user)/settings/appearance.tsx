@@ -87,7 +87,6 @@ export default function Appearance() {
           </Pressable>
 
           <Pressable style={styles.item} onPress={() => handleChangeTheme('orange')}>
-            
             <LinearGradient
               colors={['#FED689', '#E7AA59', '#C66A15', '#CC520E']}
               style={styles.gradientBlock}>
@@ -214,8 +213,6 @@ const styles = StyleSheet.create({
   },
 
   settingsContainer: {
-    paddingHorizontal: 54,
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
@@ -235,11 +232,12 @@ const styles = StyleSheet.create({
 
   item: {
     width: 120,
+    maxWidth: '50%',
     alignItems: 'center'
   },
 
   gradientBlock: {
-    width: 120,
+    width: '100%',
     height: 140,
     borderRadius: 20,
     marginBottom: 10
