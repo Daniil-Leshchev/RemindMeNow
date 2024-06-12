@@ -20,12 +20,13 @@ import { parseICS } from '@/modeus/parser'
 import { scheduleString } from '@/modeus/scheduleString'
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
+import { supabase } from '@/lib/supabase';
 
 export type ScheduleData = {
-  start: string | undefined,
-  end: string | undefined,
-  location: string | undefined,
-  title: string | undefined
+  start: string | null,
+  end: string | null,
+  location: string | null,
+  title: string | null
 };
 
 const scheduleItems = parseICS(scheduleString);
@@ -74,7 +75,18 @@ export default function MainScreen() {
   const { data: tasks, error, isLoading } = useTodayTasks();
   const { mutate: insertTask } = useInsertTask();
 
-  const addScheduleItem = (item: ScheduleData) => {
+  const addScheduleItem = async (item: ScheduleData) => {
+    if (!item.title || !item.start || !item.end)
+      return;
+    const { data: duplicates } = await
+      supabase
+        .from('tasks')
+        .select('*')
+        .eq('title', item.title)
+        .eq('startDate', item.start);
+    if (duplicates?.length != 0)
+      return;
+
     const task: InsertTables<'tasks'> = {
       title: item.title,
       type: 'standard',

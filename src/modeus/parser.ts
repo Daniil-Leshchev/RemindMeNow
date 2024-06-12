@@ -6,20 +6,21 @@ export const parseICS = (icsString: string) => {
   const events = [];
 
   let event: ScheduleData = {
-    start: undefined,
-    end: undefined,
-    location: undefined,
-    title: undefined,
+    start: null,
+    end: null,
+    location: null,
+    title: null,
   };
+  
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
     if (line === 'BEGIN:VEVENT') {
         event = {
-        start: undefined,
-        end: undefined,
-        location: undefined,
-        title: undefined,
+        start: null,
+        end: null,
+        location: null,
+        title: null,
       };
     }
     else if (line === 'END:VEVENT')
@@ -33,12 +34,15 @@ export const parseICS = (icsString: string) => {
         if (key === 'CATEGORIES')
           event['title'] = value;
         else
-          event[key.toLowerCase()] = value;
+          event['location'] = value;
       }
 
       if (dateMatch) {
         const [_, key, value] = dateMatch;
-        event[key.substring(2).toLowerCase()] = moment(value).utc().format('YYYY-MM-DD HH:mm');
+        if (key === 'DTSTART')
+          event['start'] = moment(value).utc().format('YYYY-MM-DD HH:mm');
+        else
+          event['end'] = moment(value).utc().format('YYYY-MM-DD HH:mm');
       }
     }
   }
