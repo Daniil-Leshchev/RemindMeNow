@@ -1,4 +1,4 @@
-export const schedule = `
+export const scheduleString = `
   BEGIN:VCALENDAR
   VERSION:2.0
   PRODID:-//Custis/Modeus//Schedule Calendar App//RU

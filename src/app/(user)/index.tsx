@@ -16,6 +16,18 @@ import LoadingScreen from '@/components/LoadingScreen';
 import { useTodayTasks } from '@/api/select';
 import { tasksSorting } from '@/components/DayTasksBottomSheet';
 
+import { parseICS } from '@/modeus/parser'
+import { scheduleString } from '@/modeus/scheduleString'
+import { useInsertTask } from '@/api/insert';
+import { InsertTables } from '@/lib/helperTypes';
+
+export type ScheduleData = {
+  start: string | undefined,
+  end: string | undefined,
+  location: string | undefined,
+  title: string | undefined
+};
+
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
@@ -27,8 +39,6 @@ export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
   const [period, setPeriod] = useState(0);
   const periodRange = 4;
-  const defaultHours = 10;
-
   const periods = useMemo(() => {//кэширование полученного результата
     //при изменении period будет меняться, а если не меняется, то результат берем из кэша
     const start = moment().add(period, 'day').startOf('day');
@@ -56,9 +66,38 @@ export default function MainScreen() {
     day.setMinutes(now.getMinutes());
     setContextDay(day);
     handleOpenDayBottomSheet();
+    uploadSchedule();
   }
   
   const { data: tasks, error, isLoading } = useTodayTasks();
+  const { mutate: insertTask } = useInsertTask();
+  const scheduleItems = parseICS(scheduleString);
+
+  const addScheduleItem = (item: ScheduleData) => {
+    const task: InsertTables<'tasks'> = {
+      title: item.title,
+      type: 'standard',
+      isAllDay: false,
+      startDate: item.start,
+      endDate: item.end,
+      repeat: 'never',
+      reminder: 'no',
+      attachment: null,
+      notes: null
+    }
+
+    insertTask(task, {
+      onError(error: Error) {
+        console.warn(error.message);
+      }
+    })
+  }
+
+  const uploadSchedule = () => {
+    for (let item of scheduleItems)
+      addScheduleItem(item);
+  }
+
   if (isLoading)
     return <LoadingScreen/>;
 
