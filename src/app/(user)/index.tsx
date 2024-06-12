@@ -28,6 +28,8 @@ export type ScheduleData = {
   title: string | undefined
 };
 
+const scheduleItems = parseICS(scheduleString);
+
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
   background: '#C0CEFF',
@@ -71,7 +73,6 @@ export default function MainScreen() {
   
   const { data: tasks, error, isLoading } = useTodayTasks();
   const { mutate: insertTask } = useInsertTask();
-  const scheduleItems = parseICS(scheduleString);
 
   const addScheduleItem = (item: ScheduleData) => {
     const task: InsertTables<'tasks'> = {

@@ -38,7 +38,7 @@ export const parseICS = (icsString: string) => {
 
       if (dateMatch) {
         const [_, key, value] = dateMatch;
-        event[key.substring(2).toLowerCase()] = moment(value).format('YYYY-MM-DD HH:mm');
+        event[key.substring(2).toLowerCase()] = moment(value).utc().format('YYYY-MM-DD HH:mm');
       }
     }
   }
