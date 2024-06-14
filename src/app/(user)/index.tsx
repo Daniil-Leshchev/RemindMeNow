@@ -27,10 +27,7 @@ export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
   const [period, setPeriod] = useState(0);
   const periodRange = 4;
-  const defaultHours = 10;
-
-  const periods = useMemo(() => {//кэширование полученного результата
-    //при изменении period будет меняться, а если не меняется, то результат берем из кэша
+  const periods = useMemo(() => {
     const start = moment().add(period, 'day').startOf('day');
     return [-periodRange, 0, periodRange].map(adj => {
       return Array.from({ length: periodRange }).map((_, index) => {
@@ -59,6 +56,7 @@ export default function MainScreen() {
   }
   
   const { data: tasks, error, isLoading } = useTodayTasks();
+
   if (isLoading)
     return <LoadingScreen/>;
 
