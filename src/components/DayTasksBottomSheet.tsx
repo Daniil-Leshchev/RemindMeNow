@@ -17,59 +17,54 @@ const colors = {
 }
 
 export const tasksSorting = (a: Tables<'tasks'>, b: Tables<'tasks'>) => {
-  //по статусу
-  if (a.status === 'active' && b.status === 'completed') {
+  //пары стоят первыми
+  if (a.isSchedule && !b.isSchedule)
     return -1;
-  }
 
-  if (a.status === 'completed' && b.status === 'active') {
+  if (!a.isSchedule && b.isSchedule)
     return 1;
-  }
+
+  //по статусу
+  if (a.status === 'active' && b.status === 'completed')
+    return -1;
+
+  if (a.status === 'completed' && b.status === 'active')
+    return 1;
 
   //по времени
   if (!a.isAllDay && !b.isAllDay) {
-    if (a.startDate < b.startDate) {
+    if (a.startDate < b.startDate)
       return -1;
-    }
   
-    if (a.startDate >= b.startDate) {
+    if (a.startDate >= b.startDate)
       return 1;
-    }
   }
 
   //если это задача со временем, то она идет выше
-  if (!a.isAllDay && b.isAllDay) {
+  if (!a.isAllDay && b.isAllDay)
     return -1;
-  }
 
-  if (a.isAllDay && !b.isAllDay) {
+  if (a.isAllDay && !b.isAllDay)
     return 1;
-  }
 
   //по типу
-  if (a.type === 'prior' && b.type === 'standard') {
+  if (a.type === 'prior' && b.type === 'standard')
     return -1;
-  }
 
-  if (a.type === 'standard' && b.type === 'prior') {
+  if (a.type === 'standard' && b.type === 'prior')
     return 1;
-  }
 
-  if (a.type === 'prior' && b.type === 'event') {
+  if (a.type === 'prior' && b.type === 'event')
     return -1;
-  }
 
-  if (a.type === 'event' && b.type === 'prior') {
+  if (a.type === 'event' && b.type === 'prior')
     return 1;
-  }
 
-  if (a.type === 'event' && b.type === 'standard') {
+  if (a.type === 'event' && b.type === 'standard')
     return -1;
-  }
 
-  if (a.type === 'standard' && b.type === 'event') {
+  if (a.type === 'standard' && b.type === 'event')
     return 1;
-  }
 
   return 0;
 }
