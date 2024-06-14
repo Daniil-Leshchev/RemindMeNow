@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform, Alert } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -17,10 +17,11 @@ import { useTodayTasks } from '@/api/select';
 import { tasksSorting } from '@/components/DayTasksBottomSheet';
 
 import { parseICS } from '@/modeus/parser'
-import { scheduleString } from '@/modeus/scheduleString'
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { supabase } from '@/lib/supabase';
+import * as FileSystem from 'expo-file-system';
+import * as DocumentPicker from 'expo-document-picker';
 
 export type ScheduleData = {
   start: string | null,
@@ -28,8 +29,6 @@ export type ScheduleData = {
   location: string | null,
   title: string | null
 };
-
-const scheduleItems = parseICS(scheduleString);
 
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -42,8 +41,7 @@ export default function MainScreen() {
   const swiper = useRef<Swiper>(null);
   const [period, setPeriod] = useState(0);
   const periodRange = 4;
-  const periods = useMemo(() => {//кэширование полученного результата
-    //при изменении period будет меняться, а если не меняется, то результат берем из кэша
+  const periods = useMemo(() => {
     const start = moment().add(period, 'day').startOf('day');
     return [-periodRange, 0, periodRange].map(adj => {
       return Array.from({ length: periodRange }).map((_, index) => {
@@ -106,9 +104,31 @@ export default function MainScreen() {
     })
   }
 
-  const uploadSchedule = () => {
-    for (let item of scheduleItems)
-      addScheduleItem(item);
+  const uploadSchedule = async () => {
+    let pickerResult = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true });
+    if (pickerResult.canceled) {
+      Alert.alert('Ошибка при загрузке файла');
+      return;
+    }
+
+    let fileUri = pickerResult.assets[0].uri;
+    try {
+      const fileString = await FileSystem.readAsStringAsync(fileUri);
+        await FileSystem.deleteAsync(fileUri);
+
+      const check = /^.*\.ics$/.test(fileUri);
+      if (!check) {
+        Alert.alert('Выберите файл формата .ics');
+        return;
+      }
+
+      for (let item of parseICS(fileString))
+        addScheduleItem(item);
+    }
+    
+    catch (error: unknown) {
+      Alert.alert(`${error}`)
+    } 
   }
 
   if (isLoading)
