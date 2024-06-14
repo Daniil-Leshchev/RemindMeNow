@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet } from 'react-native';
 import Button from '@/components/Button';
 import { parseICS } from '@/modeus/parser'
 import { useInsertTask } from '@/api/insert';
@@ -7,6 +7,7 @@ import { InsertTables } from '@/lib/helperTypes';
 import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
+import Text from "@/components/StyledText";
 
 export type ScheduleData = {
   start: string | null,
@@ -17,6 +18,8 @@ export type ScheduleData = {
 
 export default function ScheduleScreen() {
   const { mutate: insertTask } = useInsertTask();
+  const [errors, setErrors] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const addScheduleItem = async (item: ScheduleData) => {
     if (!item.title || !item.start || !item.end)
       return;
@@ -43,15 +46,16 @@ export default function ScheduleScreen() {
 
     insertTask(task, {
       onError(error: Error) {
-        console.warn(error.message);
+        setErrors(`${error.message}`);
       }
     })
   }
 
   const uploadSchedule = async () => {
+    setErrors('');
     let pickerResult = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true });
     if (pickerResult.canceled) {
-      Alert.alert('Ошибка при загрузке файла');
+      setErrors('Файл не выбран');
       return;
     }
 
@@ -62,17 +66,23 @@ export default function ScheduleScreen() {
 
       const check = /^.*\.ics$/.test(fileUri);
       if (!check) {
-        Alert.alert('Выберите файл формата .ics');
+        setErrors('Выберите файл формата .ics');
         return;
       }
 
       for (let item of parseICS(fileString))
         addScheduleItem(item);
+
+      setSuccessMessage('Расписание успешно добавлено!');
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 3000);
     }
     
     catch (error: unknown) {
-      Alert.alert(`${error}`)
-    } 
+      setErrors(`${error}`);
+      return;
+    }
   }
 
   return (
@@ -84,6 +94,8 @@ export default function ScheduleScreen() {
         onPress={uploadSchedule}
         style={styles.button}
       />
+      <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
+      <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
     </View>
   )
 }
@@ -101,5 +113,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     shadowOpacity: 1,
     elevation: 10,
+  },
+
+  error: {
+    marginTop: -8,
+    fontSize: 16,
+    color: '#e74c3c'
+  },
+
+  success: {
+    marginTop: -8,
+    fontSize: 16,
+    color: '#2ecc71'
   }
 })
