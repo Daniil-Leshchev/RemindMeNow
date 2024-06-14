@@ -221,7 +221,8 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
       repeat,
       reminder,
       attachment,
-      notes
+      notes,
+      isSchedule: false
     }
     insertTask(task, {
       onError(error: Error) {

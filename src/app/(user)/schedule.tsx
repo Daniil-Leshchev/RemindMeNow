@@ -41,7 +41,8 @@ export default function ScheduleScreen() {
       repeat: 'never',
       reminder: 'no',
       attachment: null,
-      notes: null
+      notes: '',
+      isSchedule: true
     }
 
     insertTask(task, {
