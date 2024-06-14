@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform, Alert } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -15,20 +15,6 @@ import TaskItem from '@/components/TaskItem';
 import LoadingScreen from '@/components/LoadingScreen';
 import { useTodayTasks } from '@/api/select';
 import { tasksSorting } from '@/components/DayTasksBottomSheet';
-
-import { parseICS } from '@/modeus/parser'
-import { useInsertTask } from '@/api/insert';
-import { InsertTables } from '@/lib/helperTypes';
-import { supabase } from '@/lib/supabase';
-import * as FileSystem from 'expo-file-system';
-import * as DocumentPicker from 'expo-document-picker';
-
-export type ScheduleData = {
-  start: string | null,
-  end: string | null,
-  location: string | null,
-  title: string | null
-};
 
 export const gradientColors = ['#9FA1E3', '#19287A'];
 const colors = {
@@ -67,69 +53,9 @@ export default function MainScreen() {
     day.setMinutes(now.getMinutes());
     setContextDay(day);
     handleOpenDayBottomSheet();
-    uploadSchedule();
   }
   
   const { data: tasks, error, isLoading } = useTodayTasks();
-  const { mutate: insertTask } = useInsertTask();
-
-  const addScheduleItem = async (item: ScheduleData) => {
-    if (!item.title || !item.start || !item.end)
-      return;
-    const { data: duplicates } = await
-      supabase
-        .from('tasks')
-        .select('*')
-        .eq('title', item.title)
-        .eq('startDate', item.start);
-    if (duplicates?.length != 0)
-      return;
-
-    const task: InsertTables<'tasks'> = {
-      title: item.title,
-      type: 'standard',
-      isAllDay: false,
-      startDate: item.start,
-      endDate: item.end,
-      repeat: 'never',
-      reminder: 'no',
-      attachment: null,
-      notes: null
-    }
-
-    insertTask(task, {
-      onError(error: Error) {
-        console.warn(error.message);
-      }
-    })
-  }
-
-  const uploadSchedule = async () => {
-    let pickerResult = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true });
-    if (pickerResult.canceled) {
-      Alert.alert('Ошибка при загрузке файла');
-      return;
-    }
-
-    let fileUri = pickerResult.assets[0].uri;
-    try {
-      const fileString = await FileSystem.readAsStringAsync(fileUri);
-        await FileSystem.deleteAsync(fileUri);
-
-      const check = /^.*\.ics$/.test(fileUri);
-      if (!check) {
-        Alert.alert('Выберите файл формата .ics');
-        return;
-      }
-
-      for (let item of parseICS(fileString))
-        addScheduleItem(item);
-    }
-    
-    catch (error: unknown) {
-      Alert.alert(`${error}`)
-    } 
-  }
 
   if (isLoading)
     return <LoadingScreen/>;

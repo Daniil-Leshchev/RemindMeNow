@@ -125,7 +125,7 @@ export default function MenuStack() {
         />
 
         <Drawer.Screen
-          name="schedule/index"
+          name="schedule"
           options={{
             drawerLabel: 'Привязать расписание',
             title: '',
