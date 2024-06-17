@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Button from '@/components/Button';
 import { parseICS } from '@/modeus/parser'
@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import Text from "@/components/StyledText";
+import { WebView } from 'react-native-webview';
 
 export type ScheduleData = {
   start: string | null,
@@ -16,10 +17,24 @@ export type ScheduleData = {
   title: string | null
 };
 
+const login = 'Daniil.Leshchev@at.urfu.ru';
+const password = 'Dan220505';
+
+const script = `
+  document.querySelector('#userNameInput').value = '${login}';
+  document.querySelector('#passwordInput').value = '${password}';
+  document.querySelector('#submitButton').click();
+  document.querySelector('#submitButton').click();
+  true;
+`;
+
 export default function ScheduleScreen() {
   const { mutate: insertTask } = useInsertTask();
   const [errors, setErrors] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [scheduleLink, setScheduleLink] = useState('');
+  const webviewRef = useRef<WebView>(null);
+
   const addScheduleItem = async (item: ScheduleData) => {
     if (!item.title || !item.start || !item.end)
       return;
@@ -86,26 +101,60 @@ export default function ScheduleScreen() {
     }
   }
 
+  const handleWebViewNavigationStateChange = (newNavState: any) => {
+    const { url } = newNavState;
+
+    if (!url.includes('schedule')) {
+      const newURL = 'https://istudent.urfu.ru/s/schedule';
+      const redirectTo = 'window.location = "' + newURL + '"';
+      webviewRef.current?.injectJavaScript(redirectTo);
+    }
+    else {
+      webviewRef.current?.injectJavaScript(
+        `
+        setTimeout(() => {
+          const href = document.querySelector('.ical').href;
+          window.ReactNativeWebView.postMessage(href);
+        }, 1000);
+        `
+      )
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <Button
-        text='Прикрепить файл .ics'
-        fontSize={22}
-        fontColor='#fff'
-        onPress={uploadSchedule}
-        style={styles.button}
+    <View style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Button
+          text={'Прикрепить файл .ics'}
+          fontSize={22}
+          fontColor='#fff'
+          onPress={uploadSchedule}
+          style={styles.button}
+        />
+        <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
+        <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
+      </View>
+
+      <WebView
+        ref={webviewRef}
+        style={styles.webview}
+        injectedJavaScript={script}
+        source={{ uri: 'https://istudent.urfu.ru/' }}
+        onNavigationStateChange={handleWebViewNavigationStateChange}
+        onMessage={(event) => {
+          console.log(event.nativeEvent.data)
+          setScheduleLink(event.nativeEvent.data)
+        }}
       />
-      <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
-      <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
 
   button: {
@@ -126,5 +175,9 @@ const styles = StyleSheet.create({
     marginTop: -8,
     fontSize: 16,
     color: '#2ecc71'
+  },
+
+  webview: {
+    display: 'none'
   }
 })
