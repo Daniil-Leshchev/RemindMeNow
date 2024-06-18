@@ -18,6 +18,7 @@ export default function AutoImportScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [urfuLogin, setUrfuLogin] = useState('');
   const [urfuPassword, setUrfuPassword] = useState('');
+  const [isScheduleAdded, setIsScheduleAdded] = useState(false);
 
   if (!profile)
     return;
@@ -104,10 +105,6 @@ export default function AutoImportScreen() {
     })
   }
 
-  const uploadSchedule = async () => {
-    // for (let item of parseICS(fileString))
-    //   addScheduleItem(item);
-  }
 
   const handleWebViewNavigationStateChange = (newNavState: any) => {
     const { url } = newNavState;
@@ -144,12 +141,18 @@ export default function AutoImportScreen() {
       const fileInfo = await FileSystem.getInfoAsync(uri);
       if (fileInfo.exists) {
         const fileContent = await FileSystem.readAsStringAsync(uri);
+        console.log(fileContent);
+        for (let item of parseICS(fileContent))
+          addScheduleItem(item);
         await FileSystem.deleteAsync(uri, { idempotent: true });
       }
     } 
     catch (error) {
       console.error('Ошибка при загрузке файла', error);
+      return;
     }
+
+    setIsScheduleAdded(true);
   };
 
   return (
@@ -192,7 +195,7 @@ export default function AutoImportScreen() {
         </View>
 
         <Text style={[needToSetCredentials ? { display: 'none' } : { display: 'flex' }, styles.syncingText]}>
-          Загрузка расписания...
+          {isScheduleAdded ? 'Расписание успешно загружено' : 'Загрузка расписания...'}
         </Text>
       </View>
 
