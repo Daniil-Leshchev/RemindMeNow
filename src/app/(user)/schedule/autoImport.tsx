@@ -16,7 +16,6 @@ export default function AutoImportScreen() {
   const { profile } = useAuth();
   const [needToSetCredentials, setNeedToSetCredentials] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [urfuLoading, setUrfuLoading] = useState(false);
   const [urfuLogin, setUrfuLogin] = useState('');
   const [urfuPassword, setUrfuPassword] = useState('');
 
@@ -25,7 +24,6 @@ export default function AutoImportScreen() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setUrfuLoading(true);
       const { data, error } = await supabase
         .from('profiles')
         .select('urfu_login, urfu_password')
@@ -44,8 +42,6 @@ export default function AutoImportScreen() {
         setUrfuLogin(urfu_login);
         setUrfuPassword(urfu_password);
       }
-
-      setUrfuLoading(false);
     }
 
     fetchData();
@@ -61,7 +57,6 @@ export default function AutoImportScreen() {
   `;
 
   const { mutate: insertTask } = useInsertTask();
-  const [scheduleLink, setScheduleLink] = useState('');
   const webviewRef = useRef<WebView>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -139,6 +134,24 @@ export default function AutoImportScreen() {
     }
   };
 
+  const downloadAndReadFile = async (url: string) => {
+    try {
+      const { uri } = await FileSystem.downloadAsync(
+        url,
+        FileSystem.documentDirectory + 'schedule.txt'
+      );
+
+      const fileInfo = await FileSystem.getInfoAsync(uri);
+      if (fileInfo.exists) {
+        const fileContent = await FileSystem.readAsStringAsync(uri);
+        await FileSystem.deleteAsync(uri, { idempotent: true });
+      }
+    } 
+    catch (error) {
+      console.error('Ошибка при загрузке файла', error);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: false }}/>
@@ -190,8 +203,7 @@ export default function AutoImportScreen() {
         source={{ uri: 'https://istudent.urfu.ru/' }}
         onNavigationStateChange={handleWebViewNavigationStateChange}
         onMessage={(event) => {
-          console.log(event.nativeEvent.data)
-          setScheduleLink(event.nativeEvent.data)
+          downloadAndReadFile(event.nativeEvent.data);
         }}
       />
     </View>
