@@ -6,16 +6,10 @@ import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
-import * as DocumentPicker from 'expo-document-picker';
 import Text from "@/components/StyledText";
 import { WebView } from 'react-native-webview';
-
-export type ScheduleData = {
-  start: string | null,
-  end: string | null,
-  location: string | null,
-  title: string | null
-};
+import { Stack } from 'expo-router';
+import { ScheduleData } from '@/app/(user)/schedule/main';
 
 const login = 'Daniil.Leshchev@at.urfu.ru';
 const password = 'Dan220505';
@@ -28,10 +22,8 @@ const loginScript = `
   true;
 `;
 
-export default function ScheduleScreen() {
+export default function AutoImportScreen() {
   const { mutate: insertTask } = useInsertTask();
-  const [errors, setErrors] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [scheduleLink, setScheduleLink] = useState('');
   const webviewRef = useRef<WebView>(null);
 
@@ -62,43 +54,14 @@ export default function ScheduleScreen() {
 
     insertTask(task, {
       onError(error: Error) {
-        setErrors(`${error.message}`);
+        console.error(`${error.message}`);
       }
     })
   }
 
   const uploadSchedule = async () => {
-    setErrors('');
-    let pickerResult = await DocumentPicker.getDocumentAsync({ copyToCacheDirectory: true });
-    if (pickerResult.canceled) {
-      setErrors('Файл не выбран');
-      return;
-    }
-
-    let fileUri = pickerResult.assets[0].uri;
-    try {
-      const fileString = await FileSystem.readAsStringAsync(fileUri);
-      await FileSystem.deleteAsync(fileUri);
-
-      const check = /^.*\.ics$/.test(fileUri);
-      if (!check) {
-        setErrors('Выберите файл формата .ics');
-        return;
-      }
-
-      for (let item of parseICS(fileString))
-        addScheduleItem(item);
-
-      setSuccessMessage('Расписание успешно добавлено!');
-      setTimeout(() => {
-        setSuccessMessage('');
-      }, 3000);
-    }
-    
-    catch (error: unknown) {
-      setErrors(`${error}`);
-      return;
-    }
+    // for (let item of parseICS(fileString))
+    //   addScheduleItem(item);
   }
 
   const handleWebViewNavigationStateChange = (newNavState: any) => {
@@ -126,19 +89,13 @@ export default function ScheduleScreen() {
 
   return (
     <View style={{ flex: 1 }}>
+      <Stack.Screen options={{ headerShown: false }}/>
+
       <View style={styles.container}>
-        <Button
-          text={'Прикрепить файл .ics'}
-          fontSize={22}
-          fontColor='#fff'
-          onPress={uploadSchedule}
-          style={styles.button}
-        />
-        <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
-        <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
+        <Text>Some random text</Text>
       </View>
 
-      <WebView
+      {/* <WebView
         ref={webviewRef}
         style={styles.webview}
         injectedJavaScript={loginScript}
@@ -148,7 +105,7 @@ export default function ScheduleScreen() {
           console.log(event.nativeEvent.data)
           setScheduleLink(event.nativeEvent.data)
         }}
-      />
+      /> */}
     </View>
   );
 }
