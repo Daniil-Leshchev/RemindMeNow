@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Button from '@/components/Button';
-import { parseICS } from '@/modeus/parser'
+import { parseICS } from '@/modeus/parser-modeus';
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { supabase } from '@/lib/supabase';
@@ -20,7 +20,7 @@ export type ScheduleData = {
 const login = 'Daniil.Leshchev@at.urfu.ru';
 const password = 'Dan220505';
 
-const script = `
+const loginScript = `
   document.querySelector('#userNameInput').value = '${login}';
   document.querySelector('#passwordInput').value = '${password}';
   document.querySelector('#submitButton').click();
@@ -78,7 +78,7 @@ export default function ScheduleScreen() {
     let fileUri = pickerResult.assets[0].uri;
     try {
       const fileString = await FileSystem.readAsStringAsync(fileUri);
-        await FileSystem.deleteAsync(fileUri);
+      await FileSystem.deleteAsync(fileUri);
 
       const check = /^.*\.ics$/.test(fileUri);
       if (!check) {
@@ -104,11 +104,14 @@ export default function ScheduleScreen() {
   const handleWebViewNavigationStateChange = (newNavState: any) => {
     const { url } = newNavState;
 
+    // если сейчас первая перезагрузка страницы, то нужно сделать редирект на /schedule
     if (!url.includes('schedule')) {
       const newURL = 'https://istudent.urfu.ru/s/schedule';
       const redirectTo = 'window.location = "' + newURL + '"';
       webviewRef.current?.injectJavaScript(redirectTo);
     }
+
+    // после перехода на /schedule необходимо найти элемент и доставить ссылку на расписание обратно в код
     else {
       webviewRef.current?.injectJavaScript(
         `
@@ -138,7 +141,7 @@ export default function ScheduleScreen() {
       <WebView
         ref={webviewRef}
         style={styles.webview}
-        injectedJavaScript={script}
+        injectedJavaScript={loginScript}
         source={{ uri: 'https://istudent.urfu.ru/' }}
         onNavigationStateChange={handleWebViewNavigationStateChange}
         onMessage={(event) => {
