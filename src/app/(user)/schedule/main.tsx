@@ -8,7 +8,6 @@ import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import Text from "@/components/StyledText";
-import { WebView } from 'react-native-webview';
 import { Link, Stack } from 'expo-router';
 
 export type ScheduleData = {
@@ -18,23 +17,10 @@ export type ScheduleData = {
   title: string | null
 };
 
-const login = 'Daniil.Leshchev@at.urfu.ru';
-const password = 'Dan220505';
-
-const loginScript = `
-  document.querySelector('#userNameInput').value = '${login}';
-  document.querySelector('#passwordInput').value = '${password}';
-  document.querySelector('#submitButton').click();
-  document.querySelector('#submitButton').click();
-  true;
-`;
-
 export default function ScheduleScreen() {
   const { mutate: insertTask } = useInsertTask();
   const [errors, setErrors] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [scheduleLink, setScheduleLink] = useState('');
-  const webviewRef = useRef<WebView>(null);
 
   const addScheduleItem = async (item: ScheduleData) => {
     if (!item.title || !item.start || !item.end)
@@ -102,29 +88,6 @@ export default function ScheduleScreen() {
     }
   }
 
-  const handleWebViewNavigationStateChange = (newNavState: any) => {
-    const { url } = newNavState;
-
-    // если сейчас первая перезагрузка страницы, то нужно сделать редирект на /schedule
-    if (!url.includes('schedule')) {
-      const newURL = 'https://istudent.urfu.ru/s/schedule';
-      const redirectTo = 'window.location = "' + newURL + '"';
-      webviewRef.current?.injectJavaScript(redirectTo);
-    }
-
-    // после перехода на /schedule необходимо найти элемент и доставить ссылку на расписание обратно в код
-    else {
-      webviewRef.current?.injectJavaScript(
-        `
-        setTimeout(() => {
-          const href = document.querySelector('.ical').href;
-          window.ReactNativeWebView.postMessage(href);
-        }, 1000);
-        `
-      )
-    }
-  };
-
   return (
     <View style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: false }}/>
@@ -147,18 +110,6 @@ export default function ScheduleScreen() {
           />
         </Link>
       </View>
-
-      {/* <WebView
-        ref={webviewRef}
-        style={styles.webview}
-        injectedJavaScript={loginScript}
-        source={{ uri: 'https://istudent.urfu.ru/' }}
-        onNavigationStateChange={handleWebViewNavigationStateChange}
-        onMessage={(event) => {
-          console.log(event.nativeEvent.data)
-          setScheduleLink(event.nativeEvent.data)
-        }}
-      /> */}
     </View>
   );
 }

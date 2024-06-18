@@ -23,6 +23,8 @@ export type Database = {
           updated_at: string | null
           username: string | null
           website: string | null
+          urfu_login: string | null
+          urfu_password: string | null
         }
         Insert: {
           avatar_url?: string | null
@@ -32,6 +34,8 @@ export type Database = {
           updated_at?: string | null
           username?: string | null
           website?: string | null
+          urfu_login?: string | null
+          urfu_password?: string | null
         }
         Update: {
           avatar_url?: string | null
@@ -41,6 +45,8 @@ export type Database = {
           updated_at?: string | null
           username?: string | null
           website?: string | null
+          urfu_login?: string | null
+          urfu_password?: string | null
         }
         Relationships: [
           {
