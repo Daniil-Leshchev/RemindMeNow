@@ -8,7 +8,7 @@ import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import Text from "@/components/StyledText";
 import { WebView } from 'react-native-webview';
-import { Link, Stack } from 'expo-router';
+import { Link, Stack, router } from 'expo-router';
 import { ScheduleData } from '@/app/(user)/schedule/main';
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -67,6 +67,9 @@ export default function AutoImportScreen() {
       .eq('id', profile?.id);
     setIsFetchingCredentials(false);
     setSuccessSaveCredentials(true);
+    setTimeout(() => {
+      router.replace('/(user)/schedule/autoImport');
+    }, 1000);
   }
 
   const addScheduleItem = async (item: ScheduleData) => {
@@ -142,7 +145,6 @@ export default function AutoImportScreen() {
       const fileInfo = await FileSystem.getInfoAsync(uri);
       if (fileInfo.exists) {
         const fileContent = await FileSystem.readAsStringAsync(uri);
-        console.log(fileContent);
         for (let item of parseICS(fileContent))
           addScheduleItem(item);
         await FileSystem.deleteAsync(uri, { idempotent: true });
