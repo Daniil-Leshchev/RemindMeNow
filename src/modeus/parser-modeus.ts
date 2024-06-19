@@ -1,4 +1,4 @@
-import { ScheduleData } from '@/app/(user)/schedule';
+import { ScheduleData } from '@/app/(user)/schedule/main';
 import moment from 'moment';
 import 'moment/locale/ru';
 export const parseICS = (icsString: string) => {
@@ -26,12 +26,12 @@ export const parseICS = (icsString: string) => {
     else if (line === 'END:VEVENT')
       events.push(event);
     else if (event) {
-      const match = /^(LOCATION|CATEGORIES):(.*)$/.exec(line);
+      const match = /^(LOCATION|SUMMARY):(.*)$/.exec(line);
       const dateMatch = /^(DTSTART|DTEND).*:(.*)$/.exec(line);
 
       if (match) {
         const [_, key, value] = match;
-        if (key === 'CATEGORIES')
+        if (key === 'SUMMARY')
           event['title'] = value;
         else
           event['location'] = value;

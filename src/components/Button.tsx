@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
 
   text: {
     color: '#fff',
-    fontFamily: 'Inter'
+    fontFamily: 'Inter',
+    textAlign: 'center'
   },
 });
 
