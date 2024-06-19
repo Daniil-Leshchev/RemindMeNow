@@ -42,10 +42,8 @@ export const useCurrentDayTasks = () => {
   const { currentDay } = useCurrentDay();
   const { session } = useAuth();
   const userId = session?.user.id;
-
-  const nextDay = new Date();
-  nextDay.setDate(currentDay.getDate() + 1);
-  nextDay.setHours(0, 0, 0, 0);
+  
+  const nextDay = moment(currentDay).add(1, 'day').startOf('hour').format('yyyy-MM-DD');
 
   return useQuery({
     queryKey: ['tasks', { userId }, 'startDate'],
@@ -57,8 +55,8 @@ export const useCurrentDayTasks = () => {
         .from('tasks')
         .select('*')
         .eq('user_id', userId)
-        .gte('startDate', formatToDate(currentDay))
-        .lte('startDate', formatToDate(nextDay));
+        .gte('startDate', moment(currentDay).format('yyyy-MM-DD'))
+        .lte('startDate', nextDay);
       if (error)
         throw new Error(error.message);
       return data;
