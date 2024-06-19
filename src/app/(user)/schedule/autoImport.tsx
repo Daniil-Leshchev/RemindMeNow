@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import Button from '@/components/Button';
 import { parseICS } from '@/modeus/parser-istudent';
 import { useInsertTask } from '@/api/insert';
@@ -59,7 +59,17 @@ export default function AutoImportScreen() {
   const [password, setPassword] = useState('');
   const [successSaveCredentials, setSuccessSaveCredentials] = useState(false);
 
+  const validateCredentials = () => {
+    return email.match(
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  }
+
   const saveUrfuCredentials = async () => {
+    if (!validateCredentials()) {
+      Alert.alert('Укажите действительную почту');
+      return;
+    }
     setIsFetchingCredentials(true);
     await supabase
       .from('profiles')
