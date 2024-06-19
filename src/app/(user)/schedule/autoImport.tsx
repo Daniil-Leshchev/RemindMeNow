@@ -18,6 +18,7 @@ export default function AutoImportScreen() {
   const [urfuLogin, setUrfuLogin] = useState('');
   const [urfuPassword, setUrfuPassword] = useState('');
   const [isScheduleAdded, setIsScheduleAdded] = useState('Загрузка расписания...');
+  const [isFileDownloaded, setIsFileDownloaded] = useState(false);
 
   const { profile } = useAuth();
   if (!profile)
@@ -140,6 +141,7 @@ export default function AutoImportScreen() {
       const fileInfo = await FileSystem.getInfoAsync(uri);
       if (fileInfo.exists) {
         const fileContent = await FileSystem.readAsStringAsync(uri);
+        console.log(fileContent);
         for (let item of parseICS(fileContent))
           addScheduleItem(item);
         await FileSystem.deleteAsync(uri, { idempotent: true });
@@ -210,7 +212,10 @@ export default function AutoImportScreen() {
         onNavigationStateChange={handleWebViewNavigationStateChange}
         cacheEnabled={false}
         onMessage={(event) => {
-          downloadAndReadFile(event.nativeEvent.data);
+          if (!isFileDownloaded) {
+            downloadAndReadFile(event.nativeEvent.data);
+            setIsFileDownloaded(true);
+          }
         }}
       />
     </View>
