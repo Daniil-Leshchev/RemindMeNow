@@ -15,5 +15,4 @@
 
 
 ## Использование приложения
-
-<img src="assets/screenshots/all-screens.jpg"/>
+<img src="assets/screenshots/all.jpg">
