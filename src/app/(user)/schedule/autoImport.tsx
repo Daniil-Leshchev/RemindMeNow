@@ -8,7 +8,7 @@ import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import Text from "@/components/StyledText";
 import { WebView } from 'react-native-webview';
-import { Stack } from 'expo-router';
+import { Link, Stack } from 'expo-router';
 import { ScheduleData } from '@/app/(user)/schedule/main';
 import { useAuth } from '@/providers/AuthProvider';
 
@@ -17,7 +17,7 @@ export default function AutoImportScreen() {
   const [isFetchingCredentials, setIsFetchingCredentials] = useState(false);
   const [urfuLogin, setUrfuLogin] = useState('');
   const [urfuPassword, setUrfuPassword] = useState('');
-  const [isScheduleAdded, setIsScheduleAdded] = useState(false);
+  const [isScheduleAdded, setIsScheduleAdded] = useState('Загрузка расписания...');
 
   const { profile } = useAuth();
   if (!profile)
@@ -144,13 +144,12 @@ export default function AutoImportScreen() {
           addScheduleItem(item);
         await FileSystem.deleteAsync(uri, { idempotent: true });
       }
+      setIsScheduleAdded('Расписание успешно загружено');
     } 
     catch (error) {
+      setIsScheduleAdded('Ошибка при загрузке файла. Попробуйте еще раз');
       console.error('Ошибка при загрузке файла', error);
-      return;
     }
-
-    setIsScheduleAdded(true);
   };
 
   return (
@@ -193,8 +192,14 @@ export default function AutoImportScreen() {
         </View>
 
         <Text style={[needToSetCredentials ? { display: 'none' } : { display: 'flex' }, styles.syncingText]}>
-          {isScheduleAdded ? 'Расписание успешно загружено' : 'Загрузка расписания...'}
+          { isScheduleAdded }
         </Text>
+        <Link
+          style={[styles.toMainScreen, isScheduleAdded === 'Расписание успешно загружено' ? { display: 'flex' } : { display: 'none' }]}
+          href='/'
+        >
+          Вернуться на главный экран
+        </Link>
       </View>
 
       <WebView
@@ -260,5 +265,12 @@ const styles = StyleSheet.create({
 
   syncingText: {
     fontSize: 20,
+    marginBottom: 16,
+  },
+
+  toMainScreen: {
+    fontSize: 16,
+    color: '#828282',
+    textDecorationLine: 'underline',
   }
 })
