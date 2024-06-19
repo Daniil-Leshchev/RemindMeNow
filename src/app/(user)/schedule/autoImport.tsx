@@ -97,6 +97,9 @@ export default function AutoImportScreen() {
     if (duplicates?.length != 0)
       return;
 
+    if (item.start.endsWith('20:50') || item.end.endsWith('12:20'))
+      return;
+
     const task: InsertTables<'tasks'> = {
       title: item.title,
       type: 'standard',

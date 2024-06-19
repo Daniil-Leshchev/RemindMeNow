@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Button from '@/components/Button';
 import { parseICS } from '@/modeus/parser-modeus';
@@ -27,7 +27,7 @@ export default function ScheduleScreen() {
   const addScheduleItem = async (item: ScheduleData) => {
     if (!profile)
       return;
-    
+
     if (!item.title || !item.start || !item.end)
       return;
 
@@ -40,6 +40,9 @@ export default function ScheduleScreen() {
         .eq('user_id', profile.id);
 
     if (duplicates?.length != 0)
+      return;
+
+    if (item.start.endsWith('20:50') || item.end.endsWith('12:20'))
       return;
 
     const task: InsertTables<'tasks'> = {
