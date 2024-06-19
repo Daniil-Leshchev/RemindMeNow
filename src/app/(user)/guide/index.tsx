@@ -38,19 +38,6 @@ export default function GuideScreen() {
           </Pressable>
         </Link>
 
-        <Link href={'/guide/postponeTask'} asChild>
-          <Pressable style={styles.navigationItem}>
-            <Image
-              source={require('@assets/icons/guide/navigation/green.svg')}
-              style={{ width: 40, height: 40 }}
-            />
-            <View>
-              <Text style={styles.text}>Свайпы</Text>
-              <Text style={styles.description}>Как перенести задачу</Text>
-            </View>
-          </Pressable>
-        </Link>
-
         <Link href={'/guide/deleteTask'} asChild>
           <Pressable style={styles.navigationItem}>
             <Image

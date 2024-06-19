@@ -2,7 +2,7 @@
   "expo": {
     "name": "RemindMeNow",
     "slug": "ReminderApp",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "orientation": "portrait",
     "icon": "./assets/production/icon.png",
     "scheme": "myapp",

@@ -66,13 +66,6 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
             />
           </Pressable>
 
-          <Pressable>
-            <Image
-              source={require('@assets/icons/swipeableActions/cross.svg')}
-              style={{ width: 24, height: 24}}
-            />
-          </Pressable>
-
           <Pressable onPress={() => deleteTask(task.id)}>
             <Image
               source={require('@assets/icons/swipeableActions/trashCan.svg')}
