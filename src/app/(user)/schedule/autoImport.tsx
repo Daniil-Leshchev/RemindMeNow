@@ -13,26 +13,22 @@ import { ScheduleData } from '@/app/(user)/schedule/main';
 import { useAuth } from '@/providers/AuthProvider';
 
 export default function AutoImportScreen() {
-  const { profile } = useAuth();
   const [needToSetCredentials, setNeedToSetCredentials] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingCredentials, setIsFetchingCredentials] = useState(false);
   const [urfuLogin, setUrfuLogin] = useState('');
   const [urfuPassword, setUrfuPassword] = useState('');
   const [isScheduleAdded, setIsScheduleAdded] = useState(false);
 
+  const { profile } = useAuth();
   if (!profile)
     return;
-
+  
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('profiles')
         .select('urfu_login, urfu_password')
         .eq('id', profile.id);
-
-      if (error) {
-        console.error(error);
-      }
 
       if (data && data.length > 0) {
         const { urfu_login, urfu_password } = data[0];
@@ -46,7 +42,7 @@ export default function AutoImportScreen() {
     }
 
     fetchData();
-  }, [isLoading]);
+  }, [isFetchingCredentials]);
 
   const loginScript = `
     setTimeout(() => {
@@ -54,34 +50,35 @@ export default function AutoImportScreen() {
       document.querySelector('#passwordInput').value = '${urfuPassword}';
       document.querySelector('#submitButton').click();
     }, 1000);
-    true;
   `;
 
   const { mutate: insertTask } = useInsertTask();
   const webviewRef = useRef<WebView>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [successMessage, setSuccessMessage] = useState(false);
+  const [successSaveCredentials, setSuccessSaveCredentials] = useState(false);
 
   const saveUrfuCredentials = async () => {
-    setIsLoading(true);
+    setIsFetchingCredentials(true);
     await supabase
       .from('profiles')
       .update({ urfu_login: email, urfu_password: password })
       .eq('id', profile?.id);
-    setIsLoading(false);
-    setSuccessMessage(true);
+    setIsFetchingCredentials(false);
+    setSuccessSaveCredentials(true);
   }
 
   const addScheduleItem = async (item: ScheduleData) => {
     if (!item.title || !item.start || !item.end)
       return;
+
     const { data: duplicates } = await
       supabase
         .from('tasks')
         .select('*')
         .eq('title', item.title)
         .eq('startDate', item.start);
+
     if (duplicates?.length != 0)
       return;
 
@@ -107,8 +104,10 @@ export default function AutoImportScreen() {
 
 
   const handleWebViewNavigationStateChange = (newNavState: any) => {
-    const { url } = newNavState;
+    if (needToSetCredentials)
+      return;
 
+    const { url } = newNavState;
     // если сейчас первая перезагрузка страницы, то нужно сделать редирект на /schedule
     if (!url.includes('schedule')) {
       setTimeout(() => {
@@ -181,15 +180,15 @@ export default function AutoImportScreen() {
           />
 
           <Button
-            text={isLoading ? 'Сохранение...' : 'Сохранить данные'}
+            text={isFetchingCredentials ? 'Сохранение...' : 'Сохранить данные'}
             fontSize={20}
             fontColor='#fff'
             style={styles.button}
             onPress={saveUrfuCredentials}
-            disabled={isLoading}
+            disabled={isFetchingCredentials}
           />
 
-          <Text style={[styles.successMessage, successMessage ? { display: 'flex' } : { display: 'none' }]}>
+          <Text style={[styles.successMessage, successSaveCredentials ? { display: 'flex' } : { display: 'none' }]}>
             Данные успешно сохранены
           </Text>
         </View>
@@ -203,8 +202,9 @@ export default function AutoImportScreen() {
         ref={webviewRef}
         style={styles.webview}
         injectedJavaScript={loginScript}
-        source={{ uri: 'https://istudent.urfu.ru/' }}
+        source={{ uri: 'https://istudent.urfu.ru/student/login' }}
         onNavigationStateChange={handleWebViewNavigationStateChange}
+        cacheEnabled={false}
         onMessage={(event) => {
           downloadAndReadFile(event.nativeEvent.data);
         }}
