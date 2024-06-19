@@ -9,6 +9,7 @@ import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import Text from "@/components/StyledText";
 import { Link, Stack } from 'expo-router';
+import { useAuth } from '@/providers/AuthProvider';
 
 export type ScheduleData = {
   start: string | null,
@@ -21,8 +22,12 @@ export default function ScheduleScreen() {
   const { mutate: insertTask } = useInsertTask();
   const [errors, setErrors] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const { profile } = useAuth();
 
   const addScheduleItem = async (item: ScheduleData) => {
+    if (!profile)
+      return;
+    
     if (!item.title || !item.start || !item.end)
       return;
 
@@ -31,7 +36,8 @@ export default function ScheduleScreen() {
         .from('tasks')
         .select('*')
         .eq('title', item.title)
-        .eq('startDate', item.start);
+        .eq('startDate', item.start)
+        .eq('user_id', profile.id);
 
     if (duplicates?.length != 0)
       return;
@@ -102,7 +108,7 @@ export default function ScheduleScreen() {
             style={styles.syncButton}
           />
         </Link>
-        
+
         <Button
           text={'Прикрепить файл .ics из Modeus'}
           fontSize={20}

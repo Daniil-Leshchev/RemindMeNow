@@ -78,7 +78,8 @@ export default function AutoImportScreen() {
         .from('tasks')
         .select('*')
         .eq('title', item.title)
-        .eq('startDate', item.start);
+        .eq('startDate', item.start)
+        .eq('user_id', profile.id);
 
     if (duplicates?.length != 0)
       return;
