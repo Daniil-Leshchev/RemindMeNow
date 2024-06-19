@@ -66,6 +66,7 @@ export type Database = {
           id: number
           isAllDay: boolean
           isSchedule: boolean
+          location: string | null
           notes: string | null
           reminder: string
           repeat: string
@@ -82,6 +83,7 @@ export type Database = {
           id?: number
           isAllDay: boolean
           isSchedule?: boolean
+          location?: string | null
           notes?: string | null
           reminder?: string
           repeat?: string
@@ -98,6 +100,7 @@ export type Database = {
           id?: number
           isAllDay?: boolean
           isSchedule?: boolean
+          location?: string | null
           notes?: string | null
           reminder?: string
           repeat?: string

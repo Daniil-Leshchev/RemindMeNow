@@ -45,6 +45,8 @@ export default function ScheduleScreen() {
     if (item.start.endsWith('20:50') || item.end.endsWith('12:20'))
       return;
 
+    const formattedLocation = item.location?.replaceAll("\\", '');
+
     const task: InsertTables<'tasks'> = {
       title: item.title,
       type: 'standard',
@@ -55,7 +57,8 @@ export default function ScheduleScreen() {
       reminder: 'no',
       attachment: null,
       notes: '',
-      isSchedule: true
+      isSchedule: true,
+      location: formattedLocation
     }
 
     insertTask(task, {
