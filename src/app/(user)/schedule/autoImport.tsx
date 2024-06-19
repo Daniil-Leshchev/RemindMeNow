@@ -140,7 +140,6 @@ export default function AutoImportScreen() {
       const fileInfo = await FileSystem.getInfoAsync(uri);
       if (fileInfo.exists) {
         const fileContent = await FileSystem.readAsStringAsync(uri);
-        console.log(fileContent);
         for (let item of parseICS(fileContent))
           addScheduleItem(item);
         await FileSystem.deleteAsync(uri, { idempotent: true });

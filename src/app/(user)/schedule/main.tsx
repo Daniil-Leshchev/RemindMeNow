@@ -25,12 +25,14 @@ export default function ScheduleScreen() {
   const addScheduleItem = async (item: ScheduleData) => {
     if (!item.title || !item.start || !item.end)
       return;
+
     const { data: duplicates } = await
       supabase
         .from('tasks')
         .select('*')
         .eq('title', item.title)
         .eq('startDate', item.start);
+
     if (duplicates?.length != 0)
       return;
 
@@ -92,15 +94,6 @@ export default function ScheduleScreen() {
     <View style={{ flex: 1 }}>
       <Stack.Screen options={{ headerShown: false }}/>
       <View style={styles.container}>
-        <Button
-          text={'Прикрепить файл .ics'}
-          fontSize={22}
-          fontColor='#fff'
-          onPress={uploadSchedule}
-          style={styles.button}
-        />
-        <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
-        <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
         <Link href='/schedule/autoImport' asChild>
           <Button
             text={'Синхронизировать расписание'}
@@ -109,6 +102,16 @@ export default function ScheduleScreen() {
             style={styles.syncButton}
           />
         </Link>
+        
+        <Button
+          text={'Прикрепить файл .ics из Modeus'}
+          fontSize={20}
+          fontColor='#fff'
+          onPress={uploadSchedule}
+          style={styles.button}
+        />
+        <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
+        <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
       </View>
     </View>
   );
