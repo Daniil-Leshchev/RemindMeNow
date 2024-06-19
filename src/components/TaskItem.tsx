@@ -12,7 +12,8 @@ import { useUpdateTaskStatus } from '@/api/update';
 const colors = {
   background: '#8A9DCDB5',
   shadow: '#5B64AE33',
-  completedBackground: '#9ADC9DCF'
+  completedBackground: '#9ADC9DCF',
+  location: '#353b48'
 }
 
 type TaskView = {
@@ -90,7 +91,10 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
         rightThreshold={20}>
         <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground }]}>
           <TaskIcon type={task.type} isSmall={false}/>
-          <Text style={styles.title} numberOfLines={2}>{task.title}</Text>
+          <View>
+            <Text style={styles.title} numberOfLines={2}>{task.title}</Text>
+            <Text style={[task.isSchedule ? { display: 'flex' } : { display: 'none' }, styles.location]} numberOfLines={1}>{task.location}</Text>
+          </View>
           { task.isAllDay ? 
             <Text style={styles.time}>весь день</Text> :
             <Text style={styles.time}>{formatTime(task.startDate, task.endDate)}</Text>}
@@ -102,7 +106,10 @@ const TaskItem = ({ task, isTodayView }: TaskView) => {
   return (
     <View style={[styles.taskContainer, styles.androidShadow, { backgroundColor: task.status === 'active' ? colors.background : colors.completedBackground}]}>
       <TaskIcon type={task.type} isSmall={false}/>
-      <Text style={[styles.title, !task.isAllDay ? styles.todayTitleWithTime : styles.todayTitle]} numberOfLines={2}>{task.title}</Text>
+      <View>
+        <Text style={styles.title} numberOfLines={2}>{task.title}</Text>
+        <Text style={[task.isSchedule ? { display: 'flex' } : { display: 'none' }, styles.location]} numberOfLines={1}>{task.location}</Text>
+      </View>
       { task.isAllDay ? 
         <Text style={styles.time}>весь день</Text> :
         <Text style={styles.time}>{formatTime(task.startDate, task.endDate)}</Text>}
@@ -133,14 +140,6 @@ const styles = StyleSheet.create({
     maxWidth: 160,
   },
 
-  todayTitle: {
-    maxWidth: 160
-  },
-
-  todayTitleWithTime: {
-    maxWidth: 130
-  },
-
   time: {
     fontSize: 16,
     marginLeft: 'auto'
@@ -155,5 +154,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: 16,
     gap: 12
+  },
+
+  location: {
+    maxWidth: 160,
+    color: colors.location
   }
 });

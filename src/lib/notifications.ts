@@ -83,6 +83,8 @@ export async function schedulePushNotification(title: string, body: string | nul
   });
 }
 
+
+//TODO: почистить тут, по сути token вообще и не нужен оказался...
 const getUserToken = async (userId : string) => {
   const { data } = await supabase
     .from('profiles')

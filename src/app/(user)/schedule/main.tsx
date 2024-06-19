@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import Button from '@/components/Button';
-import { parseICS } from '@/modeus/parser'
+import { parseICS } from '@/modeus/parser-modeus';
 import { useInsertTask } from '@/api/insert';
 import { InsertTables } from '@/lib/helperTypes';
 import { supabase } from '@/lib/supabase';
 import * as FileSystem from 'expo-file-system';
 import * as DocumentPicker from 'expo-document-picker';
 import Text from "@/components/StyledText";
+import { Link, Stack } from 'expo-router';
+import { useAuth } from '@/providers/AuthProvider';
 
 export type ScheduleData = {
   start: string | null,
@@ -20,17 +22,30 @@ export default function ScheduleScreen() {
   const { mutate: insertTask } = useInsertTask();
   const [errors, setErrors] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const { profile } = useAuth();
+
   const addScheduleItem = async (item: ScheduleData) => {
+    if (!profile)
+      return;
+
     if (!item.title || !item.start || !item.end)
       return;
+
     const { data: duplicates } = await
       supabase
         .from('tasks')
         .select('*')
         .eq('title', item.title)
-        .eq('startDate', item.start);
+        .eq('startDate', item.start)
+        .eq('user_id', profile.id);
+
     if (duplicates?.length != 0)
       return;
+
+    if (item.start.endsWith('20:50') || item.end.endsWith('12:20'))
+      return;
+
+    const formattedLocation = item.location?.replaceAll("\\", '');
 
     const task: InsertTables<'tasks'> = {
       title: item.title,
@@ -42,7 +57,8 @@ export default function ScheduleScreen() {
       reminder: 'no',
       attachment: null,
       notes: '',
-      isSchedule: true
+      isSchedule: true,
+      location: formattedLocation
     }
 
     insertTask(task, {
@@ -63,7 +79,7 @@ export default function ScheduleScreen() {
     let fileUri = pickerResult.assets[0].uri;
     try {
       const fileString = await FileSystem.readAsStringAsync(fileUri);
-        await FileSystem.deleteAsync(fileUri);
+      await FileSystem.deleteAsync(fileUri);
 
       const check = /^.*\.ics$/.test(fileUri);
       if (!check) {
@@ -87,25 +103,37 @@ export default function ScheduleScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Button
-        text='Прикрепить файл .ics'
-        fontSize={22}
-        fontColor='#fff'
-        onPress={uploadSchedule}
-        style={styles.button}
-      />
-      <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
-      <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
+    <View style={{ flex: 1 }}>
+      <Stack.Screen options={{ headerShown: false }}/>
+      <View style={styles.container}>
+        <Link href='/schedule/autoImport' asChild>
+          <Button
+            text={'Синхронизировать расписание'}
+            fontSize={20}
+            fontColor='#fff'
+            style={styles.syncButton}
+          />
+        </Link>
+
+        <Button
+          text={'Прикрепить файл .ics из Modeus'}
+          fontSize={20}
+          fontColor='#fff'
+          onPress={uploadSchedule}
+          style={styles.button}
+        />
+        <Text style={[styles.error, errors ? { display: 'flex' } : { display: 'none' }]}>{ errors }</Text>
+        <Text style={[styles.success, successMessage ? { display: 'flex' } : { display: 'none' }]}>{ successMessage }</Text>
+      </View>
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    height: '100%',
   },
 
   button: {
@@ -126,5 +154,9 @@ const styles = StyleSheet.create({
     marginTop: -8,
     fontSize: 16,
     color: '#2ecc71'
+  },
+
+  syncButton: {
+    paddingHorizontal: 20,
   }
 })
