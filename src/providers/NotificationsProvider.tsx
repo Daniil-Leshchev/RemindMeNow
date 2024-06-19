@@ -44,7 +44,7 @@ const NotificationProvider = ({children} : PropsWithChildren) => {
   
     responseListener.current =
       Notifications.addNotificationResponseReceivedListener((response) => {
-        console.log(response);
+        
     });
   
     return () => {

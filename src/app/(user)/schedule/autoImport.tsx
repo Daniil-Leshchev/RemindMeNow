@@ -116,11 +116,7 @@ export default function AutoImportScreen() {
       location: formattedLocation
     }
 
-    insertTask(task, {
-      onError(error: Error) {
-        console.error(`${error.message}`);
-      }
-    })
+    insertTask(task);
   }
 
 
@@ -169,7 +165,6 @@ export default function AutoImportScreen() {
     } 
     catch (error) {
       setIsScheduleAdded('Ошибка при загрузке файла. Попробуйте еще раз');
-      console.error('Ошибка при загрузке файла', error);
     }
   };
 

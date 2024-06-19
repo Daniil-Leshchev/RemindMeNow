@@ -48,7 +48,6 @@ export default function StarsScreen() {
         fontSize={20}
         fontColor={colors.unlockText}
         style={styles.unlockLevelButton}
-        onPress={() => console.log('Вы разблокировали новый уровень')}
       />
 
       <View style={[styles.moreInfo, { display: showMore ? 'flex' : 'none' }]}>

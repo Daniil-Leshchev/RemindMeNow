@@ -224,11 +224,7 @@ const AddTaskBottomSheet = forwardRef<BottomSheet, AddTaskBottomSheetProps>(({ha
       notes,
       isSchedule: false
     }
-    insertTask(task, {
-      onError(error: Error) {
-        console.warn(error.message);
-      }
-    })
+    insertTask(task);
   }
 
   const convertToMomentDuration: { [key in ReminderValue]: DurationInputArg2 } = {

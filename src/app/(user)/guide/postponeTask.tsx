@@ -24,7 +24,6 @@ export default function PostponeTask() {
         <Text style={styles.text}>Как перенести задачу</Text>
         
         <Image
-        // TODO: поставить новое видео
           source={require('@assets/guide-gifs/delete.gif')}
           style={{ width: 240, height: 240 * 2.17 }}
         />
