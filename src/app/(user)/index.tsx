@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, StyleSheet, FlatList, Pressable, Platform } from 'react-native';
+import { View, StyleSheet, FlatList, Pressable } from 'react-native';
 import Text from "@/components/StyledText";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image } from 'expo-image';
@@ -129,12 +129,7 @@ export default function MainScreen() {
                   const newIndex = ind == 0 ? -periodRange : periodRange;
                   const newPeriod = period + newIndex;
                   setPeriod(newPeriod);
-                  if (Platform.OS === 'ios') {
-                    swiper.current?.scrollTo(1, false);
-                  }
-                  else {
-                    swiper.current?.scrollTo(1, true);
-                  }
+                  swiper.current?.scrollTo(1, false);
                 }, 1);
               }}>
               {periods.map((dates, index) => (
