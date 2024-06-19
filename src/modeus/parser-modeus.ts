@@ -41,9 +41,9 @@ export const parseICS = (icsString: string) => {
         const fullFormat = 'YYYY-MM-DD HH:mm';
         const [_, key, value] = dateMatch;
         if (key === 'DTSTART')
-          event['start'] = moment(value).utc().format(fullFormat);
+          event['start'] = moment(value).format(fullFormat);
         else
-          event['end'] = moment(value).utc().format(fullFormat);
+          event['end'] = moment(value).format(fullFormat);
       }
     }
   }
