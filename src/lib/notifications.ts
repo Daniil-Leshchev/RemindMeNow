@@ -82,23 +82,3 @@ export async function schedulePushNotification(title: string, body: string | nul
     trigger: date,
   });
 }
-
-
-//TODO: почистить тут, по сути token вообще и не нужен оказался...
-const getUserToken = async (userId : string) => {
-  const { data } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', userId)
-    .single();
-  return data?.expo_push_token;
-}
-
-export const notifyUser = async (profile: Tables<'profiles'>) => {
-  const token = await getUserToken(profile.id);
-  const title = 'Your profile:';
-  const body = `${profile.id} : ${profile.expo_push_token}`;
-  if (!token)
-    return;
-  sendPushNotification(token, title, body);
-}
