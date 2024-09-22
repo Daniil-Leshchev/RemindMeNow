@@ -3,7 +3,7 @@
 
 ## Ссылки
 [Скачать последний релиз](https://github.com/Daniil-Leshchev/RemindMeNow/releases/latest/download/RemindMeNow.apk)\
-[Презентация проекта](https://www.figma.com/proto/508u8DPeDgs0Pxd4mDwvbU/Приложение-напоминалка-презентация?node-id=136-383&scaling=contain&content-scaling=fixed&page-id=0%3A1)
+[Презентация проекта](https://www.figma.com/proto/508u8DPeDgs0Pxd4mDwvbU/Приложение-напоминалка-презентация?node-id=136-383&scaling=contain&content-scaling=fixed&page-id=0%3A1)\
 [Карточка проекта](https://project.ai-info.ru/teams/urfskul)
 
 ## Основные функции
